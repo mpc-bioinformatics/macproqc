@@ -39,7 +39,7 @@ workflow COLLECT_METRICS {
 
     // vendor-specific instrument header metrics (pump pressure, calibrants, ...)
     ch_raw
-        .branch { meta, raw ->
+        .branch { meta, _raw ->
             thermo: meta.vendor == 'thermo'
             bruker: meta.vendor == 'bruker'
         }
@@ -69,21 +69,21 @@ workflow COLLECT_METRICS {
                 XICEXTRACTIONCONFIG.out.config.map { meta, xic_config, ident_csv -> [ meta.id, xic_config, ident_csv ] },
                 by: 0
             )
-            .map { id, meta, raw, xic_config, ident_csv -> [ meta, raw, xic_config, ident_csv ] }
+            .map { _id, meta, raw, xic_config, ident_csv -> [ meta, raw, xic_config, ident_csv ] }
 
         // branch by vendor to run the correct XIC extraction (mzML-only runs have no raw/d_folder and are dropped here)
         ch_raw_and_config
-            .branch { meta, raw, xic_config, ident_csv ->
+            .branch { meta, _raw, _xic_config, _ident_csv ->
                 thermo: meta.vendor == 'thermo'
                 bruker: meta.vendor == 'bruker'
             }
             .set { ch_branched_raw_and_config }
 
         THERMOXICEXTRACTION(
-            ch_branched_raw_and_config.thermo.map { meta, raw, xic_config, ident_csv -> [ meta, raw, xic_config ] }
+            ch_branched_raw_and_config.thermo.map { meta, raw, xic_config, _ident_csv -> [ meta, raw, xic_config ] }
         )
         BRUKERXICEXTRACTION(
-            ch_branched_raw_and_config.bruker.map { meta, raw, xic_config, ident_csv -> [ meta, raw, xic_config ] }
+            ch_branched_raw_and_config.bruker.map { meta, raw, xic_config, _ident_csv -> [ meta, raw, xic_config ] }
         )
 
         ch_xics = THERMOXICEXTRACTION.out.xic.mix(BRUKERXICEXTRACTION.out.xic)
@@ -92,10 +92,10 @@ workflow COLLECT_METRICS {
         ch_xics_and_identifications = ch_xics
             .map { meta, xic -> [ meta.id, meta, xic ] }
             .join(
-                ch_raw_and_config.map { meta, raw, xic_config, ident_csv -> [ meta.id, ident_csv ] },
+                ch_raw_and_config.map { meta, _raw, _xic_config, ident_csv -> [ meta.id, ident_csv ] },
                 by: 0
             )
-            .map { id, meta, xic, ident_csv -> [ meta, xic, ident_csv ] }
+            .map { _id, meta, xic, ident_csv -> [ meta, xic, ident_csv ] }
 
         SPIKEINMETRICSEXTRACTION(
             ch_xics_and_identifications,
@@ -109,7 +109,7 @@ workflow COLLECT_METRICS {
     ch_grouped_hdf5 = ch_all_hdf5
         .map { meta, hdf5 -> [ meta.id, meta, hdf5 ] }
         .groupTuple(by: 0)
-        .map { id, metas, hdf5s -> [ metas[0], hdf5s ] }
+        .map { _id, metas, hdf5s -> [ metas[0], hdf5s ] }
 
     COMBINEHDF5(ch_grouped_hdf5)
 
