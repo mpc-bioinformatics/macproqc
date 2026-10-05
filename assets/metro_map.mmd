@@ -1,0 +1,71 @@
+%%metro title: macproqc
+%%metro logo: ../docs/images/nf-core-macproqc_logo_light.png | ../docs/images/nf-core-macproqc_logo_dark.png
+%%metro style: dark
+
+%%metro line: thermo | Thermo .raw      | #4CAF50
+%%metro line: mzml   | mzML             | #e63946
+%%metro line: bruker | Bruker .d        | #2196F3
+%%metro line: fasta  | Protein database | #e6c946
+%%metro line: config | Search config    | #9c27b0
+
+%%metro legend: bl
+%%metro line_spread: centered | preprocessing
+
+%%metro process_scope: NFCORE_MACPROQC:MACPROQC
+%%metro process: decompress   | PREPARE_SPECTRA:(GUNZIP|UNTAR|UNZIP)
+%%metro process: thermoraw    | PREPARE_SPECTRA:THERMORAWFILEPARSER
+%%metro process: tdf2mzml     | PREPARE_SPECTRA:TDF2MZML
+%%metro process: decoydb      | IDENT_DDA:OPENMS_DECOYDATABASE
+%%metro process: cometconfig  | IDENT_DDA:COMETCONFIG(_LABELLED)?
+%%metro process: comet        | IDENT_DDA:COMET
+%%metro process: piacompile   | IDENT_DDA:PIA_COMPILEXML
+%%metro process: piaprefilter | IDENT_DDA:PIA_ANALYSIS_PREFILTER
+%%metro process: piarecompile | IDENT_DDA:PIA_COMPILEXML_PREFILTERED
+%%metro process: piaconfigure | IDENT_DDA:PIA_CONFIGURE
+%%metro process: piaanalysis  | IDENT_DDA:PIA_ANALYSIS(_LABELLED)?
+
+graph LR
+
+    subgraph preprocessing [Pre-processing]
+        input[Samplesheet]
+        decompress[Decompress]
+        thermoraw[ThermoRawFileParser]
+        tdf2mzml[tdf2mzml]
+
+        input -->|thermo,mzml,bruker| decompress
+        decompress -->|thermo| thermoraw
+        decompress -->|bruker| tdf2mzml
+    end
+
+    subgraph identification [Peptide Identification]
+        fasta[FASTA]
+        decoydb[DecoyDatabase]
+        cometparams[Comet params]
+        cometconfig[CometConfig]
+        comet[Comet]
+
+        fasta -->|fasta| decoydb
+        decoydb -->|fasta| comet
+        cometparams -->|config| cometconfig
+        cometconfig -->|config| comet
+    end
+
+    subgraph inference [Protein Inference - PIA]
+        piacompile[CompileXML]
+        piaprefilter[PSM prefilter - optional]
+        piarecompile[CompileXML]
+        piaconfigure[Configure]
+        piaanalysis[Analysis]
+        results[PSMs / peptides / proteins]
+
+        piacompile -->|mzml,thermo,bruker| piaprefilter
+        piaprefilter -->|mzml,thermo,bruker| piarecompile
+        piarecompile -->|mzml,thermo,bruker| piaanalysis
+        piaconfigure -->|config| piaanalysis
+        piaanalysis -->|mzml,thermo,bruker| results
+    end
+
+    decompress -->|mzml| comet
+    thermoraw -->|thermo| comet
+    tdf2mzml -->|bruker| comet
+    comet -->|mzml,thermo,bruker| piacompile
