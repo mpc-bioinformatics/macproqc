@@ -172,7 +172,7 @@
         },
         "base_peak_tic_up_to": {
           "type": "integer",
-          "default": 105,
+          "default": 9999,
           "description": "Retrieve the Basepeak Intensity Max and the Total Ion Current from minute 0 up to the given number in minutes. Defaults to 105 (minutes)."
         },
         "filter_threshold": {

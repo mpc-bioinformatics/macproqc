@@ -41,23 +41,23 @@ msruntwo,/path/to/data/CONTROL_REP2.d.tar.gz,,15,true
 msrunthree,/path/to/data/CONTROL_REP3.mzML.gz,6,,
 ```
 
-| Column                                 | Type    | Applies to | Description                                                                                              |
-| -------------------------------------- | ------- | ---------- | -------------------------------------------------------------------------------------------------------- |
-| `base_peak_tic_up_to`                  | integer | all        | Retrieve base peak intensity maximum and total ion current from minute 0 up to this value (default 105). |
-| `filter_threshold`                     | number  | all        | MS1 peaks below this fraction of the highest MS1 peak are disregarded (default 0.00001).                 |
-| `report_up_to_charge`                  | integer | all        | Upper limit of the reported precursor charge range (default 5).                                          |
-| `ms1_map_rt_bins`                      | integer | all        | Number of retention time grid cells of the MS1 ion map (default 1000).                                   |
-| `ms1_map_mz_bins`                      | integer | all        | Number of m/z grid cells of the MS1 ion map (default 1000).                                              |
-| `bruker_headers_to_parse`              | string  | Bruker     | Comma-separated Bruker global headers to parse, added to the defaults.                                   |
-| `bruker_frame_headers_to_parse`        | string  | Bruker     | Comma-separated Bruker frame headers to parse, added to the defaults (`Pressure`).                       |
-| `bruker_calibrants`                    | string  | Bruker     | Comma-separated calibrants as `MZ:Mobility` (e.g. `922.009798:1.1895`), added to the defaults.           |
-| `bruker_calibrants_mz_tolerance`       | number  | Bruker     | m/z tolerance of the calibrants in Th (default 10).                                                      |
-| `bruker_calibrants_mobility_tolerance` | number  | Bruker     | Mobility tolerance of the calibrants in 1/K0 (default 0.1).                                              |
-| `thermo_extra_headers_to_parse`        | string  | Thermo     | Comma-separated Thermo extra (scan) headers to parse, added to the defaults.                             |
-| `thermo_tune_headers_to_parse`         | string  | Thermo     | Comma-separated Thermo tune headers to parse, added to the defaults.                                     |
-| `thermo_log_headers_to_parse`          | string  | Thermo     | Comma-separated Thermo status log headers to parse, added to the defaults.                               |
-| `hdf5_put_under_subdataset`            | boolean | all        | Put the data under a subdataset in the combined HDF5 file (default false).                               |
-| `hdf5_write_metadata`                  | boolean | all        | Write the `METADATA` node to the combined HDF5 file (default false).                                     |
+| Column                                 | Type    | Applies to | Description                                                                                               |
+| -------------------------------------- | ------- | ---------- | --------------------------------------------------------------------------------------------------------- |
+| `base_peak_tic_up_to`                  | integer | all        | Retrieve base peak intensity maximum and total ion current from minute 0 up to this value (default 9999). |
+| `filter_threshold`                     | number  | all        | MS1 peaks below this fraction of the highest MS1 peak are disregarded (default 0.00001).                  |
+| `report_up_to_charge`                  | integer | all        | Upper limit of the reported precursor charge range (default 5).                                           |
+| `ms1_map_rt_bins`                      | integer | all        | Number of retention time grid cells of the MS1 ion map (default 1000).                                    |
+| `ms1_map_mz_bins`                      | integer | all        | Number of m/z grid cells of the MS1 ion map (default 1000).                                               |
+| `bruker_headers_to_parse`              | string  | Bruker     | Comma-separated Bruker global headers to parse, added to the defaults.                                    |
+| `bruker_frame_headers_to_parse`        | string  | Bruker     | Comma-separated Bruker frame headers to parse, added to the defaults (`Pressure`).                        |
+| `bruker_calibrants`                    | string  | Bruker     | Comma-separated calibrants as `MZ:Mobility` (e.g. `922.009798:1.1895`), added to the defaults.            |
+| `bruker_calibrants_mz_tolerance`       | number  | Bruker     | m/z tolerance of the calibrants in Th (default 10).                                                       |
+| `bruker_calibrants_mobility_tolerance` | number  | Bruker     | Mobility tolerance of the calibrants in 1/K0 (default 0.1).                                               |
+| `thermo_extra_headers_to_parse`        | string  | Thermo     | Comma-separated Thermo extra (scan) headers to parse, added to the defaults.                              |
+| `thermo_tune_headers_to_parse`         | string  | Thermo     | Comma-separated Thermo tune headers to parse, added to the defaults.                                      |
+| `thermo_log_headers_to_parse`          | string  | Thermo     | Comma-separated Thermo status log headers to parse, added to the defaults.                                |
+| `hdf5_put_under_subdataset`            | boolean | all        | Put the data under a subdataset in the combined HDF5 file (default false).                                |
+| `hdf5_write_metadata`                  | boolean | all        | Write the `METADATA` node to the combined HDF5 file (default false).                                      |
 
 > [!NOTE]
 > The `*_headers_to_parse` and `bruker_calibrants` values are added to the built-in defaults of `macproqc_helpers`; the defaults cannot be removed. Header names that contain commas cannot be given in the samplesheet.

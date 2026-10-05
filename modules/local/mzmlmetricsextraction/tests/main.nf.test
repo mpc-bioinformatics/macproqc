@@ -78,7 +78,7 @@ nextflow_process {
             def command = new File(new File(process.out.hdf5[0][1]).parentFile, '.command.sh').text
             assert command.contains('-report_up_to_charge 3')
             assert command.contains('-ms1_map_rt_bins 100')
-            assert command.contains('-base_peak_tic_up_to 105')
+            assert command.contains('-base_peak_tic_up_to 9999')
         }
 
     }
