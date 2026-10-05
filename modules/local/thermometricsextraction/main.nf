@@ -22,8 +22,15 @@ process THERMOMETRICSEXTRACTION {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
+    // list values may be given as a list or as a comma-separated string
+    def metric_args = [
+        meta.thermo_extra_headers_to_parse ? [ meta.thermo_extra_headers_to_parse ].flatten().collectMany { elem -> elem.toString().split(',') as List }*.trim().findAll { elem -> elem }.collect { elem -> "-extra_headers_to_parse '${elem}'" }.join(' ') : '',
+        meta.thermo_tune_headers_to_parse ? [ meta.thermo_tune_headers_to_parse ].flatten().collectMany { elem -> elem.toString().split(',') as List }*.trim().findAll { elem -> elem }.collect { elem -> "-tune_headers_to_parse '${elem}'" }.join(' ') : '',
+        meta.thermo_log_headers_to_parse ? [ meta.thermo_log_headers_to_parse ].flatten().collectMany { elem -> elem.toString().split(',') as List }*.trim().findAll { elem -> elem }.collect { elem -> "-log_headers_to_parse '${elem}'" }.join(' ') : '',
+    ].join(' ')
     """
     python -m macproqc_helpers collect-metrics-from-thermo \\
+        ${metric_args} \\
         ${args} \\
         -raw ${raw_thermo_file} \\
         -out_hdf5 ${prefix}.hdf5

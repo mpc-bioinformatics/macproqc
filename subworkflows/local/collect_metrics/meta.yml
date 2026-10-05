@@ -10,6 +10,8 @@ description: |
   files, and collects the highest observed peak, its retention time and the number of
   matching identifications per spike-in. All per-metric HDF5 files produced for a run are
   finally merged into one combined HDF5 file per run.
+  Optional extraction settings are read from the pipeline params (`base_peak_tic_up_to`,
+  `bruker_*`, `thermo_*`, `hdf5_*`); unset params keep the macproqc_helpers defaults.
 keywords:
   - proteomics
   - mass spectrometry

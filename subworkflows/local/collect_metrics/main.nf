@@ -7,6 +7,19 @@ include { BRUKERXICEXTRACTION }      from '../../../modules/local/brukerxicextra
 include { SPIKEINMETRICSEXTRACTION } from '../../../modules/local/spikeinmetricsextraction/main'
 include { COMBINEHDF5 }              from '../../../modules/local/combinehdf5/main'
 
+// optional extraction settings can be set per sample in the samplesheet; samples without a value fall back to the pipeline param of the same name
+def withMetricSettings(meta) {
+    def keys = [
+        'base_peak_tic_up_to', 'filter_threshold', 'report_up_to_charge', 'ms1_map_rt_bins', 'ms1_map_mz_bins',
+        'bruker_headers_to_parse', 'bruker_frame_headers_to_parse', 'bruker_calibrants',
+        'bruker_calibrants_mz_tolerance', 'bruker_calibrants_mobility_tolerance',
+        'thermo_extra_headers_to_parse', 'thermo_tune_headers_to_parse', 'thermo_log_headers_to_parse',
+        'hdf5_put_under_subdataset', 'hdf5_write_metadata',
+    ]
+    def settings = keys.collectEntries { key -> [ (key): meta[key] != null ? meta[key] : params[key] ] }.findAll { _key, value -> value != null }
+    return meta + settings
+}
+
 workflow COLLECT_METRICS {
     take:
     ch_mzml            // channel: [ val(meta), path(mzml) ]
@@ -16,6 +29,10 @@ workflow COLLECT_METRICS {
     collect_spike_ins  // val: true to also run the spike-in XIC metrics chain
 
     main:
+
+    // add the optional extraction settings to the meta maps (samplesheet value, else pipeline param)
+    ch_mzml = ch_mzml.map { meta, mzml -> [ withMetricSettings(meta), mzml ] }
+    ch_raw  = ch_raw.map { meta, raw -> [ withMetricSettings(meta), raw ] }
 
     // mzML-based metrics (MS1/MS2 counts, TIC, RT, precursor charge, ...)
     MZMLMETRICSEXTRACTION(ch_mzml)

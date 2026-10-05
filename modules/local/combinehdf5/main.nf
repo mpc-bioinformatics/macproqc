@@ -20,8 +20,13 @@ process COMBINEHDF5 {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
+    def metric_args = [
+        meta.hdf5_put_under_subdataset ? '-put_under_subdataset' : '',
+        meta.hdf5_write_metadata ? '-write_metadata' : '',
+    ].join(' ')
     """
     python -m macproqc_helpers combine-hdf5 \\
+        ${metric_args} \\
         ${args} \\
         -hdf_out_name ${prefix}.hdf5 \\
         ${hdf5_files}

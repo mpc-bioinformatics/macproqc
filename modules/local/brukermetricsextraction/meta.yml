@@ -13,16 +13,22 @@ tools:
       homepage: "https://github.com/mpc-bioinformatics/macproqc-helpers"
       documentation: "https://github.com/mpc-bioinformatics/macproqc-helpers"
       tool_dev_url: "https://github.com/mpc-bioinformatics/macproqc-helpers"
-      doi: ""
-      licence: null
-      identifier: null
+      licence:
+        - BSD-3
 
 input:
   - - meta:
         type: map
         description: |
-          Groovy Map containing sample information
-          e.g. `[ id:'sample1' ]`
+          Groovy Map containing sample information. Besides `id`, the following optional keys
+          configure the Bruker metrics extraction (defaults in brackets, unset or empty keys use the default;
+          they are set per sample in the samplesheet or by the pipeline parameter of the same name):
+          - `bruker_headers_to_parse` (macproqc_helpers defaults): list or comma-separated string of global headers to parse, added to the defaults
+          - `bruker_frame_headers_to_parse` (macproqc_helpers defaults): list or comma-separated string of frame headers to parse, added to the defaults
+          - `bruker_calibrants` (macproqc_helpers defaults): list or comma-separated string of calibrants as `MZ:Mobility` (e.g. `922.009798:1.1895`), added to the defaults
+          - `bruker_calibrants_mz_tolerance` (10): m/z tolerance of the calibrants in Th
+          - `bruker_calibrants_mobility_tolerance` (0.1): mobility tolerance of the calibrants in 1/K0
+          e.g. `[ id:'sample1', bruker_calibrants_mz_tolerance:15 ]`
     - dotd_bruker_folder:
         type: directory
         description: Bruker dot d folder

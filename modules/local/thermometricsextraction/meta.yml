@@ -21,8 +21,13 @@ input:
   - - meta:
         type: map
         description: |
-          Groovy Map containing sample information
-          e.g. `[ id:'sample1' ]`
+          Groovy Map containing sample information. Besides `id`, the following optional keys
+          configure the Thermo metrics extraction (defaults in brackets, unset or empty keys use the default;
+          they are set per sample in the samplesheet or by the pipeline parameter of the same name):
+          - `thermo_extra_headers_to_parse` (macproqc_helpers defaults): list or comma-separated string of extra (scan) headers to parse, added to the defaults
+          - `thermo_tune_headers_to_parse` (macproqc_helpers defaults): list or comma-separated string of tune headers to parse, added to the defaults
+          - `thermo_log_headers_to_parse` (macproqc_helpers defaults): list or comma-separated string of status log headers to parse, added to the defaults
+          e.g. `[ id:'sample1', thermo_tune_headers_to_parse:'Some Tune Header' ]`
     - raw_thermo_file:
         type: file
         description: Thermofisher RAW file

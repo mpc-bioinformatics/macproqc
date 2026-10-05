@@ -12,8 +12,6 @@ nextflow_process {
     // TODO nf-core: Change the test name preferably indicating the test-data and file-format used
     test("mzmlmetricsextraction - small mzml") {
 
-        config "./nextflow.config"
-
         when {
 
             process {
@@ -58,6 +56,29 @@ nextflow_process {
             assertAll(
                 { assert snapshot(process.out).match() }
             )
+        }
+
+    }
+
+    test("mzmlmetricsextraction - settings from meta") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test', report_up_to_charge:3, ms1_map_rt_bins:100, ms1_map_mz_bins:100 ],
+                    file(params.macproqc_testdata_base_path + 'msspectra/medium_bruker.mzML', checkIfExists: true)
+                ]
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            def command = new File(new File(process.out.hdf5[0][1]).parentFile, '.command.sh').text
+            assert command.contains('-report_up_to_charge 3')
+            assert command.contains('-ms1_map_rt_bins 100')
+            assert command.contains('-base_peak_tic_up_to 105')
         }
 
     }

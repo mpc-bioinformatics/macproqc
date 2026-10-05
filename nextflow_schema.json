@@ -428,6 +428,82 @@
                     "description": "Display hidden parameters in the help message (only works when --help or --help_full are provided)."
                 }
             }
+        },
+        "bruker_metrics_parameters": {
+            "title": "Bruker metrics extraction parameters",
+            "type": "object",
+            "fa_icon": "fas fa-chart-line",
+            "description": "Optional parameters for the metrics extraction from Bruker .d folders. If not set, the macproqc_helpers defaults are used.",
+            "properties": {
+                "bruker_headers_to_parse": {
+                    "type": "string",
+                    "fa_icon": "fas fa-list",
+                    "description": "Bruker global headers to parse. Comma-separated; added to the macproqc_helpers defaults. Defaults: Vacuum_CurrentFore, Vacuum_Extra4thGauge, Vacuum_CurrentHigh, Vacuum_CurrentFunnel, Digitizer_CurrentTemp, TOF_DeviceTempCurrentValue1, TOF_DeviceTempCurrentValue2."
+                },
+                "bruker_frame_headers_to_parse": {
+                    "type": "string",
+                    "fa_icon": "fas fa-list",
+                    "description": "Bruker frame headers to parse. Headers not available are skipped. Comma-separated; added to the macproqc_helpers defaults. Default: Pressure."
+                },
+                "bruker_calibrants": {
+                    "type": "string",
+                    "fa_icon": "fas fa-bullseye",
+                    "description": "Calibrants to retrieve in the format MZ:Mobility, e.g. 922.009798:1.1895. Comma-separated; added to the macproqc_helpers defaults. Defaults: 622.0290:0.9913, 922.009798:1.1895, 1221.990637:1.3820."
+                },
+                "bruker_calibrants_mz_tolerance": {
+                    "type": "number",
+                    "fa_icon": "fas fa-ruler",
+                    "description": "m/z tolerance for the calibrants in Th. macproqc_helpers default: 10."
+                },
+                "bruker_calibrants_mobility_tolerance": {
+                    "type": "number",
+                    "fa_icon": "fas fa-ruler",
+                    "description": "Mobility tolerance for the calibrants in 1/K0. macproqc_helpers default: 0.1."
+                }
+            }
+        },
+        "thermo_metrics_parameters": {
+            "title": "Thermo metrics extraction parameters",
+            "type": "object",
+            "fa_icon": "fas fa-chart-line",
+            "description": "Optional parameters for the metrics extraction from Thermo RAW files. If not set, the macproqc_helpers defaults are used.",
+            "properties": {
+                "thermo_extra_headers_to_parse": {
+                    "type": "string",
+                    "fa_icon": "fas fa-list",
+                    "description": "Extra (scan) headers to parse. Comma-separated; added to the macproqc_helpers defaults."
+                },
+                "thermo_tune_headers_to_parse": {
+                    "type": "string",
+                    "fa_icon": "fas fa-list",
+                    "description": "Tune headers to parse. Comma-separated; added to the macproqc_helpers defaults."
+                },
+                "thermo_log_headers_to_parse": {
+                    "type": "string",
+                    "fa_icon": "fas fa-list",
+                    "description": "Status log headers to parse. Comma-separated; added to the macproqc_helpers defaults."
+                }
+            }
+        },
+        "hdf5_parameters": {
+            "title": "HDF5 combination parameters",
+            "type": "object",
+            "fa_icon": "fas fa-database",
+            "description": "Options for combining the per-metric HDF5 files.",
+            "properties": {
+                "hdf5_put_under_subdataset": {
+                    "type": "boolean",
+                    "default": false,
+                    "fa_icon": "fas fa-sitemap",
+                    "description": "Put the data of each input file under a subdataset in the combined HDF5 file."
+                },
+                "hdf5_write_metadata": {
+                    "type": "boolean",
+                    "default": false,
+                    "fa_icon": "fas fa-info",
+                    "description": "Write the 'METADATA' node to the combined HDF5 file."
+                }
+            }
         }
     },
     "allOf": [
@@ -442,6 +518,15 @@
         },
         {
             "$ref": "#/$defs/metrics_parameters"
+        },
+        {
+            "$ref": "#/$defs/bruker_metrics_parameters"
+        },
+        {
+            "$ref": "#/$defs/thermo_metrics_parameters"
+        },
+        {
+            "$ref": "#/$defs/hdf5_parameters"
         },
         {
             "$ref": "#/$defs/visualization_parameters"

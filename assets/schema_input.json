@@ -19,6 +19,96 @@
                 "exists": true,
                 "pattern": "^\\S+\\.(raw|RAW|mzML|mzml|d|)(.tar.(gz|bz2)|.zip|.gz)?$",
                 "errorMessage": "MS file name, cannot contain spaces and must have one of the extensions: raw | RAW | mzML | d (or compressed version)"
+            },
+            "base_peak_tic_up_to": {
+                "type": "integer",
+                "errorMessage": "'base_peak_tic_up_to' must be a valid integer",
+                "description": "Retrieve the base peak intensity maximum and the total ion current from minute 0 up to this number of minutes. Falls back to the pipeline parameter of the same name if empty.",
+                "meta": ["base_peak_tic_up_to"]
+            },
+            "filter_threshold": {
+                "type": "number",
+                "errorMessage": "'filter_threshold' must be a valid number",
+                "description": "Threshold, relative to the highest overall MS1 peak, below which MS1 peaks are disregarded. Falls back to the pipeline parameter of the same name if empty.",
+                "meta": ["filter_threshold"]
+            },
+            "report_up_to_charge": {
+                "type": "integer",
+                "errorMessage": "'report_up_to_charge' must be a valid integer",
+                "description": "Upper limit of the precursor charge range to be reported. Falls back to the pipeline parameter of the same name if empty.",
+                "meta": ["report_up_to_charge"]
+            },
+            "ms1_map_rt_bins": {
+                "type": "integer",
+                "errorMessage": "'ms1_map_rt_bins' must be a valid integer",
+                "description": "Number of retention time grid cells of the MS1 ion map. Falls back to the pipeline parameter of the same name if empty.",
+                "meta": ["ms1_map_rt_bins"]
+            },
+            "ms1_map_mz_bins": {
+                "type": "integer",
+                "errorMessage": "'ms1_map_mz_bins' must be a valid integer",
+                "description": "Number of m/z grid cells of the MS1 ion map. Falls back to the pipeline parameter of the same name if empty.",
+                "meta": ["ms1_map_mz_bins"]
+            },
+            "bruker_headers_to_parse": {
+                "type": "string",
+                "errorMessage": "'bruker_headers_to_parse' must be a valid string",
+                "description": "Bruker global headers to parse (Bruker runs only). Comma-separated; added to the macproqc_helpers defaults. Falls back to the pipeline parameter of the same name if empty.",
+                "meta": ["bruker_headers_to_parse"]
+            },
+            "bruker_frame_headers_to_parse": {
+                "type": "string",
+                "errorMessage": "'bruker_frame_headers_to_parse' must be a valid string",
+                "description": "Bruker frame headers to parse (Bruker runs only). Comma-separated; added to the macproqc_helpers defaults. Falls back to the pipeline parameter of the same name if empty.",
+                "meta": ["bruker_frame_headers_to_parse"]
+            },
+            "bruker_calibrants": {
+                "type": "string",
+                "errorMessage": "'bruker_calibrants' must be a valid string",
+                "description": "Bruker calibrants as MZ:Mobility (Bruker runs only). Comma-separated; added to the macproqc_helpers defaults. Falls back to the pipeline parameter of the same name if empty.",
+                "meta": ["bruker_calibrants"]
+            },
+            "bruker_calibrants_mz_tolerance": {
+                "type": "number",
+                "errorMessage": "'bruker_calibrants_mz_tolerance' must be a valid number",
+                "description": "m/z tolerance of the Bruker calibrants in Th. Falls back to the pipeline parameter of the same name if empty.",
+                "meta": ["bruker_calibrants_mz_tolerance"]
+            },
+            "bruker_calibrants_mobility_tolerance": {
+                "type": "number",
+                "errorMessage": "'bruker_calibrants_mobility_tolerance' must be a valid number",
+                "description": "Mobility tolerance of the Bruker calibrants in 1/K0. Falls back to the pipeline parameter of the same name if empty.",
+                "meta": ["bruker_calibrants_mobility_tolerance"]
+            },
+            "thermo_extra_headers_to_parse": {
+                "type": "string",
+                "errorMessage": "'thermo_extra_headers_to_parse' must be a valid string",
+                "description": "Thermo extra (scan) headers to parse (Thermo runs only). Comma-separated; added to the macproqc_helpers defaults. Falls back to the pipeline parameter of the same name if empty.",
+                "meta": ["thermo_extra_headers_to_parse"]
+            },
+            "thermo_tune_headers_to_parse": {
+                "type": "string",
+                "errorMessage": "'thermo_tune_headers_to_parse' must be a valid string",
+                "description": "Thermo tune headers to parse (Thermo runs only). Comma-separated; added to the macproqc_helpers defaults. Falls back to the pipeline parameter of the same name if empty.",
+                "meta": ["thermo_tune_headers_to_parse"]
+            },
+            "thermo_log_headers_to_parse": {
+                "type": "string",
+                "errorMessage": "'thermo_log_headers_to_parse' must be a valid string",
+                "description": "Thermo status log headers to parse (Thermo runs only). Comma-separated; added to the macproqc_helpers defaults. Falls back to the pipeline parameter of the same name if empty.",
+                "meta": ["thermo_log_headers_to_parse"]
+            },
+            "hdf5_put_under_subdataset": {
+                "type": "boolean",
+                "errorMessage": "'hdf5_put_under_subdataset' must be a valid boolean",
+                "description": "Put the data under a subdataset in the combined HDF5 file. Falls back to the pipeline parameter of the same name if empty.",
+                "meta": ["hdf5_put_under_subdataset"]
+            },
+            "hdf5_write_metadata": {
+                "type": "boolean",
+                "errorMessage": "'hdf5_write_metadata' must be a valid boolean",
+                "description": "Write the 'METADATA' node to the combined HDF5 file. Falls back to the pipeline parameter of the same name if empty.",
+                "meta": ["hdf5_write_metadata"]
             }
         },
         "required": ["sample", "spectrum_file"]

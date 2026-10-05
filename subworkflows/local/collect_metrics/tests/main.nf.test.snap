@@ -4,20 +4,34 @@
             [
                 [
                     {
-                        "id": "test-bruker"
+                        "id": "test-bruker",
+                        "base_peak_tic_up_to": 105,
+                        "filter_threshold": 0.00001,
+                        "report_up_to_charge": 5,
+                        "ms1_map_rt_bins": 1000,
+                        "ms1_map_mz_bins": 1000,
+                        "hdf5_put_under_subdataset": false,
+                        "hdf5_write_metadata": false
                     },
                     "test-bruker.hdf5"
                 ],
                 [
                     {
                         "id": "test-thermo",
-                        "vendor": "thermo"
+                        "vendor": "thermo",
+                        "base_peak_tic_up_to": 105,
+                        "filter_threshold": 0.00001,
+                        "report_up_to_charge": 5,
+                        "ms1_map_rt_bins": 1000,
+                        "ms1_map_mz_bins": 1000,
+                        "hdf5_put_under_subdataset": false,
+                        "hdf5_write_metadata": false
                     },
                     "test-thermo.hdf5"
                 ]
             ]
         ],
-        "timestamp": "2026-09-29T10:11:55.439138762",
+        "timestamp": "2026-10-05T10:06:04.232733034",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"
@@ -28,20 +42,34 @@
             [
                 [
                     {
-                        "id": "test-bruker"
+                        "id": "test-bruker",
+                        "base_peak_tic_up_to": 105,
+                        "filter_threshold": 0.00001,
+                        "report_up_to_charge": 5,
+                        "ms1_map_rt_bins": 1000,
+                        "ms1_map_mz_bins": 1000,
+                        "hdf5_put_under_subdataset": false,
+                        "hdf5_write_metadata": false
                     },
                     "test-bruker.hdf5"
                 ],
                 [
                     {
                         "id": "test-thermo",
-                        "vendor": "thermo"
+                        "vendor": "thermo",
+                        "base_peak_tic_up_to": 105,
+                        "filter_threshold": 0.00001,
+                        "report_up_to_charge": 5,
+                        "ms1_map_rt_bins": 1000,
+                        "ms1_map_mz_bins": 1000,
+                        "hdf5_put_under_subdataset": false,
+                        "hdf5_write_metadata": false
                     },
                     "test-thermo.hdf5"
                 ]
             ]
         ],
-        "timestamp": "2026-09-29T10:12:38.056553235",
+        "timestamp": "2026-10-05T10:07:02.547163241",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"
