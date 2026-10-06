@@ -195,12 +195,6 @@
                     "fa_icon": "fas fa-arrows-alt-h",
                     "description": "Retrieve the Basepeak Intensity Max and the Total Ion Current from minute 0 up to the given number in minutes. Defaults to 105 (minutes)."
                 },
-                "filter_threshold": {
-                    "type": "number",
-                    "default": 1e-5,
-                    "fa_icon": "fas fa-filter",
-                    "description": "Threshold for the MS1 peaks, to be included in the output file. Defaults to 0.00001 (0.001%) of the highest overall MS1 peak. Values lower will be disregarded."
-                },
                 "report_up_to_charge": {
                     "type": "integer",
                     "default": 5,

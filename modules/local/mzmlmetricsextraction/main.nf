@@ -20,10 +20,9 @@ process MZMLMETRICSEXTRACTION {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}.mzml_metrics"
-    // the first three are required by the CLI, hence the fallbacks
+    // the first two are required by the CLI, hence the fallbacks
     def metric_args = [
         "-base_peak_tic_up_to ${meta.base_peak_tic_up_to ?: 9999}",
-        "-filter_threshold ${meta.filter_threshold ?: 0.00001}",
         "-report_up_to_charge ${meta.report_up_to_charge ?: 5}",
         meta.ms1_map_rt_bins ? "-ms1_map_rt_bins ${meta.ms1_map_rt_bins}" : '',
         meta.ms1_map_mz_bins ? "-ms1_map_mz_bins ${meta.ms1_map_mz_bins}" : '',

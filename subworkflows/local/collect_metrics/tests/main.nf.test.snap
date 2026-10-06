@@ -6,7 +6,6 @@
                     {
                         "id": "test-bruker",
                         "base_peak_tic_up_to": 9999,
-                        "filter_threshold": 0.00001,
                         "report_up_to_charge": 5,
                         "ms1_map_rt_bins": 1000,
                         "ms1_map_mz_bins": 1000,
@@ -20,7 +19,6 @@
                         "id": "test-thermo",
                         "vendor": "thermo",
                         "base_peak_tic_up_to": 9999,
-                        "filter_threshold": 0.00001,
                         "report_up_to_charge": 5,
                         "ms1_map_rt_bins": 1000,
                         "ms1_map_mz_bins": 1000,
@@ -44,7 +42,6 @@
                     {
                         "id": "test-bruker",
                         "base_peak_tic_up_to": 9999,
-                        "filter_threshold": 0.00001,
                         "report_up_to_charge": 5,
                         "ms1_map_rt_bins": 1000,
                         "ms1_map_mz_bins": 1000,
@@ -58,7 +55,6 @@
                         "id": "test-thermo",
                         "vendor": "thermo",
                         "base_peak_tic_up_to": 9999,
-                        "filter_threshold": 0.00001,
                         "report_up_to_charge": 5,
                         "ms1_map_rt_bins": 1000,
                         "ms1_map_mz_bins": 1000,

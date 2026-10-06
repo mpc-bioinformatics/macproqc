@@ -26,12 +26,6 @@
                 "description": "Retrieve the base peak intensity maximum and the total ion current from minute 0 up to this number of minutes. Falls back to the pipeline parameter of the same name if empty.",
                 "meta": ["base_peak_tic_up_to"]
             },
-            "filter_threshold": {
-                "type": "number",
-                "errorMessage": "'filter_threshold' must be a valid number",
-                "description": "Threshold, relative to the highest overall MS1 peak, below which MS1 peaks are disregarded. Falls back to the pipeline parameter of the same name if empty.",
-                "meta": ["filter_threshold"]
-            },
             "report_up_to_charge": {
                 "type": "integer",
                 "errorMessage": "'report_up_to_charge' must be a valid integer",

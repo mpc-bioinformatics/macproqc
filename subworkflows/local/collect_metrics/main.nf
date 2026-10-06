@@ -10,7 +10,7 @@ include { COMBINEHDF5 }              from '../../../modules/local/combinehdf5/ma
 // optional extraction settings can be set per sample in the samplesheet; samples without a value fall back to the pipeline param of the same name
 def withMetricSettings(meta) {
     def keys = [
-        'base_peak_tic_up_to', 'filter_threshold', 'report_up_to_charge', 'ms1_map_rt_bins', 'ms1_map_mz_bins',
+        'base_peak_tic_up_to', 'report_up_to_charge', 'ms1_map_rt_bins', 'ms1_map_mz_bins',
         'bruker_headers_to_parse', 'bruker_frame_headers_to_parse', 'bruker_calibrants',
         'bruker_calibrants_mz_tolerance', 'bruker_calibrants_mobility_tolerance',
         'thermo_extra_headers_to_parse', 'thermo_tune_headers_to_parse', 'thermo_log_headers_to_parse',

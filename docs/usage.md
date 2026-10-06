@@ -44,7 +44,6 @@ msrunthree,/path/to/data/CONTROL_REP3.mzML.gz,6,,
 | Column                                 | Type    | Applies to | Description                                                                                               |
 | -------------------------------------- | ------- | ---------- | --------------------------------------------------------------------------------------------------------- |
 | `base_peak_tic_up_to`                  | integer | all        | Retrieve base peak intensity maximum and total ion current from minute 0 up to this value (default 9999). |
-| `filter_threshold`                     | number  | all        | MS1 peaks below this fraction of the highest MS1 peak are disregarded (default 0.00001).                  |
 | `report_up_to_charge`                  | integer | all        | Upper limit of the reported precursor charge range (default 5).                                           |
 | `ms1_map_rt_bins`                      | integer | all        | Number of retention time grid cells of the MS1 ion map (default 1000).                                    |
 | `ms1_map_mz_bins`                      | integer | all        | Number of m/z grid cells of the MS1 ion map (default 1000).                                               |

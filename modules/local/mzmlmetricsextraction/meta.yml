@@ -24,7 +24,6 @@ input:
           configure the mzML metrics extraction (defaults in brackets, unset or empty keys use the default;
           they are set per sample in the samplesheet or by the pipeline parameter of the same name):
           - `base_peak_tic_up_to` (9999): base peak intensity maximum and total ion current are retrieved from minute 0 up to this many minutes
-          - `filter_threshold` (0.00001): MS1 peaks below this fraction of the highest MS1 peak are disregarded
           - `report_up_to_charge` (5): upper limit of the reported precursor charge range
           - `ms1_map_rt_bins` (1000): number of retention time grid cells of the MS1 ion map
           - `ms1_map_mz_bins` (1000): number of m/z grid cells of the MS1 ion map
