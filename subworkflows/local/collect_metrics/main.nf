@@ -106,10 +106,11 @@ workflow COLLECT_METRICS {
     }
 
     // group every per-metric HDF5 produced for a given run and merge them into one HDF5
+    // (metas may carry different keys, so merge all of them instead of picking one)
     ch_grouped_hdf5 = ch_all_hdf5
         .map { meta, hdf5 -> [ meta.id, meta, hdf5 ] }
         .groupTuple(by: 0)
-        .map { _id, metas, hdf5s -> [ metas[0], hdf5s ] }
+        .map { _id, metas, hdf5s -> [ metas.inject([:]) { merged, m -> merged + m }, hdf5s ] }
 
     COMBINEHDF5(ch_grouped_hdf5)
 
