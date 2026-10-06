@@ -19,7 +19,7 @@ process MZMLMETRICSEXTRACTION {
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    def prefix = task.ext.prefix ?: "${meta.id}.mzml_metrics"
     // the first three are required by the CLI, hence the fallbacks
     def metric_args = [
         "-base_peak_tic_up_to ${meta.base_peak_tic_up_to ?: 9999}",
@@ -39,7 +39,7 @@ process MZMLMETRICSEXTRACTION {
 
     stub:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    def prefix = task.ext.prefix ?: "${meta.id}.mzml_metrics"
     """
     echo ${args}
 

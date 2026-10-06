@@ -22,7 +22,7 @@ process SPIKEINMETRICSEXTRACTION {
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    def prefix = task.ext.prefix ?: "${meta.id}.spikein_metrics"
     """
     python -m macproqc_helpers collect-spikein-metrics \\
         ${args} \\
@@ -34,7 +34,7 @@ process SPIKEINMETRICSEXTRACTION {
 
     stub:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    def prefix = task.ext.prefix ?: "${meta.id}.spikein_metrics"
     """
     echo ${args}
 
