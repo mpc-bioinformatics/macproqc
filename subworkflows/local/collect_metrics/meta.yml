@@ -64,14 +64,14 @@ input:
       type: value
       description: true to also run the spike-in XIC metrics chain, false to only collect mzML/header metrics.
 output:
-  hdf5:
-    type: channel
-    description: |
-      Channel of combined HDF5 files, one per run, containing every metric HDF5 collected
-      for that run (mzML metrics, Thermo/Bruker header metrics and, when enabled, spike-in
-      metrics), merged together.
-      Structure: [ val(meta), path(hdf5) ]
-    pattern: "*.hdf5"
+  - hdf5:
+      type: channel
+      description: |
+        Channel of combined HDF5 files, one per run, containing every metric HDF5 collected
+        for that run (mzML metrics, Thermo/Bruker header metrics and, when enabled, spike-in
+        metrics), merged together.
+        Structure: [ val(meta), path(hdf5) ]
+      pattern: "*.hdf5"
 authors:
   - "@Luxxii"
   - "@di-hardt"
