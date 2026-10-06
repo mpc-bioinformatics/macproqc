@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "hdf5tomzqc"
+description: Convert the QC metrics of a single run (given as hdf5 file) from the macproqc pipeline into the HUPO-PSI mzQC format.
+keywords:
+  - proteomics
+  - mass spectrometry
+  - quality control
+  - mzqc
+tools:
+  - "macproqc_helpers":
+      description: "Helper scripts for the McQuaC pipeline, used here to convert the collected QC metrics from hdf5 into mzQC."
+      homepage: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      documentation: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      tool_dev_url: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      doi: ""
+      licence: ["BSD-3-Clause"]
+      identifier: null
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - hdf5:
+        type: file
+        description: Hdf5 file containing the combined QC metrics of one run collected by the McQuaC pipeline
+        pattern: "*.hdf5"
+        ontologies:
+          - edam: "http://edamontology.org/format_3590" # HDF5
+
+output:
+  mzqc:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "${prefix}.mzqc":
+          type: file
+          description: mzQC file containing the QC metrics of the run
+          pattern: "*.mzqc"
+          ontologies:
+            - edam: "http://edamontology.org/format_3464" # JSON
+  versions_macproqc_helpers:
+    - - "${task.process}":
+          type: string
+          description: The name of the process
+      - "macproqc_helpers":
+          type: string
+          description: The name of the tool
+      - "macproqc-helpers --version":
+          type: eval
+          description: The expression to obtain the version of the tool (including the commit hash)
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - macproqc_helpers:
+          type: string
+          description: The name of the tool
+      - macproqc-helpers --version:
+          type: eval
+          description: The expression to obtain the version of the tool (including the commit hash)
+
+authors:
+  - "@julianu"
+maintainers:
+  - "@julianu"
