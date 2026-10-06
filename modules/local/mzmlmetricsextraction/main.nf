@@ -5,7 +5,7 @@ process MZMLMETRICSEXTRACTION {
     tag "${meta.id}"
     label 'process_low'
 
-    container "ghcr.io/mpc-bioinformatics/macproqc-helpers:sha-604eac1"
+    container "ghcr.io/mpc-bioinformatics/macproqc-helpers:sha-a9c31aa"
 
     input:
     tuple val(meta), path(mzml_file)
@@ -22,8 +22,8 @@ process MZMLMETRICSEXTRACTION {
     def prefix = task.ext.prefix ?: "${meta.id}.mzml_metrics"
     // the first two are required by the CLI, hence the fallbacks
     def metric_args = [
-        "-base_peak_tic_up_to ${meta.base_peak_tic_up_to ?: 9999}",
         "-report_up_to_charge ${meta.report_up_to_charge ?: 5}",
+        meta.base_peak_tic_up_to ? "-base_peak_tic_up_to ${meta.base_peak_tic_up_to}" : '',
         meta.ms1_map_rt_bins ? "-ms1_map_rt_bins ${meta.ms1_map_rt_bins}" : '',
         meta.ms1_map_mz_bins ? "-ms1_map_mz_bins ${meta.ms1_map_mz_bins}" : '',
     ].join(' ')
