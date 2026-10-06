@@ -199,7 +199,7 @@
                     "type": "integer",
                     "default": 5,
                     "fa_icon": "fas fa-list-ol",
-                    "description": "Upper limit of range to be reported in a csv table for the charge, defaults to 5."
+                    "description": "Max charge state to be considered in MZMLMETRICSEXTRACTION for calculation of MS2 known precursor charges fractions."
                 },
                 "ms1_map_rt_bins": {
                     "type": "integer",
