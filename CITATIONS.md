@@ -18,6 +18,10 @@
 
   > Uszkoreit J, Maerkens A, Perez-Riverol Y, Meyer HE, Marcus K, Stephan C, Kohlbacher O, Eisenacher M. PIA: An Intuitive Protein Inference Engine with a Web-Based User Interface. J Proteome Res. 2015 Jul 2;14(7):2988-97. doi: 10.1021/acs.jproteome.5b00121. Epub 2015 Jun 10. PMID: 25938255.
 
+- [HDF5TOMZQC](https://pubmed.ncbi.nlm.nih.gov/38918936/)
+
+  > Bielow C, Hoffmann N, Jimenez-Morales D, Van Den Bossche T, Vizcaíno JA, Tabb DL, Bittremieux W, Walzer M. Communicating Mass Spectrometry Quality Information in mzQC with Python, R, and Java. J Am Soc Mass Spectrom. 2024 Aug 7;35(8):1875-1882. doi: 10.1021/jasms.4c00174. Epub 2024 Jun 25. PMID: 38918936; PMCID: PMC11311537.
+
 ## Software packaging/containerisation tools
 
 - [Anaconda](https://anaconda.com)

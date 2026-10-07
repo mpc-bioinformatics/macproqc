@@ -1,0 +1,258 @@
+{
+    "small hdf5-to-mzqc test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "sample1"
+                    },
+                    {
+                        "controlledVocabularies": [
+                            {
+                                "name": "Proteomics Standards Initiative Mass Spectrometry Ontology",
+                                "uri": "https://github.com/HUPO-PSI/psi-ms-CV/blob/master/psi-ms.obo",
+                                "version": "4.1.197"
+                            }
+                        ],
+                        "runQualities": [
+                            {
+                                "metadata": {
+                                    "analysisSoftware": [
+                                        {
+                                            "accession": "MS:1002251",
+                                            "description": "Comet open-source sequence search engine developed at the University of Washington.",
+                                            "name": "Comet",
+                                            "uri": "https://uwpr.github.io/Comet/",
+                                            "version": "v2024.01.0"
+                                        }
+                                    ],
+                                    "inputFiles": [
+                                        {
+                                            "fileFormat": {
+                                                "accession": "MS:1000563",
+                                                "name": "Thermo RAW format"
+                                            },
+                                            "fileProperties": [
+                                                {
+                                                    "accession": "MS:1002435",
+                                                    "name": "data processing start time",
+                                                    "value": "2023-03-28 06:29:45"
+                                                }
+                                            ],
+                                            "name": "EXII01980std"
+                                        }
+                                    ]
+                                },
+                                "qualityMetrics": [
+                                    "{\"accession\":\"MS:1003250\",\"name\":\"count of identified peptidoforms\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":22894}",
+                                    "{\"accession\":\"MS:1003251\",\"name\":\"count of identified spectra\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":25146}",
+                                    "{\"accession\":\"MS:1003327\",\"name\":\"number of identified protein groups\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":3303}",
+                                    "{\"accession\":\"MS:4000029\",\"name\":\"area under TIC in MS1\",\"value\":3233213670055.2617}",
+                                    "{\"accession\":\"MS:4000030\",\"name\":\"area under TIC in MS2\",\"value\":164115203497.93164}",
+                                    "{\"accession\":\"MS:4000059\",\"name\":\"number of MS1 spectra\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":3617}",
+                                    "{\"accession\":\"MS:4000060\",\"name\":\"number of MS2 spectra\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":71143}",
+                                    "{\"accession\":\"MS:4000061\",\"name\":\"MS1 density quantiles\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":[1993,2363,2647]}",
+                                    "{\"accession\":\"MS:4000062\",\"name\":\"MS2 density quantiles\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":[75,127,193]}",
+                                    "{\"accession\":\"MS:4000063\",\"name\":\"MS2 known precursor charges fractions\",\"value\":{\"MS:1000041\":[0,1,2,3,4,5,6],\"UO:0000191\":[0.0,0.0,0.590247810747368,0.3398366669946446,0.033172624151357126,0.01697988558255907,0.019763012524071238]}}",
+                                    "{\"accession\":\"MS:4000065\",\"name\":\"fastest frequency for MS level 1 collection\",\"unit\":{\"unit_accession\":\"UO:0000106\",\"unit_name\":\"hertz\"},\"value\":3.1333333333333333}",
+                                    "{\"accession\":\"MS:4000066\",\"name\":\"fastest frequency for MS level 2 collection\",\"unit\":{\"unit_accession\":\"UO:0000106\",\"unit_name\":\"hertz\"},\"value\":12.433333333333334}",
+                                    "{\"accession\":\"MS:4000070\",\"name\":\"retention time acquisition range\",\"unit\":{\"unit_accession\":\"UO:0000010\",\"unit_name\":\"second\"},\"value\":[0.1589630584716798,6000.24562031934]}",
+                                    "{\"accession\":\"MS:4000102\",\"name\":\"number of detected quantification data points\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":47381}",
+                                    "{\"accession\":\"MS:4000103\",\"name\":\"number of identified quantification data points\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":15216}",
+                                    "{\"accession\":\"MS:4000178\",\"name\":\"precursor ppm deviation mean\",\"unit\":{\"unit_accession\":\"UO:0000169\",\"unit_name\":\"parts per million\"},\"value\":0.9992489494328685}",
+                                    "{\"accession\":\"MS:4000179\",\"name\":\"precursor ppm deviation sigma\",\"unit\":{\"unit_accession\":\"UO:0000169\",\"unit_name\":\"parts per million\"},\"value\":3.4811280598681185}",
+                                    "{\"accession\":\"MS:4000183\",\"name\":\"TIC quantile RT fraction\",\"unit\":{\"unit_accession\":\"UO:0000191\",\"unit_name\":\"fraction\"},\"value\":[0.29263764468032794,0.2348006710062404,0.38945419789106017,0.0830634013851173]}",
+                                    "{\"accession\":\"MS:4000184\",\"name\":\"MS1 quantile RT fraction\",\"unit\":{\"unit_accession\":\"UO:0000191\",\"unit_name\":\"fraction\"},\"value\":[0.09198845059217634,0.3044449106197897,0.30458160045429666,0.2989850383337373]}",
+                                    "{\"accession\":\"MS:4000185\",\"name\":\"MS2 quantile RT fraction\",\"unit\":{\"unit_accession\":\"UO:0000191\",\"unit_name\":\"fraction\"},\"value\":[0.2795885523996643,0.2396578587413638,0.23971695136323687,0.24103663749573503]}",
+                                    "{\"accession\":\"MS:4000186\",\"name\":\"MS1 TIC-change quantile ratios\",\"unit\":{\"unit_accession\":\"UO:0000191\",\"unit_name\":\"fraction\"},\"value\":[2.732925366246413,1.3832968965113583,5.6104304332277355]}",
+                                    "{\"accession\":\"MS:4000187\",\"name\":\"MS1 TIC quantile ratios\",\"unit\":{\"unit_accession\":\"UO:0000191\",\"unit_name\":\"fraction\"},\"value\":[1.1986036049427176,0.6300181765177006,3.542357792561351]}",
+                                    "{\"accession\":\"MS:4000202\",\"name\":\"base peak intensity maximum\",\"unit\":{\"unit_accession\":\"MS:1000043\",\"unit_name\":\"intensity unit\"},\"value\":941731648.0}",
+                                    "{\"accession\":\"MS:4000203\",\"name\":\"base peak intensity maxima per time ranges\",\"value\":{\"MS:1000505\":[941731648.0],\"NCIT:C25330\":[6300.0],\"UO:0000010\":[0.0]}}",
+                                    "{\"accession\":\"MS:4000204\",\"name\":\"total ion current maximum\",\"unit\":{\"unit_accession\":\"MS:1000043\",\"unit_name\":\"intensity unit\"},\"value\":13338741016.578125}",
+                                    "{\"accession\":\"MS:4000205\",\"name\":\"total ion current maxima per time ranges\",\"value\":{\"MS:1000285\":[13338741016.578125],\"NCIT:C25330\":[6300.0],\"UO:0000010\":[0.0]}}",
+                                    "{\"accession\":\"MS:4000206\",\"name\":\"precursor ppm deviation distribution\",\"unit\":{\"unit_accession\":\"UO:0000169\",\"unit_name\":\"parts per million\"},\"value\":[-0.8358211380940891,0.6315332015720699,2.5553812012058588]}",
+                                    "{\"accession\":\"MS:4000207\",\"name\":\"detected quantification data points charges fractions\",\"value\":{\"MS:1000041\":[1,2,3,4,5,6],\"UO:0000191\":[0.0,0.588569257719339,0.35425592537092926,0.04577784343935333,0.011396973470378421,0.0]}}",
+                                    "{\"accession\":\"MS:4000208\",\"name\":\"identified quantification data points charges fractions\",\"value\":{\"MS:1000041\":[1,2,3,4,5,6],\"UO:0000191\":[0.0,0.6340694006309149,0.3460173501577287,0.019321766561514197,0.0005914826498422713,0.0]}}",
+                                    "{\"accession\":\"MS:4000209\",\"name\":\"peptide spectrum matches charges fractions\",\"value\":{\"MS:1000041\":[1,2,3,4,5,6],\"UO:0000191\":[0.0,0.6380338821283703,0.34275829157718923,0.01829316789946711,0.0009146583949733556,0.0]}}",
+                                    "{\"accession\":\"MS:4000210\",\"name\":\"vacuum pump pressure\",\"value\":{\"MS:1000894\":\"md5:ec980889f574ce42b7437adfc9847e10 (n=601201)\",\"UO:0000109\":\"md5:7318e0bb5f7a7e1b81cf4045ac3c33d7 (n=601201)\"}}",
+                                    "{\"accession\":\"MS:4000211\",\"name\":\"MS1 total ion current\",\"value\":{\"MS:1000285\":\"md5:d8bfd7bbc3ec32e5d70cf2f2b9786ef7 (n=3617)\",\"UO:0000010\":\"md5:b5508a636ba48a5125ca0940f72a98c3 (n=3617)\"}}",
+                                    "{\"accession\":\"MS:4000212\",\"name\":\"MS2 total ion current\",\"value\":{\"MS:1000285\":\"md5:a239789ac25b5c22d8a49f9190a42ad4 (n=71143)\",\"UO:0000010\":\"md5:8192f0cdee286828f6662551cfd82ffd (n=71143)\"}}",
+                                    "{\"accession\":\"MS:4000213\",\"name\":\"characteristics of spike in and reference peptide\",\"value\":{\"MS:1000894\":[-1.0,-1.0,4831.128155086517,1630.7683170776365,2226.9879091720586,2588.899802062989,3371.2405401210785,3866.4880600910183,4070.690888975143],\"MS:1000897\":[5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0],\"MS:1001843\":[0.0,0.0,94608392.0,7235256.5,6331167.5,9882573.0,10206172.0,5355879.0,6885434.0],\"MS:1003169\":[\"X[+457.2834]\",\"X[+895.9493]\",\"X[+966.088]\",\"GEPAAAAAPEAGASPVEK[+8.014199]/2\",\"NLVVGDETTSSLR[+10.008269]/2\",\"LQPGDIGIYR[+10.008269]/2\",\"VVVLPSGALQISR[+10.008269]/2\",\"YPGAYYIFQIK[+8.014199]/2\",\"NIPTVNENLENYYLEVNQLEK[+8.014199]/3\"],\"MS:1003251\":[0,0,0,1,1,1,1,1,1]}}",
+                                    "{\"accession\":\"MS:4000214\",\"name\":\"number of all identified accessions in all ambiguity groups\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":4582}",
+                                    "{\"accession\":\"MS:4000215\",\"name\":\"missed cleavages fractions\",\"value\":{\"MS:1003044\":[0,1,2,3,4],\"UO:0000191\":[0.9171637636204565,0.07778573132903842,0.005050505050505051,0.0,0.0]}}"
+                                ]
+                            }
+                        ],
+                        "version": "1.0.0"
+                    }
+                ],
+                [
+                    {
+                        "id": "sample2"
+                    },
+                    {
+                        "controlledVocabularies": [
+                            {
+                                "name": "Proteomics Standards Initiative Mass Spectrometry Ontology",
+                                "uri": "https://github.com/HUPO-PSI/psi-ms-CV/blob/master/psi-ms.obo",
+                                "version": "4.1.197"
+                            }
+                        ],
+                        "runQualities": [
+                            {
+                                "metadata": {
+                                    "analysisSoftware": [
+                                        {
+                                            "accession": "MS:1002251",
+                                            "description": "Comet open-source sequence search engine developed at the University of Washington.",
+                                            "name": "Comet",
+                                            "uri": "https://uwpr.github.io/Comet/",
+                                            "version": "v2024.01.0"
+                                        }
+                                    ],
+                                    "inputFiles": [
+                                        {
+                                            "fileFormat": {
+                                                "accession": "MS:1000563",
+                                                "name": "Thermo RAW format"
+                                            },
+                                            "fileProperties": [
+                                                {
+                                                    "accession": "MS:1002435",
+                                                    "name": "data processing start time",
+                                                    "value": "2023-03-29 06:03:01"
+                                                }
+                                            ],
+                                            "name": "EXII01990std"
+                                        }
+                                    ]
+                                },
+                                "qualityMetrics": [
+                                    "{\"accession\":\"MS:1003250\",\"name\":\"count of identified peptidoforms\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":23996}",
+                                    "{\"accession\":\"MS:1003251\",\"name\":\"count of identified spectra\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":26182}",
+                                    "{\"accession\":\"MS:1003327\",\"name\":\"number of identified protein groups\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":3347}",
+                                    "{\"accession\":\"MS:4000029\",\"name\":\"area under TIC in MS1\",\"value\":2301675361148.8423}",
+                                    "{\"accession\":\"MS:4000030\",\"name\":\"area under TIC in MS2\",\"value\":146801883736.9021}",
+                                    "{\"accession\":\"MS:4000059\",\"name\":\"number of MS1 spectra\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":3666}",
+                                    "{\"accession\":\"MS:4000060\",\"name\":\"number of MS2 spectra\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":70681}",
+                                    "{\"accession\":\"MS:4000061\",\"name\":\"MS1 density quantiles\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":[1987,2360,2675]}",
+                                    "{\"accession\":\"MS:4000062\",\"name\":\"MS2 density quantiles\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":[63,108,165]}",
+                                    "{\"accession\":\"MS:4000063\",\"name\":\"MS2 known precursor charges fractions\",\"value\":{\"MS:1000041\":[0,1,2,3,4,5,6],\"UO:0000191\":[0.0,0.0,0.6054243714718242,0.3429493074517904,0.028635701249274913,0.011431643581726348,0.01155897624538419]}}",
+                                    "{\"accession\":\"MS:4000065\",\"name\":\"fastest frequency for MS level 1 collection\",\"unit\":{\"unit_accession\":\"UO:0000106\",\"unit_name\":\"hertz\"},\"value\":3.05}",
+                                    "{\"accession\":\"MS:4000066\",\"name\":\"fastest frequency for MS level 2 collection\",\"unit\":{\"unit_accession\":\"UO:0000106\",\"unit_name\":\"hertz\"},\"value\":12.433333333333334}",
+                                    "{\"accession\":\"MS:4000070\",\"name\":\"retention time acquisition range\",\"unit\":{\"unit_accession\":\"UO:0000010\",\"unit_name\":\"second\"},\"value\":[0.1622351150512698,6000.3124712448]}",
+                                    "{\"accession\":\"MS:4000102\",\"name\":\"number of detected quantification data points\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":50073}",
+                                    "{\"accession\":\"MS:4000103\",\"name\":\"number of identified quantification data points\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":16062}",
+                                    "{\"accession\":\"MS:4000178\",\"name\":\"precursor ppm deviation mean\",\"unit\":{\"unit_accession\":\"UO:0000169\",\"unit_name\":\"parts per million\"},\"value\":0.9198398726636835}",
+                                    "{\"accession\":\"MS:4000179\",\"name\":\"precursor ppm deviation sigma\",\"unit\":{\"unit_accession\":\"UO:0000169\",\"unit_name\":\"parts per million\"},\"value\":3.45258804445913}",
+                                    "{\"accession\":\"MS:4000183\",\"name\":\"TIC quantile RT fraction\",\"unit\":{\"unit_accession\":\"UO:0000191\",\"unit_name\":\"fraction\"},\"value\":[0.23730313494395255,0.15426813228894087,0.21328641499867407,0.3950980455278537]}",
+                                    "{\"accession\":\"MS:4000184\",\"name\":\"MS1 quantile RT fraction\",\"unit\":{\"unit_accession\":\"UO:0000191\",\"unit_name\":\"fraction\"},\"value\":[0.10104564910693377,0.3086074336308729,0.30876592696602595,0.2815809902961674]}",
+                                    "{\"accession\":\"MS:4000185\",\"name\":\"MS2 quantile RT fraction\",\"unit\":{\"unit_accession\":\"UO:0000191\",\"unit_name\":\"fraction\"},\"value\":[0.2781629896869,0.23808498418650678,0.23829050086247772,0.24546152526411552]}",
+                                    "{\"accession\":\"MS:4000186\",\"name\":\"MS1 TIC-change quantile ratios\",\"unit\":{\"unit_accession\":\"UO:0000191\",\"unit_name\":\"fraction\"},\"value\":[2.6482753962144434,1.3110913677550513,4.007034608522912]}",
+                                    "{\"accession\":\"MS:4000187\",\"name\":\"MS1 TIC quantile ratios\",\"unit\":{\"unit_accession\":\"UO:0000191\",\"unit_name\":\"fraction\"},\"value\":[2.322015619280602,0.7587058120609484,1.5869077485806211]}",
+                                    "{\"accession\":\"MS:4000202\",\"name\":\"base peak intensity maximum\",\"unit\":{\"unit_accession\":\"MS:1000043\",\"unit_name\":\"intensity unit\"},\"value\":1005573888.0}",
+                                    "{\"accession\":\"MS:4000203\",\"name\":\"base peak intensity maxima per time ranges\",\"value\":{\"MS:1000505\":[1005573888.0],\"NCIT:C25330\":[6300.0],\"UO:0000010\":[0.0]}}",
+                                    "{\"accession\":\"MS:4000204\",\"name\":\"total ion current maximum\",\"unit\":{\"unit_accession\":\"MS:1000043\",\"unit_name\":\"intensity unit\"},\"value\":2932509301.3203125}",
+                                    "{\"accession\":\"MS:4000205\",\"name\":\"total ion current maxima per time ranges\",\"value\":{\"MS:1000285\":[2932509301.3203125],\"NCIT:C25330\":[6300.0],\"UO:0000010\":[0.0]}}",
+                                    "{\"accession\":\"MS:4000206\",\"name\":\"precursor ppm deviation distribution\",\"unit\":{\"unit_accession\":\"UO:0000169\",\"unit_name\":\"parts per million\"},\"value\":[-0.8813933500503945,0.6114257981493022,2.490299154030138]}",
+                                    "{\"accession\":\"MS:4000207\",\"name\":\"detected quantification data points charges fractions\",\"value\":{\"MS:1000041\":[1,2,3,4,5,6],\"UO:0000191\":[0.0,0.5962295049228127,0.3575379945279891,0.03976194755656741,0.006470552992630759,0.0]}}",
+                                    "{\"accession\":\"MS:4000208\",\"name\":\"identified quantification data points charges fractions\",\"value\":{\"MS:1000041\":[1,2,3,4,5,6],\"UO:0000191\":[0.0,0.6394595940729673,0.3427966629311418,0.017370190511766904,0.00037355248412401944,0.0]}}",
+                                    "{\"accession\":\"MS:4000209\",\"name\":\"peptide spectrum matches charges fractions\",\"value\":{\"MS:1000041\":[1,2,3,4,5,6],\"UO:0000191\":[0.0,0.6425406768008556,0.3398136124054694,0.016920021388740356,0.000725689404934688,0.0]}}",
+                                    "{\"accession\":\"MS:4000210\",\"name\":\"vacuum pump pressure\",\"value\":{\"MS:1000894\":\"md5:badbccfcc7f650f660876c4f5c9c4e35 (n=601201)\",\"UO:0000109\":\"md5:84f31add54b4bac7c2c9f74db1c52fd5 (n=601201)\"}}",
+                                    "{\"accession\":\"MS:4000211\",\"name\":\"MS1 total ion current\",\"value\":{\"MS:1000285\":\"md5:a318a831c584969d772372d50694d517 (n=3666)\",\"UO:0000010\":\"md5:18eee180184b8b5b718ddb415c19461a (n=3666)\"}}",
+                                    "{\"accession\":\"MS:4000212\",\"name\":\"MS2 total ion current\",\"value\":{\"MS:1000285\":\"md5:fa52555f6aadee5d09b71d24a901504f (n=70681)\",\"UO:0000010\":\"md5:21ec64657314fc0d2f61d731ee661bae (n=70681)\"}}",
+                                    "{\"accession\":\"MS:4000213\",\"name\":\"characteristics of spike in and reference peptide\",\"value\":{\"MS:1000894\":[-1.0,-1.0,4833.345373247146,1638.295430276871,2232.5194302539826,2596.4725802879334,3374.838817213059,3874.2881871204377,4068.4364012222286],\"MS:1000897\":[5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0],\"MS:1001843\":[0.0,0.0,96530432.0,7079939.0,6050764.0,10538631.0,8463717.0,5074395.0,6916547.5],\"MS:1003169\":[\"X[+457.2834]\",\"X[+895.9493]\",\"X[+966.088]\",\"GEPAAAAAPEAGASPVEK[+8.014199]/2\",\"NLVVGDETTSSLR[+10.008269]/2\",\"LQPGDIGIYR[+10.008269]/2\",\"VVVLPSGALQISR[+10.008269]/2\",\"YPGAYYIFQIK[+8.014199]/2\",\"NIPTVNENLENYYLEVNQLEK[+8.014199]/3\"],\"MS:1003251\":[0,0,0,1,1,1,1,0,0]}}",
+                                    "{\"accession\":\"MS:4000214\",\"name\":\"number of all identified accessions in all ambiguity groups\",\"unit\":{\"unit_accession\":\"UO:0000189\",\"unit_name\":\"count unit\"},\"value\":4602}",
+                                    "{\"accession\":\"MS:4000215\",\"name\":\"missed cleavages fractions\",\"value\":{\"MS:1003044\":[0,1,2,3,4],\"UO:0000191\":[0.9186463982889008,0.07696127110228401,0.004392330608815217,0.0,0.0]}}"
+                                ]
+                            }
+                        ],
+                        "version": "1.0.0"
+                    }
+                ]
+            ],
+            {
+                "versions_macproqc_helpers": [
+                    [
+                        "HDF5TOMZQC",
+                        "macproqc_helpers",
+                        "0.0.1 (commit 604eac1491d98bfaf916bad3758a97968200058b)"
+                    ],
+                    [
+                        "HDF5TOMZQC",
+                        "macproqc_helpers",
+                        "0.0.1 (commit 604eac1491d98bfaf916bad3758a97968200058b)"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-10-06T11:03:57.800311044",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "small hdf5-to-mzqc test - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "sample1"
+                        },
+                        "sample1.mzqc:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ],
+                    [
+                        {
+                            "id": "sample2"
+                        },
+                        "sample2.mzqc:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        "HDF5TOMZQC",
+                        "macproqc_helpers",
+                        "0.0.1 (commit 604eac1491d98bfaf916bad3758a97968200058b)"
+                    ],
+                    [
+                        "HDF5TOMZQC",
+                        "macproqc_helpers",
+                        "0.0.1 (commit 604eac1491d98bfaf916bad3758a97968200058b)"
+                    ]
+                ],
+                "mzqc": [
+                    [
+                        {
+                            "id": "sample1"
+                        },
+                        "sample1.mzqc:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ],
+                    [
+                        {
+                            "id": "sample2"
+                        },
+                        "sample2.mzqc:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_macproqc_helpers": [
+                    [
+                        "HDF5TOMZQC",
+                        "macproqc_helpers",
+                        "0.0.1 (commit 604eac1491d98bfaf916bad3758a97968200058b)"
+                    ],
+                    [
+                        "HDF5TOMZQC",
+                        "macproqc_helpers",
+                        "0.0.1 (commit 604eac1491d98bfaf916bad3758a97968200058b)"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-10-06T10:48:59.125436973",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    }
+}

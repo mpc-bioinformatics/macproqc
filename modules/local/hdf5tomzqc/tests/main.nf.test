@@ -1,0 +1,109 @@
+nextflow_process {
+
+    name "Test Process HDF5TOMZQC"
+    script "../main.nf"
+    process "HDF5TOMZQC"
+
+    tag "modules"
+    tag "modules_"
+    tag "hdf5tomzqc"
+
+    test("small hdf5-to-mzqc test") {
+
+        when {
+            process {
+                """
+                input[0] = channel.of(
+                    [
+                        [ id:'sample1' ],
+                        file(params.macproqc_testdata_base_path + 'visualization/EXII01980std.hdf5', checkIfExists: true)
+                    ],
+                    [
+                        [ id:'sample2' ],
+                        file(params.macproqc_testdata_base_path + 'visualization/EXII01990std.hdf5', checkIfExists: true)
+                    ]
+                )
+                """
+            }
+        }
+
+        then {
+            // Canonicalise an mzQC JSON tree so element order does not matter:
+            // map keys are sorted and lists of objects (metrics, input files, CVs, ...) are sorted.
+            // Lists of scalars (metric values, table columns) keep their order, as rows must stay aligned;
+            // very long ones (e.g. MS1/2 TICs and vacuum pump pressure) are replaced by their md5.
+            def canonical
+            canonical = { obj ->
+                if (obj instanceof Map) {
+                    return new TreeMap(obj.collectEntries { k, v -> [k, canonical(v)] })
+                }
+                if (obj instanceof List) {
+                    def items = obj.collect { canonical(it) }
+                    if (items.any { it instanceof Map || it instanceof List }) {
+                        return items.sort(false) { groovy.json.JsonOutput.toJson(it) }
+                    }
+                    if (items.size() > 1000) {
+                        def md5 = java.security.MessageDigest.getInstance('MD5')
+                            .digest(groovy.json.JsonOutput.toJson(items).getBytes('UTF-8')).encodeHex().toString()
+                        return "md5:${md5} (n=${items.size()})".toString()
+                    }
+                    return items
+                }
+                return obj
+            }
+
+            // mzQC content without the creation timestamp, with one compact JSON line per quality metric
+            def mzqcContent = { mzqcPath ->
+                def mzqc = new groovy.json.JsonSlurper().parse(new File(mzqcPath.toString())).mzQC
+                mzqc.remove('creationDate')
+                def content = canonical(mzqc)
+                content.runQualities.each { rq ->
+                    rq.qualityMetrics = rq.qualityMetrics.collect { groovy.json.JsonOutput.toJson(it) }
+                }
+                content
+            }
+
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.mzqc
+                        .collect { meta, mzqc -> [ meta, mzqcContent(mzqc) ] }
+                        .sort(false) { it[0].id },
+                    process.out.findAll { key, val -> key.startsWith("versions") }
+                ).match() }
+            )
+        }
+
+    }
+
+    test("small hdf5-to-mzqc test - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = channel.of(
+                    [
+                        [ id:'sample1' ],
+                        file(params.macproqc_testdata_base_path + 'visualization/EXII01980std.hdf5', checkIfExists: true)
+                    ],
+                    [
+                        [ id:'sample2' ],
+                        file(params.macproqc_testdata_base_path + 'visualization/EXII01990std.hdf5', checkIfExists: true)
+                    ]
+                )
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assertAll(
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}
