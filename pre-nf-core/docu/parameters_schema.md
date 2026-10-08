@@ -53,7 +53,7 @@ Parameters used for the extraction of metrics
 | `ms_run_metrics__bruker_headers` | Set if you want to extract specific headers from Bruker measurements, otherwise the default is used. | `string` |  |  |  |
 | `ms_run_metrics__bruker_calibrants` | Set if you want to extract specific calibrants in Bruker raw measurements, otherwise the default is used (622.0290 m/z, 922.009798 m/z and 1221.990637 m/z with a 10 m/z and 0.1 1/k0 tolerance). Have a look into the corresponding python script for the headers. | `string` |  |  |  |
 | `ms_run_metrics__thermo_headers` | Set if you want to extract specific headers from Thermo measurements, otherwise the default is used. | `string` |  |  |  |
-| `base_peak_tic_up_to` | Retrieve the Basepeak Intensity Max and the Total Ion Current from minute 0 up to the given number in minutes. Defaults to 105 (minutes). | `integer` | 9999 |  |  |
+| `base_peak_tic_up_to` | Retrieve the Basepeak Intensity Max and the Total Ion Current from minute 0 up to the given number in minutes. Defaults to 105 (minutes). | `integer` | 105 |  |  |
 | `filter_threshold` | Threshold for the MS1 peaks, to be included in the output file. Defaults to 0.00001 (0.001%) of the highest overall MS1 peak. Values lower will be disregarded. | `number` | 1e-05 |  |  |
 | `report_up_to_charge` | Upper limit of range to be reported in a csv table for the charge, defaults to 5. | `integer` | 5 |  |  |
 | `max_parallel_xic_extractors_factor` | Factor for the number of maximum forks for the XIC extractor processes, calculated by dividing the number of available processors by this number. In fact, the number of required CPUs per task is set to the given value. | `integer` | 2 |  |  |
