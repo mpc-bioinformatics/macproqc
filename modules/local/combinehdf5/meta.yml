@@ -21,7 +21,6 @@ input:
           Groovy Map containing sample information. Besides `id`, the following optional keys
           configure the HDF5 combination (defaults in brackets, unset or empty keys use the default;
           they are set per sample in the samplesheet or by the pipeline parameter of the same name):
-          - `hdf5_put_under_subdataset` (false): put the data under a subdataset in the combined file
           - `hdf5_write_metadata` (false): write the `METADATA` node to the combined file
           e.g. `[ id:'sample1', hdf5_write_metadata:true ]`
     - hdf5_files:

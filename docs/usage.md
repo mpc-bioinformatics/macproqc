@@ -55,7 +55,6 @@ msrunthree,/path/to/data/CONTROL_REP3.mzML.gz,6,,
 | `thermo_extra_headers_to_parse`        | string  | Thermo     | Comma-separated Thermo extra (scan) headers to parse, added to the defaults.                              |
 | `thermo_tune_headers_to_parse`         | string  | Thermo     | Comma-separated Thermo tune headers to parse, added to the defaults.                                      |
 | `thermo_log_headers_to_parse`          | string  | Thermo     | Comma-separated Thermo status log headers to parse, added to the defaults.                                |
-| `hdf5_put_under_subdataset`            | boolean | all        | Put the data under a subdataset in the combined HDF5 file (default false).                                |
 | `hdf5_write_metadata`                  | boolean | all        | Write the `METADATA` node to the combined HDF5 file (default false).                                      |
 
 > [!NOTE]

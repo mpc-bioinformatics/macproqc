@@ -14,7 +14,7 @@ def withMetricSettings(meta) {
         'bruker_headers_to_parse', 'bruker_frame_headers_to_parse', 'bruker_calibrants',
         'bruker_calibrants_mz_tolerance', 'bruker_calibrants_mobility_tolerance',
         'thermo_extra_headers_to_parse', 'thermo_tune_headers_to_parse', 'thermo_log_headers_to_parse',
-        'hdf5_put_under_subdataset', 'hdf5_write_metadata',
+        'hdf5_write_metadata',
     ]
     def settings = keys.collectEntries { key -> [ (key): meta[key] != null ? meta[key] : params[key] ] }.findAll { _key, value -> value != null }
     return meta + settings

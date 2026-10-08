@@ -92,12 +92,6 @@
                 "description": "Thermo status log headers to parse (Thermo runs only). Comma-separated; added to the macproqc_helpers defaults. Falls back to the pipeline parameter of the same name if empty.",
                 "meta": ["thermo_log_headers_to_parse"]
             },
-            "hdf5_put_under_subdataset": {
-                "type": "boolean",
-                "errorMessage": "'hdf5_put_under_subdataset' must be a valid boolean",
-                "description": "Put the data under a subdataset in the combined HDF5 file. Falls back to the pipeline parameter of the same name if empty.",
-                "meta": ["hdf5_put_under_subdataset"]
-            },
             "hdf5_write_metadata": {
                 "type": "boolean",
                 "errorMessage": "'hdf5_write_metadata' must be a valid boolean",
