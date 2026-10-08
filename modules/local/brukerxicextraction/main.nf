@@ -23,10 +23,18 @@ process BRUKERXICEXTRACTION {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
+    // alphatims.bruker.TimsTOF (used in macproqc_helpers) dispatches on the folder name's
+    // suffix, requiring it to end in ".d". the staged input folder may not (e.g.
+    // when staged under a pipeline sample ID), so alias it to a ".d"-suffixed name.
+    def orig_name = d_folder.name.toString()
+    def dotd_name = orig_name.endsWith('.d') ? orig_name : "${orig_name}.d"
+    def link_cmd = dotd_name == orig_name ? '' : "ln -s ${d_folder} ${dotd_name}"
+
     """
+    ${link_cmd}
     python -m macproqc_helpers extract-xic-bruker \\
         ${args} \\
-        -d_folder ${d_folder} \\
+        -d_folder ${dotd_name} \\
         -in_json ${xic_config} \\
         -out_json ${prefix}.json
     """
