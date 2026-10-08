@@ -26,7 +26,7 @@
         "ms_run_metrics__bruker_raw_mem": "1.GB",
         "ms_run_metrics__thermo_raw_mem": "10.GB",
         "ms_run_metrics__mzml_mem": "10.GB",
-        "base_peak_tic_up_to": 105,
+        "base_peak_tic_up_to": 9999,
         "filter_threshold": 1e-5,
         "report_up_to_charge": 5,
         "max_parallel_xic_extractors_factor": 2,

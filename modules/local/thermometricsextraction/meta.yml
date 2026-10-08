@@ -1,0 +1,77 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "thermometricsextraction"
+description: Extract specific metrics from Thermofisher RAW files
+keywords:
+  - thermofisher
+  - proteomics
+  - mass_spectrometry
+  - raw
+  - metrics_extraction
+tools:
+  - "thermometricsextraction":
+      description: "Thermometricsextraction from the helper tools for the McQuaC pipeline, including metric collection from Thermofisher RAW files."
+      homepage: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      documentation: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      tool_dev_url: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      doi: ""
+      licence: null
+      identifier: null
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information. Besides `id`, the following optional keys
+          configure the Thermo metrics extraction (defaults in brackets, unset or empty keys use the default;
+          they are set per sample in the samplesheet or by the pipeline parameter of the same name):
+          - `thermo_extra_headers_to_parse` (macproqc_helpers defaults): list or comma-separated string of extra (scan) headers to parse, added to the defaults
+          - `thermo_tune_headers_to_parse` (macproqc_helpers defaults): list or comma-separated string of tune headers to parse, added to the defaults
+          - `thermo_log_headers_to_parse` (macproqc_helpers defaults): list or comma-separated string of status log headers to parse, added to the defaults
+          e.g. `[ id:'sample1', thermo_tune_headers_to_parse:'Some Tune Header' ]`
+    - raw_thermo_file:
+        type: file
+        description: Thermofisher RAW file
+        pattern: "*.{raw,RAW}"
+        ontologies:
+          - edam: "http://edamontology.org/format_3712" # Thermo RAW
+
+output:
+  hdf5:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.hdf5":
+          type: file
+          description: HDF5 file containing extracted metrics from Thermofisher RAW file
+          pattern: "*.hdf5"
+          ontologies:
+            - edam: "http://edamontology.org/format_3590" # HDF5
+  versions_macproqc_helpers:
+    - - "${task.process}":
+          type: string
+          description: The name of the process
+      - "macproqc_helpers":
+          type: string
+          description: The name of the tool
+      - eval('macproqc-helpers --version | sed "s;^macproqc-helpers ;;"'):
+          type: eval
+          description: The expression to obtain the version of the tool
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - macproqc_helpers:
+          type: string
+          description: The name of the tool
+      - eval('macproqc-helpers --version | sed "s;^macproqc-helpers ;;"'):
+          type: eval
+          description: The expression to obtain the version of the tool
+
+authors:
+  - "@Luxxii"
+maintainers:
+  - "@Luxxii"

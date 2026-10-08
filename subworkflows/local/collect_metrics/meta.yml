@@ -1,0 +1,80 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "collect_metrics"
+description: |
+  Collects QC metrics from a run's mzML file and its vendor raw file(s), and stores them
+  in HDF5 format. Runs mzML-based metrics (MS1/MS2 counts, TIC, RT, precursor charge, ...)
+  and vendor-specific instrument header metrics (Thermo via ThermoRawFileParser/fisher_py,
+  Bruker via alphatims) for every run. Optionally also extracts spike-in/reference peptide
+  metrics: refines the retention time window for each spike-in using the PSM identification
+  results, generates an XIC extraction configuration, extracts the XICs from the vendor raw
+  files, and collects the highest observed peak, its retention time and the number of
+  matching identifications per spike-in. All per-metric HDF5 files produced for a run are
+  finally merged into one combined HDF5 file per run.
+  Optional extraction settings are read from the pipeline params (`base_peak_tic_up_to`,
+  `bruker_*`, `thermo_*`, `hdf5_*`); unset params keep the macproqc_helpers defaults.
+keywords:
+  - proteomics
+  - mass spectrometry
+  - quality control
+  - spike-ins
+  - internal standards
+  - XIC
+  - HDF5
+components:
+  - mzmlmetricsextraction
+  - thermometricsextraction
+  - brukermetricsextraction
+  - xicextractionconfig
+  - thermoxicextraction
+  - brukerxicextraction
+  - spikeinmetricsextraction
+  - combinehdf5
+input:
+  - ch_mzml:
+      type: channel
+      description: |
+        Channel of mzML files to extract mzML-based metrics from.
+        Structure: [ val(meta), path(mzml) ]
+      pattern: "*.mzML"
+  - ch_raw:
+      type: channel
+      description: |
+        Channel of vendor raw files/folders to extract instrument header metrics (and,
+        when `collect_spike_ins` is true, spike-in XICs) from. `meta.vendor` must be set
+        to either 'thermo' or 'bruker' (e.g. as produced by PREPARE_SPECTRA); runs without
+        a matching vendor (e.g. 'mzml'-only input) are dropped. `meta.id` must match the
+        corresponding entry in ch_mzml (and, when enabled, ch_psm_mztab).
+        Structure: [ val(meta), path(raw) ]
+      pattern: "*.{raw,RAW,d}"
+  - ch_psm_mztab:
+      type: channel
+      description: |
+        Channel of PSM mzTab files (e.g. from PIA), used to refine the spike-in retention
+        time windows and to record which spike-ins were identified. Only consumed when
+        `collect_spike_ins` is true.
+        Structure: [ val(meta), path(psm_mztab_file) ]
+      pattern: "*.mzTab"
+  - spike_ins_table:
+      type: value
+      description: |
+        Path to the spike-ins/reference peptides table (csv), with columns `name`,
+        `sequence` (proforma), `mz` and `RT`. Only consumed when `collect_spike_ins` is true.
+      pattern: "*.csv"
+  - collect_spike_ins:
+      type: value
+      description: true to also run the spike-in XIC metrics chain, false to only collect mzML/header metrics.
+output:
+  - hdf5:
+      type: channel
+      description: |
+        Channel of combined HDF5 files, one per run, containing every metric HDF5 collected
+        for that run (mzML metrics, Thermo/Bruker header metrics and, when enabled, spike-in
+        metrics), merged together.
+        Structure: [ val(meta), path(hdf5) ]
+      pattern: "*.hdf5"
+authors:
+  - "@Luxxii"
+  - "@di-hardt"
+maintainers:
+  - "@Luxxii"
+  - "@di-hardt"
