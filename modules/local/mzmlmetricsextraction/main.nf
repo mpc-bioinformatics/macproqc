@@ -19,7 +19,7 @@ process MZMLMETRICSEXTRACTION {
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}.mzml_metrics"
+    def prefix = task.ext.prefix ?: "${meta.id}"
     // the first two are required by the CLI, hence the fallbacks
     def metric_args = [
         "-report_up_to_charge ${meta.report_up_to_charge ?: 5}",
@@ -33,16 +33,16 @@ process MZMLMETRICSEXTRACTION {
         ${metric_args} \\
         ${args} \\
         -mzml ${mzml_file} \\
-        -out_hdf5 ${prefix}.hdf5
+        -out_hdf5 ${prefix}.mzml_metrics.hdf5
     """
 
     stub:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}.mzml_metrics"
+    def prefix = task.ext.prefix ?: "${meta.id}"
     """
     echo ${args}
 
-    touch ${prefix}.hdf5
+    touch ${prefix}.mzml_metrics.hdf5
 
     """
 }

@@ -21,7 +21,7 @@ process THERMOMETRICSEXTRACTION {
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}.thermo_metrics"
+    def prefix = task.ext.prefix ?: "${meta.id}"
     // list values may be given as a list or as a comma-separated string
     def metric_args = [
         meta.thermo_extra_headers_to_parse ? [ meta.thermo_extra_headers_to_parse ].flatten().collectMany { elem -> elem.toString().split(',') as List }*.trim().findAll { elem -> elem }.collect { elem -> "-extra_headers_to_parse '${elem}'" }.join(' ') : '',
@@ -33,15 +33,15 @@ process THERMOMETRICSEXTRACTION {
         ${metric_args} \\
         ${args} \\
         -raw ${raw_thermo_file} \\
-        -out_hdf5 ${prefix}.hdf5
+        -out_hdf5 ${prefix}.thermo_metrics.hdf5
     """
 
     stub:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}.thermo_metrics"
+    def prefix = task.ext.prefix ?: "${meta.id}"
     """
     echo ${args}
 
-    touch ${prefix}.hdf5
+    touch ${prefix}.thermo_metrics.hdf5
     """
 }

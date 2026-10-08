@@ -22,22 +22,22 @@ process SPIKEINMETRICSEXTRACTION {
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}.spikein_metrics"
+    def prefix = task.ext.prefix ?: "${meta.id}"
     """
     python -m macproqc_helpers collect-spikein-metrics \\
         ${args} \\
         -itrfp_json ${xic_json} \\
         -iidentifications ${identifications} \\
         -ispikeins ${spike_ins_table} \\
-        -ohdf5 ${prefix}.hdf5
+        -ohdf5 ${prefix}.spikein_metrics.hdf5
     """
 
     stub:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}.spikein_metrics"
+    def prefix = task.ext.prefix ?: "${meta.id}"
     """
     echo ${args}
 
-    touch ${prefix}.hdf5
+    touch ${prefix}.spikein_metrics.hdf5
     """
 }
