@@ -10,6 +10,8 @@ include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_macp
 include { PREPARE_SPECTRA } from '../subworkflows/local/prepare_spectra'
 include { IDENT_DDA } from '../subworkflows/local/ident_dda'
 
+include { COMBINEHDF5 } from '../modules/local/combinehdf5/main'
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -40,7 +42,7 @@ workflow MACPROQC {
     // enable "label search" if the user has specified any label modifications (see also modules.config)
     def search_label_modifications = label_modifications?.trim() ? true : false
 
-    // perform DDA identification
+    // perform DDA identification nad extract the respective metrics
     IDENT_DDA(
         fasta,
         skip_decoy_generation,
@@ -51,7 +53,10 @@ workflow MACPROQC {
         pia_prefilter_threshold
     )
 
-
+    // combine the  metrics from all analyses runs into one HDF5 file
+    COMBINEHDF5(
+        IDENT_DDA.out.idmetrics
+    )
 
     //
     // Collate and save software versions

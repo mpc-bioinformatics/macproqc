@@ -4,6 +4,7 @@ include { COMET } from '../../../modules/nf-core/comet/main'
 include { PIA_CONFIGURE } from '../../../modules/local/pia/configure/main'
 include { PIA_COMPILEXML; PIA_COMPILEXML as PIA_COMPILEXML_PREFILTERED } from '../../../modules/local/pia/compilexml/main'
 include { PIA_ANALYSIS; PIA_ANALYSIS as PIA_ANALYSIS_PREFILTER; PIA_ANALYSIS as PIA_ANALYSIS_LABELLED } from '../../../modules/local/pia/analysis/main'
+include { IDMETRICSEXTRACTION } from '../../../modules/local/idmetricsextraction/main'
 
 workflow IDENT_DDA {
     take:
@@ -185,9 +186,19 @@ workflow IDENT_DDA {
         ch_labelled_psms = PIA_ANALYSIS_LABELLED.out.psms
     }
 
+    // extract the identification metrics from the PIA results (unlabelled only, labelled will be used for XIC extraction in the respective module)
+    ch_idmetrics_extraction_in = PIA_ANALYSIS.out.psms
+        .join(PIA_ANALYSIS.out.peptides)
+        .join(PIA_ANALYSIS.out.proteins)
+
+    IDMETRICSEXTRACTION(
+        ch_idmetrics_extraction_in
+    )
+
     emit:
     mzid         = COMET.out.mzid
     pia_psms     = PIA_ANALYSIS.out.psms.mix(ch_labelled_psms)
     pia_peptides = PIA_ANALYSIS.out.peptides
     pia_proteins = PIA_ANALYSIS.out.proteins
+    idmetrics    = IDMETRICSEXTRACTION.out.hdf5
 }

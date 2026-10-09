@@ -1,0 +1,75 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "brukerxicextraction"
+description: Extract XICs for spike-in/reference peptides from Bruker .d-folders using macproqc-helpers (alphatims-based).
+keywords:
+  - proteomics
+  - xic
+  - spike-ins
+  - bruker
+  - alphatims
+  - mass spectrometry
+tools:
+  - "brukerxicextraction":
+      description: "Brukerxicextraction from the helper tools for the MacProQC pipeline, including alphatims-based XIC extraction from Bruker .d-folders."
+      homepage: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      documentation: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      tool_dev_url: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      doi: ""
+      licence: null
+      identifier: null
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - d_folder:
+        type: directory
+        description: Bruker .d-folder to extract XICs from
+        pattern: "*.d"
+        # EDAM term for Bruker dot d folder could be added
+        # https://github.com/edamontology/edamontology/issues/959
+    - xic_config:
+        type: file
+        description: XIC extraction configuration file (as produced by XICEXTRACTIONCONFIG)
+        pattern: "*.json"
+
+output:
+  xic:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.json":
+          type: file
+          description: The extracted XICs in JSON format
+          pattern: "*.json"
+  versions_macproqc_helpers:
+    - - "${task.process}":
+          type: string
+          description: The name of the process
+      - "macproqc_helpers":
+          type: string
+          description: The name of the tool
+      - eval('macproqc-helpers --version | sed "s;^macproqc-helpers ;;"'):
+          type: eval
+          description: The expression to obtain the version of the tool
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - macproqc_helpers:
+          type: string
+          description: The name of the tool
+      - eval('macproqc-helpers --version | sed "s;^macproqc-helpers ;;"'):
+          type: eval
+          description: The expression to obtain the version of the tool
+
+authors:
+  - "@di-hardt"
+maintainers:
+  - "@di-hardt"

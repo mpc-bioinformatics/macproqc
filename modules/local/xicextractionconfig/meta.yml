@@ -1,0 +1,73 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "xicextractionconfig"
+description: Creates a ThermoRawFileParser (also alphatims-compatible) XIC extraction configuration file, based on a PSM mzTab file and a spike-ins CSV.
+keywords:
+  - proteomics
+  - xic
+  - spike-ins
+  - thermorawfileparser
+tools:
+  - "xicextractionconfig":
+      description: "Xicextractionconfig from the helper tools for the McQuaC pipeline, including creation of XIC extraction configuration files."
+      homepage: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      documentation: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      tool_dev_url: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      doi: ""
+      licence: null
+      identifier: null
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - psm_mztab_file:
+        type: file
+        description: mzTab file containing peptide-spectrum matches (PSMs)
+        pattern: "*.{mzTab}"
+        ontologies:
+          - edam: "http://edamontology.org/format_3681" # mzTab
+  - - spike_ins:
+        type: file
+        description: CSV file containing spike-in information
+        pattern: "*.{csv}"
+        ontologies:
+          - edam: "http://edamontology.org/format_3752" # CSV
+
+output:
+  config:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.json":
+          type: file
+          description: XIC extraction configuration file for ThermoRawFileParser/alphatims
+          pattern: "*.json"
+      - "*.ident.csv":
+          type: file
+          description: CSV file listing the identifications matched to spike-ins
+          pattern: "*.ident.csv"
+  versions_xicextractionconfig:
+    - - "${task.process}":
+          type: string
+          description: The name of the process
+      - "macproqc-helpers":
+          type: string
+          description: The name of the tool
+      - "sha-914105c":
+          type: eval
+          description: The hardcoded value (fixed in docker)
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The version/tag of the container image
+
+authors:
+  - "@di-hardt"
+maintainers:
+  - "@di-hardt"

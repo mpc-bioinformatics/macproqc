@@ -1,0 +1,77 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "mzmlmetricsextraction"
+description: Extract QC metrics from mzML files using macproqc-helpers and store them in HDF5 format.
+keywords:
+  - mzML
+  - metrics
+  - mass spectrometry
+  - QC
+  - HDF5
+tools:
+  - "mzmlmetricsextraction":
+      description: "mzmlmetricsextraction from the helper tools for the MacProQC pipeline, including mzML metric extraction."
+      homepage: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      documentation: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      tool_dev_url: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      licence:
+        - BSD-3
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information. Besides `id`, the following optional keys
+          configure the mzML metrics extraction (defaults in brackets, unset or empty keys use the default;
+          they are set per sample in the samplesheet or by the pipeline parameter of the same name):
+          - `base_peak_tic_up_to` (9999): base peak intensity maximum and total ion current are retrieved from minute 0 up to this many minutes
+          - `report_up_to_charge` (5): upper limit of the reported precursor charge range
+          - `ms1_map_rt_bins` (1000): number of retention time grid cells of the MS1 ion map
+          - `ms1_map_mz_bins` (1000): number of m/z grid cells of the MS1 ion map
+          e.g. `[ id:'sample1', report_up_to_charge:6 ]`
+    - mzml_file:
+        type: file
+        description: mzML file to extract metrics from
+        pattern: "*.{mzML,mzml}"
+        ontologies:
+          - edam: "http://edamontology.org/format_3244" # mzML
+
+output:
+  hdf5:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.hdf5":
+          type: file
+          description: HDF5 file containing extracted mzML metrics
+          pattern: "*.hdf5"
+          ontologies:
+            - edam: "http://edamontology.org/format_3590" # HDF5
+  versions_macproqc_helpers:
+    - - "${task.process}":
+          type: string
+          description: The name of the process
+      - "macproqc_helpers":
+          type: string
+          description: The name of the tool
+      - eval('macproqc-helpers --version | sed "s;^macproqc-helpers ;;"'):
+          type: eval
+          description: The expression to obtain the version of the tool
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - macproqc_helpers:
+          type: string
+          description: The name of the tool
+      - eval('macproqc-helpers --version | sed "s;^macproqc-helpers ;;"'):
+          type: eval
+          description: The expression to obtain the version of the tool
+
+authors:
+  - "@Luxxii"
+maintainers:
+  - "@Luxxii"
