@@ -1,0 +1,89 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "idmetricsextraction"
+description: |
+  Extract the identification QC metrics of a single MS run from the PIA exports and store them in
+  an hdf5 file.
+  The PSMs must be exported as mzTab including the decoy column. Decoys are removed and a PSM-level
+  FDR of 0.01 is applied by the extraction itself.
+keywords:
+  - proteomics
+  - mass spectrometry
+  - quality control
+  - identification
+  - pia
+  - hdf5
+tools:
+  - "macproqc_helpers":
+      description: "Helper scripts for the macproqc pipeline, used here to collect the identification metrics from the PIA exports."
+      homepage: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      documentation: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      tool_dev_url: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      doi: ""
+      licence: ["BSD-3-Clause"]
+      identifier: null
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - psms:
+        type: file
+        description: PSM export of PIA in mzTab format (must contain the decoy column)
+        pattern: "*.mzTab"
+        ontologies:
+          - edam: "http://edamontology.org/format_3681" # mzTab
+    - peptides:
+        type: file
+        description: Peptide export of PIA in CSV format
+        pattern: "*.csv"
+        ontologies:
+          - edam: "http://edamontology.org/format_3752" # CSV
+    - proteins:
+        type: file
+        description: Protein export of PIA in mzTab format
+        pattern: "*.mzTab"
+        ontologies:
+          - edam: "http://edamontology.org/format_3681" # mzTab
+
+output:
+  hdf5:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "${prefix}.idmetrics.hdf5":
+          type: file
+          description: Hdf5 file containing the identification QC metrics of the run
+          pattern: "*.idmetrics.hdf5"
+          ontologies:
+            - edam: "http://edamontology.org/format_3590" # HDF5
+  versions_macproqc_helpers:
+    - - "${task.process}":
+          type: string
+          description: The name of the process
+      - "macproqc_helpers":
+          type: string
+          description: The name of the tool
+      - "macproqc-helpers --version":
+          type: eval
+          description: The expression to obtain the version of the tool (including the commit hash)
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - macproqc_helpers:
+          type: string
+          description: The name of the tool
+      - macproqc-helpers --version:
+          type: eval
+          description: The expression to obtain the version of the tool (including the commit hash)
+
+authors:
+  - "@julianu"
+maintainers:
+  - "@julianu"

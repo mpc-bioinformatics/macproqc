@@ -1,0 +1,161 @@
+nextflow_process {
+
+    name "Test Process IDMETRICSEXTRACTION via mzQC export"
+    script "../../hdf5tomzqc/main.nf"
+    process "HDF5TOMZQC"
+
+    tag "modules"
+    tag "modules_"
+    tag "comet"
+    tag "openms/decoydatabase"
+    tag "pia"
+    tag "pia/configure"
+    tag "pia/compilexml"
+    tag "pia/analysis"
+    tag "idmetricsextraction"
+    tag "hdf5tomzqc"
+
+    setup {
+        run("OPENMS_DECOYDATABASE") {
+            script "../../../nf-core/openms/decoydatabase/main.nf"
+            process {
+                """
+                input[0] = channel.of([
+                    [ id:'test_db' ],
+                    file(params.modules_testdata_base_path + 'proteomics/database/yeast_UPS.fasta', checkIfExists: true),
+                ])
+                """
+            }
+        }
+
+        run("COMET") {
+            script "../../../nf-core/comet/main.nf"
+
+            process {
+                """
+                def originalParams = file(params.modules_testdata_base_path + 'proteomics/parameter/OVEMB150205.comet.params', checkIfExists: true)
+                def modifiedParams = new File('./modified.comet.params')
+                modifiedParams.text = originalParams.text
+                    .replaceAll('(?m)^output_percolatorfile =.*', 'output_percolatorfile = 0')
+                    .replaceAll('(?m)^output_txtfile =.*', 'output_txtfile = 0')
+                    .replaceAll('(?m)^output_mzidentmlfile =.*', 'output_mzidentmlfile = 1')
+
+                input[0] = OPENMS_DECOYDATABASE.out.decoy_fasta.map { meta, fasta ->
+                    [
+                        [ id:'test'],
+                        file(params.modules_testdata_base_path + 'proteomics/msspectra/OVEMB150205_12.mzML', checkIfExists: true),
+                        fasta,
+                        file(modifiedParams),
+                    ]
+                }
+                """
+            }
+        }
+
+        run("PIA_COMPILEXML") {
+            script "../../pia/compilexml/main.nf"
+            process {
+                """
+                input[0] = COMET.out.mzid
+                """
+            }
+        }
+
+        run("PIA_CONFIGURE") {
+            script "../../pia/configure/main.nf"
+            process {
+                """
+                input[0] = channel.of(
+                    [
+                        id: 'all-mztab',
+                        psm_export: true,
+                        peptide_export: true,
+                        protein_export: true,
+                        fdr_filter: true,
+                        remove_decoys: true,
+                        fdr_threshold: 0.01,
+                        psm_export_format: 'mzTab'
+                    ]
+                )
+                """
+            }
+        }
+
+        run("PIA_ANALYSIS") {
+            script "../../pia/analysis/main.nf"
+            process {
+                """
+                input[0] = PIA_COMPILEXML.out.pia_xml.combine(
+                    PIA_CONFIGURE.out.pia_json.map { _meta, json -> json }
+                )
+                """
+            }
+        }
+
+        run("IDMETRICSEXTRACTION") {
+            script "../main.nf"
+            process {
+                """
+                input[0] = PIA_ANALYSIS.out.psms
+                    .join(PIA_ANALYSIS.out.peptides)
+                    .join(PIA_ANALYSIS.out.proteins)
+                """
+            }
+        }
+    }
+
+    test("idmetricsextraction - metrics in mzQC") {
+
+        when {
+            process {
+                """
+                input[0] = IDMETRICSEXTRACTION.out.hdf5
+                """
+            }
+        }
+
+        then {
+            def idMetricAccessions = [
+                'MS:1003250',   // count of identified peptidoforms
+                'MS:1003251',   // count of identified spectra
+                'MS:1003327',   // number of identified protein groups
+                'MS:4000178',   // precursor ppm deviation mean
+                'MS:4000179',   // precursor ppm deviation sigma
+                'MS:4000206',   // precursor ppm deviation distribution
+                'MS:4000209',   // peptide spectrum matches charges fractions
+                'MS:4000214',   // number of all identified accessions in all ambiguity groups
+                'MS:4000215',   // missed cleavages fractions
+            ]
+
+            // floating point values differ in the last digits between runs, so round them to 8 digits
+            def roundMetricValue
+            roundMetricValue = { v ->
+                if (v instanceof Map) return v.collectEntries { k, x -> [ k, roundMetricValue(x) ] }
+                if (v instanceof List) return v.collect { roundMetricValue(it) }
+                if (v instanceof BigDecimal || v instanceof Double) return v.toBigDecimal().setScale(8, java.math.RoundingMode.HALF_UP)
+                return v
+            }
+
+            def idMetrics = [:]
+            if (process.success) {
+                def mzqc = new groovy.json.JsonSlurper().parse(new File(process.out.mzqc[0][1].toString())).mzQC
+                idMetrics = new TreeMap(
+                    mzqc.runQualities[0].qualityMetrics
+                        .findAll { it.accession in idMetricAccessions }
+                        .collectEntries { [ it.accession, roundMetricValue(it.value) ] }
+                )
+            }
+
+            assertAll(
+                { assert process.success },
+                { assert idMetrics.keySet() == idMetricAccessions.toSet() },
+                { assert snapshot(
+                    idMetrics,
+                    process.out.findAll { key, val -> key.startsWith("versions") }
+                ).match() }
+            )
+        }
+
+    }
+
+}
