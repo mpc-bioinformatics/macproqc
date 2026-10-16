@@ -21,6 +21,7 @@ keywords:
   - XIC
   - HDF5
 components:
+  - idmetricsextraction
   - mzmlmetricsextraction
   - thermometricsextraction
   - brukermetricsextraction
@@ -40,7 +41,7 @@ input:
       type: channel
       description: |
         Channel of vendor raw files/folders to extract instrument header metrics (and,
-        when `collect_spike_ins` is true, spike-in XICs) from. `meta.vendor` must be set
+        when `spike_ins_table` is given, spike-in XICs) from. `meta.vendor` must be set
         to either 'thermo' or 'bruker' (e.g. as produced by PREPARE_SPECTRA); runs without
         a matching vendor (e.g. 'mzml'-only input) are dropped. `meta.id` must match the
         corresponding entry in ch_mzml (and, when enabled, ch_psm_mztab).
@@ -51,18 +52,16 @@ input:
       description: |
         Channel of PSM mzTab files (e.g. from PIA), used to refine the spike-in retention
         time windows and to record which spike-ins were identified. Only consumed when
-        `collect_spike_ins` is true.
+        `spike_ins_table` is given.
         Structure: [ val(meta), path(psm_mztab_file) ]
       pattern: "*.mzTab"
   - spike_ins_table:
       type: value
       description: |
         Path to the spike-ins/reference peptides table (csv), with columns `name`,
-        `sequence` (proforma), `mz` and `RT`. Only consumed when `collect_spike_ins` is true.
+        `sequence` (proforma), `mz` and `RT`. If given, the spike-in XIC metrics chain is run;
+        if null, only the mzML/header metrics are collected.
       pattern: "*.csv"
-  - collect_spike_ins:
-      type: value
-      description: true to also run the spike-in XIC metrics chain, false to only collect mzML/header metrics.
 output:
   - hdf5:
       type: channel

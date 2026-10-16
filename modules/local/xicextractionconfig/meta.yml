@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: "xicextractionconfig"
-description: Creates a ThermoRawFileParser (also alphatims-compatible) XIC extraction configuration file, based on a PSM mzTab file and a spike-ins CSV.
+description: Creates a ThermoRawFileParser (also alphatims-compatible) XIC extraction configuration file, based on a spike-ins CSV and optionally a PSM mzTab file.
 keywords:
   - proteomics
   - xic
@@ -24,7 +24,10 @@ input:
           e.g. `[ id:'sample1' ]`
     - psm_mztab_file:
         type: file
-        description: mzTab file containing peptide-spectrum matches (PSMs)
+        description: |
+          mzTab file containing peptide-spectrum matches (PSMs), used to refine the retention time windows
+          and to record which spike-ins were identified. Optional: pass [] to use only the retention time
+          windows of the spike-ins table (no spike-in is then marked as identified).
         pattern: "*.{mzTab}"
         ontologies:
           - edam: "http://edamontology.org/format_3681" # mzTab
@@ -44,11 +47,11 @@ output:
             e.g. `[ id:'sample1' ]`
       - "*.json":
           type: file
-          description: XIC extraction configuration file for ThermoRawFileParser/alphatims
+          description: XIC extraction configuration file for ThermoRawFileParser/alphatims (named after meta.id)
           pattern: "*.json"
       - "*.ident.csv":
           type: file
-          description: CSV file listing the identifications matched to spike-ins
+          description: CSV file listing the identifications matched to spike-ins (header only, if no PSM file is given)
           pattern: "*.ident.csv"
   versions_xicextractionconfig:
     - - "${task.process}":

@@ -183,11 +183,18 @@ workflow IDENT_DDA {
         )
 
         ch_labelled_psms = PIA_ANALYSIS_LABELLED.out.psms
+            .map { meta, psms -> [ meta + [pia_status: meta.id]+ [id: meta.mzml_id] , psms ] }
     }
 
+    // revert the meta.id of the PIA results to the original mzml.id
+    ch_pia_psms = PIA_ANALYSIS.out.psms.map { meta, psms -> [ meta + [pia_status: meta.id] + [id: meta.mzml_id] , psms ] }
+    ch_pia_peptides = PIA_ANALYSIS.out.peptides.map { meta, peptides -> [ meta + [pia_status: meta.id] + [id: meta.mzml_id] , peptides ] }
+    ch_pia_proteins = PIA_ANALYSIS.out.proteins.map { meta, proteins -> [ meta + [pia_status: meta.id] + [id: meta.mzml_id] , proteins ] }
+
     emit:
-    mzid         = COMET.out.mzid
-    pia_psms     = PIA_ANALYSIS.out.psms.mix(ch_labelled_psms)
-    pia_peptides = PIA_ANALYSIS.out.peptides
-    pia_proteins = PIA_ANALYSIS.out.proteins
+    mzid              = COMET.out.mzid
+    pia_psms          = ch_pia_psms
+    pia_peptides      = ch_pia_peptides
+    pia_proteins      = ch_pia_proteins
+    pia_labelled_psms = ch_labelled_psms
 }

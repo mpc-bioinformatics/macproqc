@@ -23,6 +23,11 @@
                     "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://mpc-bioinformatics.github.io/macproqc/usage/#samplesheet-input).",
                     "fa_icon": "fas fa-file-csv"
                 },
+                "spike_ins_table": {
+                    "type": "string",
+                    "default": null,
+                    "description": "Spike-ins reference table as a csv file. Please refer to the [usage docs](https://mpc-bioinformatics.github.io/macproqc/usage) for details on the required format and columns."
+                },
                 "outdir": {
                     "type": "string",
                     "format": "directory-path",
@@ -190,73 +195,17 @@
             "fa_icon": "fas fa-chart-bar",
             "description": "Parameters for the visualization of the QC results.",
             "properties": {
+                "output_table_type": {
+                    "type": "string",
+                    "default": "tsv",
+                    "description": "Output format for the summary table",
+                    "enum": ["tsv", "csv", "xlsx"]
+                },
                 "figure_format": {
                     "type": "string",
                     "default": "plotly",
                     "description": "Output format for figures (plotly, html, or both as 'html,plotly')",
                     "enum": ["plotly", "html", "html,plotly"]
-                },
-                "output_table_type": {
-                    "type": "string",
-                    "default": "csv",
-                    "description": "Output format for the summary table",
-                    "enum": ["csv", "tsv", "xlsx"]
-                },
-                "spikeins": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Whether spike-ins were included in the analysis. If information on identified spike-in peptides is available (spikeins = true), they can be included in the summary table and the calculation of the principle component analysis (PCA)."
-                },
-                "rt_unit": {
-                    "type": "string",
-                    "default": "sec",
-                    "description": "Unit for retention time in plots ('min', 'sec').",
-                    "enum": ["sec", "min"]
-                },
-                "output_column_order": {
-                    "type": "string",
-                    "default": null,
-                    "description": "Order of columns for the output table, separated by commas, e.g. 'filename,startTime,nr_MS1,nr_MS2'."
-                },
-                "spikein_columns": {
-                    "type": "string",
-                    "default": "MS1 feature maximum intensity,retention time,count of identified spectra,Delta_to_expected_RT",
-                    "description": "Spike-in columns to include in the output table, separated by commas. Available columns: 'MS1 feature maximum intensity' (maximum XIC intensity observed for the spike-in peptide), 'retention time' (observed retention time at that maximum intensity), 'count of identified spectra' (number of identified spectra/PSMs matching the spike-in peptide), 'predicted retention time' (expected retention time from the spike-ins reference table), and 'Delta_to_expected_RT' (difference between observed and predicted retention time)."
-                },
-                "height_barplots": {
-                    "type": "integer",
-                    "default": 700,
-                    "description": "Height of the bar plots in pixels."
-                },
-                "width_barplots": {
-                    "type": "integer",
-                    "default": 0,
-                    "description": "Width of the bar plots in pixels. Default = 0 means automatic width."
-                },
-                "height_pca": {
-                    "type": "integer",
-                    "default": 1000,
-                    "description": "Height of the PCA plots in pixels."
-                },
-                "width_pca": {
-                    "type": "integer",
-                    "default": 1000,
-                    "description": "Width of the PCA plots in pixels."
-                },
-                "height_ionmaps": {
-                    "type": "number",
-                    "default": 10.0,
-                    "description": "Height of the ion maps plots in inches."
-                },
-                "width_ionmaps": {
-                    "type": "number",
-                    "default": 10.0,
-                    "description": "Width of the ion maps plots in inches."
-                },
-                "spike_ins_table": {
-                    "type": "string",
-                    "default": null,
-                    "description": "Spike-ins reference table as a csv file. Please refer to the [usage docs](https://mpc-bioinformatics.github.io/macproqc/usage) for details on the required format and columns."
                 }
             }
         },

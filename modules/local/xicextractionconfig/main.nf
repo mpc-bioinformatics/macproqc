@@ -1,15 +1,15 @@
 /*
  * Create a ThermoRawFileParser (also alphatims-compatible) XIC extraction config
- * from a PSM mzTab file and a spike-ins CSV
+ * from a spike-ins CSV and (optionally) a PSM mzTab file to refine the RT windows
  **/
 process XICEXTRACTIONCONFIG {
     tag "${meta.id}"
     label 'process_single'
 
-    container "ghcr.io/mpc-bioinformatics/macproqc-helpers:sha-a9c31aa"
+    container "ghcr.io/mpc-bioinformatics/macproqc-helpers:sha-74e33ed"
 
     input:
-    tuple val(meta), path(psm_mztab_file)
+    tuple val(meta), path(psm_mztab_file)   // psm_mztab_file: PSM mzTab, or [] to use only the RT windows of the spike-ins table
     path spike_ins
 
     output:
@@ -21,14 +21,16 @@ process XICEXTRACTIONCONFIG {
 
     script:
     def args = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    def idents_arg = psm_mztab_file ? "-iidents ${psm_mztab_file}" : ''
 
     """
     python -m macproqc_helpers create_thermorawfileparser_xic_config \\
         ${args} \\
         -icsv ${spike_ins} \\
-        -iidents ${psm_mztab_file} \\
-        -ojson ${psm_mztab_file}.json \\
-        -oidentifications ${psm_mztab_file}.ident.csv
+        ${idents_arg} \\
+        -ojson ${prefix}.json \\
+        -oidentifications ${prefix}.ident.csv
     """
 
     stub:

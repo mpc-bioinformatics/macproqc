@@ -8,7 +8,7 @@ process BRUKERXICEXTRACTION {
 
     stageInMode 'copy'  // needed due to alphatims
 
-    container "ghcr.io/mpc-bioinformatics/macproqc-helpers:sha-a9c31aa"
+    container "ghcr.io/mpc-bioinformatics/macproqc-helpers:sha-74e33ed"
 
     input:
     tuple val(meta), path(d_folder), path(xic_config)

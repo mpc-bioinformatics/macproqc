@@ -14,7 +14,7 @@
                     [
                         "IDMETRICSEXTRACTION",
                         "macproqc_helpers",
-                        "0.0.1 (commit 604eac1491d98bfaf916bad3758a97968200058b)"
+                        "0.0.1 (commit 74e33ed5c64f665b3434673f92f8bfdc26dfb535)"
                     ]
                 ],
                 "hdf5": [
@@ -29,33 +29,41 @@
                     [
                         "IDMETRICSEXTRACTION",
                         "macproqc_helpers",
-                        "0.0.1 (commit 604eac1491d98bfaf916bad3758a97968200058b)"
+                        "0.0.1 (commit 74e33ed5c64f665b3434673f92f8bfdc26dfb535)"
                     ]
                 ]
             }
         ],
-        "timestamp": "2026-10-07T15:46:26.291070457",
+        "timestamp": "2026-10-16T15:22:04.951754262",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.6"
+            "nextflow": "26.10.0"
         }
     },
     "idmetricsextraction - pia exports": {
         "content": [
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "test.idmetrics.hdf5:md5,88abc40538cd45980570844130ded44d"
+                ]
+            ],
             {
                 "versions_macproqc_helpers": [
                     [
                         "IDMETRICSEXTRACTION",
                         "macproqc_helpers",
-                        "0.0.1 (commit 604eac1491d98bfaf916bad3758a97968200058b)"
+                        "0.0.1 (commit 74e33ed5c64f665b3434673f92f8bfdc26dfb535)"
                     ]
                 ]
             }
         ],
-        "timestamp": "2026-10-07T15:46:08.628003104",
+        "timestamp": "2026-10-16T15:21:48.590200975",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.6"
+            "nextflow": "26.10.0"
         }
     }
 }
