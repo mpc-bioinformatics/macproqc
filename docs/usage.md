@@ -154,15 +154,17 @@ SPIKE1,GEPAAAAAPEAGASPVEK[+8.014199]/2,815.9118,-1,10,ppm,300
 SPIKE2,NLVVGDETTSSLR[+10.008269]/2,700.8664,1830,10,ppm,300
 ```
 
-| Column        | Description                                                                                                                                                     |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`        | Unique identifier for the spike-in peptide.                                                                                                                     |
-| `sequence`    | Proforma peptidoform sequence of the spike-in, including any modifications and the charge (e.g. `/2`).                                                          |
-| `mz`          | Expected mass-to-charge ratio (m/z) of the spike-in.                                                                                                            |
-| `RT`          | Expected retention time of the spike-in in seconds, or `-1` if it is not known.                                                                                 |
-| `mz-tol`      | Mass tolerance around `mz` used to extract the XIC (a number, e.g. `10`).                                                                                       |
-| `mz-tol-unit` | Unit of `mz-tol`: `ppm` (recommended). Thermo `.raw` files also support `amu` and `mmu`, while the XIC extraction from Bruker `.d` folders only supports `ppm`. |
-| `rt-tol`      | Retention time tolerance in seconds around the (expected or identified) retention time, used to extract the XIC.                                                |
+| Column        | Description                                                                                                                                                           |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`        | Unique identifier for the spike-in peptide.                                                                                                                           |
+| `sequence`    | ProForma peptidoform sequence of the spike-in, including any modifications and the charge (e.g. `/2`).                                                                |
+| `mz`          | Expected mass-to-charge ratio (m/z) of the spike-in.                                                                                                                  |
+| `RT`          | Expected retention time of the spike-in in seconds, or `-1` if it is not known.                                                                                       |
+| `mz-tol`      | Mass tolerance around `mz` used to extract the XIC (a number, e.g. `10`).                                                                                             |
+| `mz-tol-unit` | Unit of `mz-tol`: `ppm` (recommended). Thermo `.raw` files also support `amu`, `mmu` and `da`, while the XIC extraction from Bruker `.d` folders only supports `ppm`. |
+| `rt-tol`      | Retention time tolerance in seconds around the (expected or identified) retention time, used to extract the XIC.                                                      |
+
+The table is validated at the start of the pipeline (whenever it is used by the metrics extraction or the visualization): all columns are required, `name` must be unique, `mz` and `mz-tol` must be greater than 0, `RT` must be `-1` or a value of at least 0, `rt-tol` must be at least 0 and `mz-tol-unit` must be one of `ppm`, `amu`, `mmu` or `da`.
 
 The retention time window used to extract the XIC of each spike-in is determined as follows:
 

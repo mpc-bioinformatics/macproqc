@@ -67,7 +67,7 @@ input:
       type: value
       description: |
         Path to the spike-ins/reference peptides table (csv), with columns `name`,
-        `sequence` (proforma), `mz` and `RT`. If given, the spike-in XIC metrics chain is run;
+        `sequence` (ProForma), `mz` and `RT`. If given, the spike-in XIC metrics chain is run;
         if null, only the mzML/header metrics are collected.
       pattern: "*.csv"
 output:

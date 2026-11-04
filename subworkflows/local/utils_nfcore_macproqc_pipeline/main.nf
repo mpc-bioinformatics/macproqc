@@ -37,7 +37,8 @@ workflow PIPELINE_INITIALISATION {
     skip_identification     // boolean: Skip the identification during the metrics extraction
     skip_mzqc_export        // boolean: Skip the mzQC export
     skip_visualization      // boolean: Skip the visualization
-    help              // boolean: Display help message and exit
+    spike_ins_table   //  string: Path to the spike-ins table (only used, if the metrics extraction or visualization is performed)
+    help             // boolean: Display help message and exit
     help_full         // boolean: Show the full help message
     show_hidden       // boolean: Show hidden parameters in the help message
 
@@ -109,7 +110,14 @@ workflow PIPELINE_INITIALISATION {
     //
     // Check the combination of input parameters and pipeline steps
     //
-    validateInputParameters(input, input_hdf5_dir, fasta, skip_metrics_extraction, skip_identification, skip_mzqc_export, skip_visualization)
+    validateInputParameters(input, input_hdf5_dir, fasta, skip_metrics_extraction, skip_identification, skip_mzqc_export, skip_visualization, spike_ins_table)
+
+    //
+    // Validate the spike-ins table (only if it is used by the metrics extraction or visualization)
+    //
+    if (spike_ins_table && !(skip_metrics_extraction && skip_visualization)) {
+        samplesheetToList(spike_ins_table, "${projectDir}/assets/schema_spike_ins.json")
+    }
 
     //
     // Create channel from input file provided through params.input (for the metrics extraction)
@@ -198,7 +206,7 @@ workflow PIPELINE_COMPLETION {
 // Check the combination of input parameters and enabled pipeline steps
 // (--input and --input_hdf5_dir are mutually exclusive, depending on the metrics extraction)
 //
-def validateInputParameters(input, input_hdf5_dir, fasta, skip_metrics_extraction, skip_identification, skip_mzqc_export, skip_visualization) {
+def validateInputParameters(input, input_hdf5_dir, fasta, skip_metrics_extraction, skip_identification, skip_mzqc_export, skip_visualization, spike_ins_table) {
     if (skip_metrics_extraction && skip_mzqc_export && skip_visualization) {
         error("All pipeline steps are skipped (--skip_metrics_extraction, --skip_mzqc_export and --skip_visualization), nothing to do.")
     }
@@ -227,6 +235,10 @@ def validateInputParameters(input, input_hdf5_dir, fasta, skip_metrics_extractio
 
     if (fasta && (skip_metrics_extraction || skip_identification)) {
         log.warn("--fasta is ignored, as the identification is not performed.")
+    }
+
+    if (spike_ins_table && skip_metrics_extraction && skip_visualization) {
+        log.warn("--spike_ins_table is ignored, as neither the metrics extraction nor the visualization is performed.")
     }
 }
 

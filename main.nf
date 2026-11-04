@@ -81,6 +81,7 @@ workflow {
         params.skip_identification,
         params.skip_mzqc_export,
         params.skip_visualization,
+        params.spike_ins_table,
         params.help,
         params.help_full,
         params.show_hidden

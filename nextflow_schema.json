@@ -230,6 +230,11 @@
             "properties": {
                 "spike_ins_table": {
                     "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "schema": "assets/schema_spike_ins.json",
+                    "mimetype": "text/csv",
+                    "pattern": "^\\S+\\.csv$",
                     "description": "Spike-ins reference table as a csv file. Please refer to the [usage docs](https://mpc-bioinformatics.github.io/macproqc/usage) for details on the required format and columns.",
                     "help_text": "This parameter points to the table defining spike in peptides. If this is not provided, any spike in metrics will be deactivated.",
                     "fa_icon": "fas fa-syringe"
