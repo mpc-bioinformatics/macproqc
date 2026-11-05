@@ -187,6 +187,8 @@ The PSM results are processed with [PIA](https://github.com/medbioinf/pia) (PIA 
 
 When `--pia_prefilter_threshold` is greater than `0`, the unlabelled search's PSMs are first filtered on this looser threshold and recompiled, before the final analysis (at `--pia_fdr_threshold`) runs on the reduced PSM set - this speeds up inference on large searches.
 
+If a run has no (FDR-valid) identifications, e.g. because the search finds no PSM at all or no PSM passes the pre-filtering or the final FDR filtering, it is still reported, with 0 PSMs, peptides and protein groups.
+
 Labelled search results (produced when `--label_modifications` is set, mainly used for spike-in peptides) only ever receive a PSM-level export - protein and peptide inference is not meaningful for the labelled search channel, so both are skipped, and no pre-filtering is applied to labelled results either.
 
 ## Visualization

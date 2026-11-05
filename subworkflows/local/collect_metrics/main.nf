@@ -52,10 +52,11 @@ workflow COLLECT_METRICS {
         // all PSM mzTabs per run (labelled and unlabelled), sorted for a stable order
         ch_psm_mztabs_per_run = ch_labelled_psm_mztab
             .mix(ch_unlabelled_pia_results.map { meta, psms, _peptides, _proteins -> [ meta, psms ] })
+            .filter { _meta, psm_mztab -> psm_mztab }   // runs without PSMs, given as [], are dropped here and get [] from the join below
             .map { meta, psm_mztab -> [ meta.id, psm_mztab ] }
             .groupTuple(by: 0, sort: { a, b -> a.name <=> b.name })
 
-        // now join with the meta.id from raw, and make sure to have an input for all files (even if it is empty)
+        // now join with the meta.id from raw, and make sure to have an input for all files (even if it is empty an [])
         ch_xic_input_mztab = ch_raw
             .map { meta, _raw -> [ meta.id, meta ] }
             .join(ch_psm_mztabs_per_run, by: 0, remainder: true)

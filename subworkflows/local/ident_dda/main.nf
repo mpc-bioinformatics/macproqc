@@ -80,9 +80,15 @@ workflow IDENT_DDA {
     ///////////////////////////////////////////////////////
     // PIA analysis
 
+    // Comet writes an (empty) mzid without any SpectrumIdentificationResult, if no PSM was found at all (bad database, really bad MS, ...).
+    // Do not pass these to PIA, the runs are reported with 0 identifications later.
+    ch_mzid_with_results = COMET.out.mzid.filter { _meta, mzid ->
+        mzid.withReader { reader -> reader.lines().anyMatch { line -> line.contains('<SpectrumIdentificationResult') } }
+    }
+
     // first round of PIA compilation (pre-filtereing or branching off labelled is performed later)
     PIA_COMPILEXML(
-        COMET.out.mzid
+        ch_mzid_with_results
     )
 
     // Create PIA configuration files:
@@ -186,10 +192,23 @@ workflow IDENT_DDA {
             .map { meta, psms -> [ meta + [pia_status: meta.id]+ [id: meta.mzml_id] , psms ] }
     }
 
+    // every unlabelled run gets PIA results: runs without (FDR-valid) results get [] instead, which
+    // results in 0 identifications on all levels in the ID metrics.
+    // The meta is taken from the search results, so it is identical for PSMs, peptides and proteins.
+    ch_pia_runs = COMET.out.mzid
+        .filter { meta, _mzid -> meta.label_search == false }
+        .map { meta, _mzid -> [ meta.id, meta ] }
+
     // revert the meta.id of the PIA results to the original mzml.id
-    ch_pia_psms = PIA_ANALYSIS.out.psms.map { meta, psms -> [ meta + [pia_status: meta.id] + [id: meta.mzml_id] , psms ] }
-    ch_pia_peptides = PIA_ANALYSIS.out.peptides.map { meta, peptides -> [ meta + [pia_status: meta.id] + [id: meta.mzml_id] , peptides ] }
-    ch_pia_proteins = PIA_ANALYSIS.out.proteins.map { meta, proteins -> [ meta + [pia_status: meta.id] + [id: meta.mzml_id] , proteins ] }
+    ch_pia_psms = ch_pia_runs
+        .join(PIA_ANALYSIS.out.psms.map { meta, psms -> [ meta.id, psms ] }, by: 0, remainder: true)
+        .map { _id, meta, psms -> [ meta + [pia_status: meta.id] + [id: meta.mzml_id], psms ?: [] ] }
+    ch_pia_peptides = ch_pia_runs
+        .join(PIA_ANALYSIS.out.peptides.map { meta, peptides -> [ meta.id, peptides ] }, by: 0, remainder: true)
+        .map { _id, meta, peptides -> [ meta + [pia_status: meta.id] + [id: meta.mzml_id], peptides ?: [] ] }
+    ch_pia_proteins = ch_pia_runs
+        .join(PIA_ANALYSIS.out.proteins.map { meta, proteins -> [ meta.id, proteins ] }, by: 0, remainder: true)
+        .map { _id, meta, proteins -> [ meta + [pia_status: meta.id] + [id: meta.mzml_id], proteins ?: [] ] }
 
     emit:
     mzid              = COMET.out.mzid

@@ -52,6 +52,7 @@ input:
       description: |
         Channel of the (unlabelled) PIA identification results to extract the ID metrics from.
         May be empty (e.g. when the identification is skipped), then no ID metrics are collected.
+        Single files may be given as [] (no results for the run), which results in 0 identifications.
         Structure: [ val(meta), path(pia_psms), path(pia_peptides), path(pia_proteins) ]
       pattern: "*.{mzTab,csv}"
   - ch_labelled_psm_mztab:
