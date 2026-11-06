@@ -17,7 +17,7 @@
                 "type": "string",
                 "format": "path",
                 "exists": true,
-                "pattern": "^\\S+\\.(raw|RAW|mzML|mzml|d|)(.tar.(gz|bz2)|.zip|.gz)?$",
+                "pattern": "^\\S+\\.(raw|RAW|mzML|mzml|d)(\\.tar\\.(gz|bz2)|\\.zip|\\.gz)?$",
                 "errorMessage": "MS file name, cannot contain spaces and must have one of the extensions: raw | RAW | mzML | d (or compressed version)"
             }
         },
