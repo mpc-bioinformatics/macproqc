@@ -7,13 +7,15 @@ This document describes the output produced by the pipeline. All paths are relat
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes mass spectrometry data through the following steps:
 
 - [Spectra preparation](#spectra-preparation) - decompression and conversion to mzML
-- [Raw-data metrics](#raw-data-metrics) - spectrum-level QC metrics from mzML _(migrating)_
 - [Peptide identification](#peptide-identification) - decoy database generation and database search with Comet
-- [FDR filtering and protein inference](#fdr-filtering-and-protein-inference) - 1 % FDR filter and PIA protein groups
-- [Feature finding](#feature-finding) - isotope feature detection with IDMapper _(migrating)_
-- [mzQC output](#mzqc-output) - standardised QC metric export _(migrating)_
-- [Visualization](#visualization) — graphical visualizations of QC metrics using interactive plotly plots
+- [FDR filtering and protein inference](#fdr-filtering-and-protein-inference) - FDR filtering and PIA protein groups
+- [QC metrics](#qc-metrics) - all QC metrics of an MS run, collected into one HDF5 file
+- Feature finding - isotope feature detection and feature based QC metrics _(migrating, not yet part of the pipeline)_
+- [mzQC output](#mzqc-output) - standardised QC metric export
+- [Visualization](#visualization) - graphical visualizations of QC metrics using interactive plotly plots
 - [Pipeline information](#pipeline-information) - reports from Nextflow itself
+
+Depending on the skipped steps (see the [usage documentation](usage.md#running-only-parts-of-the-pipeline)), some of these outputs are not created. When the metrics extraction is skipped and the HDF5 files of an earlier run are given with `--input_hdf5_dir`, only the mzQC and/or visualization outputs are written.
 
 ---
 
@@ -25,15 +27,9 @@ Raw vendor files are decompressed (if necessary) and converted to the open mzML 
 <summary>Output files</summary>
 
 - `mzmls/`
-  - `*.mzML` - converted mzML files. These are intermediate files used by downstream steps and are not published by default
+  - `<sample>.mzML` - mzML files converted from Thermo `.raw` and Bruker `.d` input files (input files already given as mzML are not copied here)
 
 </details>
-
----
-
-## Raw-data metrics
-
-TODO
 
 ---
 
@@ -59,7 +55,7 @@ The decoy database file is an intermediate used downstream for FDR estimation. I
 
 Before the database search, the pipeline generates a Comet parameter file by taking a template (either the built-in default at `assets/default_configs/comet.params` or a user-supplied file via `--comet_config_template`) and overwriting the search settings (mass tolerances, fragment ion parameters, modifications, and output format flags) with the pipeline parameter values.
 
-The adjusted parameter file is an intermediate used by the Comet search step and is not written to the output directory.
+The adjusted parameter file is written next to the search results (see below), to document the settings of each search.
 
 ### Comet PSMs
 
@@ -75,7 +71,9 @@ When `--label_modifications` is set, two searches are run per spectrum file - on
 
 - `comet/`
   - `*-unlabelled.mzid` - PSM results from the unlabelled search
+  - `*-unlabelled.comet.params` - the adjusted Comet parameter file used for the unlabelled search
   - `*-labelled.mzid` - PSM results from the labelled search (only present when `--label_modifications` is set)
+  - `*-labelled.comet.params` - the adjusted Comet parameter file used for the labelled search (only present when `--label_modifications` is set)
 
 </details>
 
@@ -96,31 +94,79 @@ The PSM results are compiled into a [PIA](https://github.com/medbioinf/pia) (PIA
 
 </details>
 
-### Visualization
+---
 
-The main output of the visualization subworkflow are interactive plots (as JSON and/or HTML, depending on the settings). Also, a summary output table is generated as csv, tsv or xlsx.
+## QC metrics
 
-- 00_table_summary.[csv,tsv,xlsx]: summary table containing QC metrics per raw file. The column selection and order is defined by the 'output_column_order' parameter.
-- 99_hdf5_feature_table.csv: overview of QC metrics keys and names stored in the hdf5 output files.
-- fig01_barplot_MS1_MS2.[plotly.json, html]: Barplot of number of MS1 and MS2 spectra per raw file.
-- fig02_barplot_PSMs_peptides_proteins.[plotly.json, html]: Barplot of the number of PSMs, peptides, protein groups and accessions per raw file.
-- fig03_barplot_features.[plotly.json, html]: Barplot of the number of features and identified features per raw file.
-- fig04_MS1_TIC_overlay.[plotly.json, html]: Lineplot of MS1 Total Ion Chromatogram (TIC) vs retention time for each sample.
-- fig05_barplot_TIC_quartiles.[plotly.json, html]: TIC quartiles are the percentage of retention time that is needed to obtain the first, second, third or fourth 25% of the TIC. These quartiles are visualized as stacked barplots.
-- fig06_barplot_MS1_TIC_quartiles.[plotly.json, html]: Same as fig05, but only using MS1-level data.
-- fig07_barplot_MS2_TIC_quartiles.[plotly.json, html]: Same as fig05, but only using MS2-level data.
-- fig08_barplot_precursor_charge.[plotly.json, html]: Stacked barplot of precursor charge fractions (also includes unidentified precursors).
-- fig09_barplot_precursor_charge.[plotly.json, html]: Stacked barplot of PSM charge fractions (only identified precursors).
-- fig10_barplot_PSM_missedcleavages.[plotly.json, html]: Stacked barplot of missed cleavage fractions (only identified).
-- fig11a_PCA_raw.[plotly.json, html]: Principal component analysis plot (PCA-plot). The PCA is calculated on a set of QC metrics that are all directly obtainable from the raw data without a peptide identification step. The metrics are RT_range, nr_MS1, nr_MS2, accumulated_MS1_TIC, accumulated_MS2_TIC, base_peak_intensity_max, total_ion_current_max, MS2_prec_charge_fraction, RT_MS1_quantiles, RT_MS2_quantiles, RT_TIC_quantiles, MS1_freq_max, MS2_freq_max, MS1_density_quantiles, MS2_density_quantiles, MS1_TIC_change_quantiles, MS1_TIC_quantiles.
-- fig11b_Loadings_raw.[plotly.json, html]: Loadings plot belonging to the PCA in fig11a. The loadings show which Qc metrics have the highest weight in each direction and can help to interpret groups and outliers in the PCA.
-- fig12a_PCA_all.[plotly.json, html]: Principal component analysis plot (PCA-plot). The PCA is calculated on the set of QC metrics used for fig11a plus metrics obtained during peptide identification. The additional metrics are nr_PSMs, nr_peptides, nr_protein_groups, nr_accessions, PSM_charge_fractions, PSM_missed_cleavage_counts, nr_features, nr_ident_features, features_charges, ident_features_charge
-- fig12b_Loadings_all.[plotly.json, html]: Loadings plot belonging to the PCA in fig11a.
-- fig13_MS1_map: folder containing MS1 maps for each raw file
-- fig14_Pump_pressure.[plotly.json, html]: Lineplot of pump pressure vs. retention time for all samples.
-- fig15_PSM_error_boxplots.[plotly.json, html]: Boxplots of PSM error (in ppm) for all samples.
-- fig16_additional_headers: folder with lineplots over retention time for different metrics recorded by the machine (e.g. temperatures, lock mass correction)
-- fig17_BRUKER_calibrant: folder with lineplots over retention time for calibrants used by BRUKER machines
+For each MS run, the QC metrics are extracted by several steps and then combined into one HDF5 file. The metrics are annotated with their (PSI-MS) controlled vocabulary accessions, where available.
+
+- **mzML metrics** (from the mzML file, using pyOpenMS): numbers of MS1 and MS2 spectra, retention time range, MS1/MS2 total ion current (TIC) over time, TIC quartiles, spectra density quantiles, base peak and TIC maxima, precursor charge fractions, acquisition frequencies and the data for the MS1 maps.
+- **Instrument metrics** (from the vendor file): headers and logs recorded by the instrument, e.g. pump pressure, ion injection times, temperatures and lock mass corrections for Thermo `.raw` files, or frame headers and calibrants for Bruker `.d` folders. These are not available for runs given as mzML.
+- **Identification metrics** (from the unlabelled PIA results): numbers of PSMs, peptides, protein groups and accessions, PSM charge fractions, missed cleavage fractions and the precursor mass error (in ppm) of the PSMs. Not available with `--skip_identification`.
+- **Spike-in metrics** (only with `--spike_ins_table`, for Thermo and Bruker runs): for each spike-in/reference peptide of the table, the maximum intensity and retention time of its extracted ion chromatogram (XIC) and its number of identifications (from the labelled and unlabelled search, if available).
+
+The per-step HDF5 files are intermediates, only the combined file is written to the output directory.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `metrics/hdf5/`
+  - `<sample>.hdf5` - all QC metrics of the MS run. These files can be used as `--input_hdf5_dir` in a later run, e.g. to repeat the visualization with other settings.
+
+</details>
+
+---
+
+## mzQC output
+
+The QC metrics of each MS run are exported into the [mzQC](https://hupo-psi.github.io/mzQC/) format of the HUPO-PSI, a JSON-based standard format for quality control metrics. This step can be skipped with `--skip_mzqc_export`.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `metrics/mzqc/`
+  - `<sample>.mzqc` - the QC metrics of the MS run in mzQC format
+
+</details>
+
+---
+
+## Visualization
+
+The main output of the visualization are interactive plots over all MS runs (as plotly JSON and/or HTML, depending on `--figure_format`). Also, a summary table is generated (as csv, tsv or xlsx, depending on `--output_table_type`). This step can be skipped with `--skip_visualization`.
+
+Some plots are only created, if the respective metrics are available (e.g. instrument headers, Bruker calibrants or identification based metrics). The feature based metrics (number of features and identified features) are not yet migrated to this pipeline, so they are currently not available in the plots.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `qcvisualization/`
+  - `00_table_summary.[csv,tsv,xlsx]` - summary table containing the QC metrics per MS run.
+  - `99_hdf5_feature_table.[csv,tsv,xlsx]` - overview of the QC metric keys and names stored in the HDF5 files.
+  - `metric_registry.json` - registry of the QC metric types found in the HDF5 files, used to create the plots and tables.
+  - `fig01_barplot_MS1_MS2.[plotly.json,html]` - barplot of the number of MS1 and MS2 spectra per MS run.
+  - `fig02_barplot_PSMs_peptides_proteins.[plotly.json,html]` - barplot of the number of PSMs, peptides, protein groups and accessions per MS run.
+  - `fig03_barplot_features.[plotly.json,html]` - barplot of the number of features and identified features per MS run (feature metrics are not yet migrated).
+  - `fig04_MS1_TIC_overlay.[plotly.json,html]` - lineplot of the MS1 total ion chromatogram (TIC) over the retention time for each MS run.
+  - `fig05_barplot_TIC_quartiles.[plotly.json,html]` - TIC quartiles are the percentage of retention time that is needed to obtain the first, second, third or fourth 25% of the TIC. These quartiles are visualized as stacked barplots.
+  - `fig06_barplot_MS1_TIC_quartiles.[plotly.json,html]` - same as fig05, but only using MS1-level data.
+  - `fig07_barplot_MS2_TIC_quartiles.[plotly.json,html]` - same as fig05, but only using MS2-level data.
+  - `fig08_barplot_precursor_charge.[plotly.json,html]` - stacked barplot of the precursor charge fractions (also includes unidentified precursors).
+  - `fig09_barplot_PSM_charge.[plotly.json,html]` - stacked barplot of the PSM charge fractions (only identified precursors).
+  - `fig10_barplot_PSM_missedcleavages.[plotly.json,html]` - stacked barplot of the missed cleavage fractions (only identified).
+  - `fig11a_PCA_raw.[plotly.json,html]` - principal component analysis plot (PCA plot). The PCA is calculated on a set of QC metrics that are all directly obtainable from the raw data without a peptide identification step: RT_range, nr_MS1, nr_MS2, accumulated_MS1_TIC, accumulated_MS2_TIC, base_peak_intensity_max, total_ion_current_max, MS2_prec_charge_fraction, RT_MS1_quantiles, RT_MS2_quantiles, RT_TIC_quantiles, MS1_freq_max, MS2_freq_max, MS1_density_quantiles, MS2_density_quantiles, MS1_TIC_change_quantiles, MS1_TIC_quantiles.
+  - `fig11b_Loadings_raw.[plotly.json,html]` - loadings plot belonging to the PCA in fig11a. The loadings show which QC metrics have the highest weight in each direction and can help to interpret groups and outliers in the PCA.
+  - `fig11c_table_loadings_raw.[csv,tsv,xlsx]` - table of the loadings shown in fig11b.
+  - `fig12a_PCA_all.[plotly.json,html]` - PCA plot calculated on the QC metrics used for fig11a plus the metrics obtained during the peptide identification (nr_PSMs, nr_peptides, nr_protein_groups, nr_accessions, PSM_charge_fractions, PSM_missed_cleavage_counts and, once migrated, the feature metrics).
+  - `fig12b_Loadings_all.[plotly.json,html]` - loadings plot belonging to the PCA in fig12a.
+  - `fig12c_table_loadings_all.[csv,tsv,xlsx]` - table of the loadings shown in fig12b.
+  - `fig13_MS1_map/` - folder containing an MS1 map (PNG) for each MS run.
+  - `fig14_Pump_pressure.[plotly.json,html]` - lineplot of the pump pressure over the retention time for all MS runs (only if recorded by the instrument).
+  - `fig15_PSM_error_boxplots.[plotly.json,html]` - boxplots of the PSM precursor mass error (in ppm) for all MS runs.
+  - `fig16_additional_headers/` - folder with lineplots over the retention time for further metrics recorded by the instrument (e.g. temperatures, lock mass correction).
+  - `fig17_BRUKER_calibrants/` - folder with lineplots over the retention time for the calibrants of Bruker instruments (only for Bruker runs).
+
+</details>
 
 ---
 

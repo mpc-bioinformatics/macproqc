@@ -3,23 +3,13 @@ process QCVISUALIZATION {
     tag "$meta.id"
     label 'process_medium'
 
-    container 'ghcr.io/mpc-bioinformatics/macproqc-helpers:sha-604eac1'
+    container 'ghcr.io/mpc-bioinformatics/macproqc-helpers:sha-55b549b'
 
     input:
-    tuple val(meta), path(hdf5_files)
-    path spike_ins_table
-    val figure_format
-    val output_table_type
-    val spikeins
-    val rt_unit
-    val output_column_order
-    val spikein_columns
-    val height_barplots
-    val width_barplots
-    val height_pca
-    val width_pca
-    val height_ionmaps
-    val width_ionmaps
+    tuple val(meta), path(hdf5_files)   // tuple: meta information and list of hdf5 files containing the metrics to visualize
+    val output_table_type               // val: output table type for the QC visualization (tsv, csv, xlsx; default: tsv)
+    val figure_format                   // val: figure format for the QC visualization (plotly, html, or both as 'html,plotly'; default: plotly)
+    path spike_ins_table                // path: spike-ins reference table as a csv file, or [] if no spike-ins are used
 
     output:
     tuple val(meta), path("*.json"), emit: jsons, optional: true
@@ -36,36 +26,33 @@ process QCVISUALIZATION {
     script:
     def args = task.ext.args ?: ''   // free-form, optional extra CLI arguments
     def spike_ins_tab = spike_ins_table ? "-spike_ins_table ${spike_ins_table}" : ''
-    def spikeins_arg = spikeins ? '-spikeins' : ''
-    def output_column_order_arg = output_column_order ? "-output_column_order ${output_column_order}" : ''
     hdf5_files_list = hdf5_files.join(' ')
+    // additional arguments can be passed with the args variable:
+    // -group GROUP                                 List of the experimental group (comma-separated).
+    // -RT_unit RT_UNIT                             Unit of the retention time, either sec for seconds or min for minutes.
+    // -output_column_order OUTPUT_COLUMN_ORDER     Order of columns in the output table
+    // -spikein_columns SPIKEIN_COLUMNS             Columns of the spike-in dataframes that should end up in the result table
+    // -height_barplots HEIGHT_BARPLOTS             Height of the barplots in pixels
+    // -width_barplots WIDTH_BARPLOTS               Width of the barplots in pixels
+    // -height_pca HEIGHT_PCA                       Height of the PCA plots in pixels
+    // -width_pca WIDTH_PCA                         Width of the PCA plots in pixels
+    // -height_ionmaps HEIGHT_IONMAPS               Height of the ionmaps in inches
+    // -width_ionmaps WIDTH_IONMAPS                 Width of the ionmaps in inches
+    // -metric_registry_file METRIC_REGISTRY_FILE   Path to a JSON file storing the metric-type registry
     """
     python -m macproqc_helpers visualize \\
         -hdf5_files ${hdf5_files_list} \\
         -output "." \\
-        -figure_format ${figure_format} \\
         -output_table_type ${output_table_type} \\
-        ${spikeins_arg} \\
-        -RT_unit ${rt_unit} \\
-        ${output_column_order_arg} \\
-        -spikein_columns "${spikein_columns}" \\
-        -height_barplots ${height_barplots} \\
-        -width_barplots ${width_barplots} \\
-        -height_pca ${height_pca} \\
-        -width_pca ${width_pca} \\
-        -height_ionmaps ${height_ionmaps} \\
-        -width_ionmaps ${width_ionmaps} \\
+        -figure_format ${figure_format} \\
         ${spike_ins_tab} \\
-        $args
-
+        -log_file \\
+        ${args}
     """
 
 
     stub:
-    def args = task.ext.args ?: ''
     """
-    echo $args
-
     touch Figure1.json
     touch Outputtable.csv
     mkdir fig13_MS1_map

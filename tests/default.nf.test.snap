@@ -1,4 +1,39 @@
 {
+    "mzqc-filename-and-elementcount": {
+        "content": [
+            [
+                [
+                    "sample_one_raw.mzqc",
+                    1,
+                    32,
+                    {
+                        "MS:1003250": 117,
+                        "MS:1003251": 126,
+                        "MS:1003327": 41,
+                        "MS:4000059": 158,
+                        "MS:4000060": 1035
+                    }
+                ],
+                [
+                    "sample_two_d.mzqc",
+                    1,
+                    32,
+                    {
+                        "MS:1003250": 7,
+                        "MS:1003251": 60,
+                        "MS:1003327": 2,
+                        "MS:4000059": 2055,
+                        "MS:4000060": 4794
+                    }
+                ]
+            ]
+        ],
+        "timestamp": "2026-10-16T14:17:18.970704169",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.0"
+        }
+    },
     "mzid-filename-and-elementcount": {
         "content": [
             [
@@ -33,6 +68,15 @@
     "-profile test": {
         "content": [
             {
+                "BRUKERMETRICSEXTRACTION": {
+                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                },
+                "BRUKERXICEXTRACTION": {
+                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                },
+                "COMBINEHDF5": {
+                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                },
                 "COMET": {
                     "comet": "2026.01 rev. 1 (e4f767c)"
                 },
@@ -41,6 +85,15 @@
                 },
                 "COMETCONFIG_LABELLED": {
                     "python": "3.14.3"
+                },
+                "HDF5TOMZQC": {
+                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                },
+                "IDMETRICSEXTRACTION": {
+                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                },
+                "MZMLMETRICSEXTRACTION": {
+                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
                 },
                 "OPENMS_DECOYDATABASE": {
                     "openms": "3.5.0"
@@ -63,10 +116,22 @@
                 "PIA_CONFIGURE": {
                     "pia": "1.5.9"
                 },
+                "QCVISUALIZATION": {
+                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                },
+                "SPIKEINMETRICSEXTRACTION": {
+                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                },
                 "TDF2MZML": {
                     "tdf2mzml": "0.6.1"
                 },
+                "THERMOMETRICSEXTRACTION": {
+                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                },
                 "THERMORAWFILEPARSER": {
+                    "thermorawfileparser": "1.4.5"
+                },
+                "THERMOXICEXTRACTION": {
                     "thermorawfileparser": "1.4.5"
                 },
                 "UNTAR": {
@@ -74,6 +139,9 @@
                 },
                 "Workflow": {
                     "nf-core/macproqc": "v1.0.0dev"
+                },
+                "XICEXTRACTIONCONFIG": {
+                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
                 }
             },
             [
@@ -88,6 +156,13 @@
                 "comet/sample_two_d-unlabelled.mzid",
                 "decoy_database",
                 "decoy_database/yeast_UPS_decoy.fasta",
+                "metrics",
+                "metrics/hdf5",
+                "metrics/hdf5/sample_one_raw.hdf5",
+                "metrics/hdf5/sample_two_d.hdf5",
+                "metrics/mzqc",
+                "metrics/mzqc/sample_one_raw.mzqc",
+                "metrics/mzqc/sample_two_d.mzqc",
                 "mzmls",
                 "mzmls/sample_one_raw.mzML",
                 "mzmls/sample_two_d.mzML",
@@ -101,20 +176,98 @@
                 "pia/sample_two_d-unlabelled.piaExport-peptides.csv",
                 "pia/sample_two_d-unlabelled.piaExport-proteins.mzTab",
                 "pipeline_info",
-                "pipeline_info/nf_core_macproqc_software_versions.yml"
+                "pipeline_info/nf_core_macproqc_software_versions.yml",
+                "qcvisualization",
+                "qcvisualization/00_table_summary.tsv",
+                "qcvisualization/99_hdf5_feature_table.tsv",
+                "qcvisualization/fig01_barplot_MS1_MS2.plotly.json",
+                "qcvisualization/fig02_barplot_PSMs_peptides_proteins.plotly.json",
+                "qcvisualization/fig03_barplot_features.plotly.json",
+                "qcvisualization/fig04_MS1_TIC_overlay.plotly.json",
+                "qcvisualization/fig05_barplot_TIC_quartiles.plotly.json",
+                "qcvisualization/fig06_barplot_MS1_TIC_quartiles.plotly.json",
+                "qcvisualization/fig07_barplot_MS2_TIC_quartiles.plotly.json",
+                "qcvisualization/fig08_barplot_precursor_charge.plotly.json",
+                "qcvisualization/fig09_barplot_PSM_charge.plotly.json",
+                "qcvisualization/fig10_barplot_PSM_missedcleavages.plotly.json",
+                "qcvisualization/fig11a_PCA_raw.plotly.json",
+                "qcvisualization/fig11b_Loadings_raw.plotly.json",
+                "qcvisualization/fig11c_table_loadings_raw.tsv",
+                "qcvisualization/fig12a_PCA_all.plotly.json",
+                "qcvisualization/fig12b_Loadings_all.plotly.json",
+                "qcvisualization/fig12c_table_loadings_all.tsv",
+                "qcvisualization/fig13_MS1_map",
+                "qcvisualization/fig13_MS1_map/fig13_MS1_map_sample_one_raw.png",
+                "qcvisualization/fig13_MS1_map/fig13_MS1_map_sample_two_d.png",
+                "qcvisualization/fig15_PSM_error_boxplots.plotly.json",
+                "qcvisualization/fig16_additional_headers",
+                "qcvisualization/fig16_additional_headers/Digitizer_CurrentTemp.plotly.json",
+                "qcvisualization/fig16_additional_headers/EXTRA_IonInjectionTimemsMS1filtered.plotly.json",
+                "qcvisualization/fig16_additional_headers/Pressure.plotly.json",
+                "qcvisualization/fig16_additional_headers/TOF_DeviceTempCurrentValue1.plotly.json",
+                "qcvisualization/fig16_additional_headers/TOF_DeviceTempCurrentValue2.plotly.json",
+                "qcvisualization/fig16_additional_headers/Vacuum_CurrentFore.plotly.json",
+                "qcvisualization/fig16_additional_headers/Vacuum_CurrentFunnel.plotly.json",
+                "qcvisualization/fig16_additional_headers/Vacuum_CurrentHigh.plotly.json",
+                "qcvisualization/fig17_BRUKER_calibrants",
+                "qcvisualization/fig17_BRUKER_calibrants/fig17a_Calibrant_mz_1.plotly.json",
+                "qcvisualization/fig17_BRUKER_calibrants/fig17a_Calibrant_mz_2.plotly.json",
+                "qcvisualization/fig17_BRUKER_calibrants/fig17a_Calibrant_mz_3.plotly.json",
+                "qcvisualization/fig17_BRUKER_calibrants/fig17b_Calibrant_ionmobility1.plotly.json",
+                "qcvisualization/fig17_BRUKER_calibrants/fig17b_Calibrant_ionmobility2.plotly.json",
+                "qcvisualization/fig17_BRUKER_calibrants/fig17b_Calibrant_ionmobility3.plotly.json",
+                "qcvisualization/metric_registry.json"
             ],
             [
                 "sample_one_raw-labelled.comet.params:md5,4e513d5872c1d4ccf375995b85cb30b4",
                 "sample_one_raw-unlabelled.comet.params:md5,88be13163b840fb754296dc46d157e38",
                 "sample_two_d-labelled.comet.params:md5,4e513d5872c1d4ccf375995b85cb30b4",
                 "sample_two_d-unlabelled.comet.params:md5,88be13163b840fb754296dc46d157e38",
-                "yeast_UPS_decoy.fasta:md5,96c0295f69e0cb92b705ca4c33e6f047"
+                "yeast_UPS_decoy.fasta:md5,96c0295f69e0cb92b705ca4c33e6f047",
+                "sample_one_raw.hdf5:md5,9a7da54d32181392f960b19cc11f0239",
+                "sample_two_d.hdf5:md5,6dfb231524dbf765bed4b29ea4aca365",
+                "00_table_summary.tsv:md5,e7f2442233e142a2b005488799105ab5",
+                "99_hdf5_feature_table.tsv:md5,122833501446599e295f75f0588c421b",
+                "fig01_barplot_MS1_MS2.plotly.json:md5,d0289dba682d207a24e956c8c77b7210",
+                "fig02_barplot_PSMs_peptides_proteins.plotly.json:md5,290e8dea69eeb753170079d037fb0f72",
+                "fig03_barplot_features.plotly.json:md5,c4994286ae5b3114daf7c56cf6a8b7a0",
+                "fig04_MS1_TIC_overlay.plotly.json:md5,f5c6056861d84e3824a086ba2d66110c",
+                "fig05_barplot_TIC_quartiles.plotly.json:md5,e5889e7ab9388082989ebdef6eb2a3c2",
+                "fig06_barplot_MS1_TIC_quartiles.plotly.json:md5,ba5150664dc85d506c221f8e2d958af4",
+                "fig07_barplot_MS2_TIC_quartiles.plotly.json:md5,12c0a9e87d967f42471ffbad80203112",
+                "fig08_barplot_precursor_charge.plotly.json:md5,92efab46f5a71321e91b24a98287d7a3",
+                "fig09_barplot_PSM_charge.plotly.json:md5,ad1edb0fdc51b19376036a1a01f82821",
+                "fig10_barplot_PSM_missedcleavages.plotly.json:md5,20ea55c1ebf97cfd9aa7c0199d58ab5e",
+                "fig11a_PCA_raw.plotly.json:md5,b01874716872bf9e2c23e6ec83c5bfcb",
+                "fig11b_Loadings_raw.plotly.json:md5,ffcd7b7e2e1c5346cdf23f95c4d340de",
+                "fig11c_table_loadings_raw.tsv:md5,4db28b82c02709c0dc6ea6fa081d705d",
+                "fig12a_PCA_all.plotly.json:md5,a335a1464869de79ef5a03af29b079d7",
+                "fig12b_Loadings_all.plotly.json:md5,9928f318577e8f4790ed72aeb5bba72d",
+                "fig12c_table_loadings_all.tsv:md5,31baf32e307f13e68b9e05a46ec8bf2d",
+                "fig13_MS1_map_sample_one_raw.png:md5,b57289372fc24faa3c3ec382d39d0564",
+                "fig13_MS1_map_sample_two_d.png:md5,5fe3d08efb55cfc3452759ecb5178221",
+                "fig15_PSM_error_boxplots.plotly.json:md5,6982fddf67cc6d5581bc740d981055c1",
+                "Digitizer_CurrentTemp.plotly.json:md5,c2473519ab7faf3024477ba37ddd0e1f",
+                "EXTRA_IonInjectionTimemsMS1filtered.plotly.json:md5,8e0abdfbecb6a35f9d69d920d0533bd0",
+                "Pressure.plotly.json:md5,52bc94e5635fca261c8bd42bd8aed271",
+                "TOF_DeviceTempCurrentValue1.plotly.json:md5,6fb393750981730bb2cdf5f71be33969",
+                "TOF_DeviceTempCurrentValue2.plotly.json:md5,64d075ae05c37a7d5ba14860efb9f111",
+                "Vacuum_CurrentFore.plotly.json:md5,68713005e7900d560b9a33028633cc69",
+                "Vacuum_CurrentFunnel.plotly.json:md5,454b175ea83c20398c0ef559f80ef127",
+                "Vacuum_CurrentHigh.plotly.json:md5,71c637ddeaadf90aa4c10d0bc2d5d466",
+                "fig17a_Calibrant_mz_1.plotly.json:md5,4822fc19ec45941e0c029fdb72f37b70",
+                "fig17a_Calibrant_mz_2.plotly.json:md5,b86ad01712106fa05f4e3b28d32749ab",
+                "fig17a_Calibrant_mz_3.plotly.json:md5,67604d6b37582a2774480b21bb5b00ba",
+                "fig17b_Calibrant_ionmobility1.plotly.json:md5,f2f60d17327897c39f2928dd2f411e2e",
+                "fig17b_Calibrant_ionmobility2.plotly.json:md5,1dfe49dd0794457a8fb1856961c0ea9a",
+                "fig17b_Calibrant_ionmobility3.plotly.json:md5,4ed60123e26b2d4d21c1d8ea03b6c10a",
+                "metric_registry.json:md5,e7269e1eed00123904132b29a2ddf1bf"
             ]
         ],
-        "timestamp": "2026-09-10T07:26:08.157794889",
+        "timestamp": "2026-10-24T20:51:28.941616311",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.6"
+            "nextflow": "26.10.0"
         }
     },
     "mzml-spectrum-counts": {

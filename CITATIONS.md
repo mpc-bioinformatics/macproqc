@@ -10,6 +10,26 @@
 
 ## Pipeline tools
 
+- [ThermoRawFileParser](https://pubmed.ncbi.nlm.nih.gov/31755270/)
+
+  > Hulstaert N, Shofstahl J, Sachsenberg T, Walzer M, Barsnes H, Martens L, Perez-Riverol Y. ThermoRawFileParser: Modular, Scalable, and Cross-Platform RAW File Conversion. J Proteome Res. 2020 Jan 3;19(1):537-542. doi: 10.1021/acs.jproteome.9b00328. PMID: 31755270.
+
+- [OpenMS](https://pubmed.ncbi.nlm.nih.gov/38366242/)
+
+  > Pfeuffer J, Bielow C, Wein S, Jeong K, Netz E, Walter A, Alka O, Nilse L, Colaianni PD, McCloskey D, Kim J, Rosenberger G, Bichmann L, Walzer M, Veit J, Boudaud B, Bernt M, Patikas N, Pilz M, Startek MP, Kutuzova S, Heumos L, Charkow J, Sing JC, Feroz A, Siraj A, Weisser H, Dijkstra TMH, Perez-Riverol Y, Röst H, Kohlbacher O, Sachsenberg T. OpenMS 3 enables reproducible analysis of large-scale mass spectrometry data. Nat Methods. 2024 Mar;21(3):365-367. doi: 10.1038/s41592-024-02197-7. PMID: 38366242.
+
+- [pyOpenMS](https://pubmed.ncbi.nlm.nih.gov/24420968/)
+
+  > Röst HL, Schmitt U, Aebersold R, Malmström L. pyOpenMS: a Python-based interface to the OpenMS mass-spectrometry algorithm library. Proteomics. 2014 Jan;14(1):74-7. doi: 10.1002/pmic.201300246. PMID: 24420968.
+
+- [AlphaTims](https://pubmed.ncbi.nlm.nih.gov/34543758/)
+
+  > Willems S, Voytik E, Skowronek P, Strauss MT, Mann M. AlphaTims: Indexing Trapped Ion Mobility Spectrometry-TOF Data for Fast and Easy Accession and Visualization. Mol Cell Proteomics. 2021;20:100149. doi: 10.1016/j.mcpro.2021.100149. Epub 2021 Sep 17. PMID: 34543758; PMCID: PMC8526765.
+
+- [Plotly](https://plotly.com/python/)
+
+  > Kruchten N, Seier A, Parmer C. An interactive, open-source, and browser-based graphing library for Python. url: https://github.com/plotly/plotly.py. doi: 10.5281/zenodo.14503524.
+
 - [Comet](https://pubmed.ncbi.nlm.nih.gov/23148064/)
 
   > Eng JK, Jahan TA, Hoopmann MR. Comet: an open-source MS/MS sequence database search tool. Proteomics. 2013 Jan;13(1):22-4. doi: 10.1002/pmic.201200439. Epub 2012 Dec 4. PMID: 23148064.
@@ -18,7 +38,7 @@
 
   > Uszkoreit J, Maerkens A, Perez-Riverol Y, Meyer HE, Marcus K, Stephan C, Kohlbacher O, Eisenacher M. PIA: An Intuitive Protein Inference Engine with a Web-Based User Interface. J Proteome Res. 2015 Jul 2;14(7):2988-97. doi: 10.1021/acs.jproteome.5b00121. Epub 2015 Jun 10. PMID: 25938255.
 
-- [HDF5TOMZQC](https://pubmed.ncbi.nlm.nih.gov/38918936/)
+- [mzQC libraries](https://pubmed.ncbi.nlm.nih.gov/38918936/)
 
   > Bielow C, Hoffmann N, Jimenez-Morales D, Van Den Bossche T, Vizcaíno JA, Tabb DL, Bittremieux W, Walzer M. Communicating Mass Spectrometry Quality Information in mzQC with Python, R, and Java. J Am Soc Mass Spectrom. 2024 Aug 7;35(8):1875-1882. doi: 10.1021/jasms.4c00174. Epub 2024 Jun 25. PMID: 38918936; PMCID: PMC11311537.
 

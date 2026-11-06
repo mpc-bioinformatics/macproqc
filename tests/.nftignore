@@ -7,3 +7,6 @@ comet/*.mzid
 
 # PIA results are not not exactly equal (not sorted) -> test separately
 pia/*.{mzTab,csv}
+
+# mzQC contain creation timestamps -> do not test here
+metrics/mzqc/*.{mzqc}

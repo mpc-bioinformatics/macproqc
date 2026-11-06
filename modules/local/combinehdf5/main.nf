@@ -5,7 +5,7 @@ process COMBINEHDF5 {
     tag "${meta.id}"
     label 'process_single'
 
-    container "ghcr.io/mpc-bioinformatics/macproqc-helpers:sha-a9c31aa"
+    container "ghcr.io/mpc-bioinformatics/macproqc-helpers:sha-55b549b"
 
     input:
     tuple val(meta), path(hdf5_files)
@@ -20,10 +20,8 @@ process COMBINEHDF5 {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def metric_args = meta.hdf5_write_metadata ? '-write_metadata' : ''
     """
     python -m macproqc_helpers combine-hdf5 \\
-        ${metric_args} \\
         ${args} \\
         -hdf_out_name ${prefix}.hdf5 \\
         ${hdf5_files}

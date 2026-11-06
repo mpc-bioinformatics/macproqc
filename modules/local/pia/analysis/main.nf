@@ -1,6 +1,6 @@
 process PIA_ANALYSIS {
     tag "$meta.id"
-    label 'process_high'
+    label 'process_medium'
 
     container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/pia:1.5.9--hdfd78af_0':

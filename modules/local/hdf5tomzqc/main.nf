@@ -2,7 +2,7 @@ process HDF5TOMZQC {
     tag "$meta.id"
     label 'process_single'
 
-    container 'ghcr.io/mpc-bioinformatics/macproqc-helpers:sha-604eac1'
+    container 'ghcr.io/mpc-bioinformatics/macproqc-helpers:sha-55b549b'
 
     input:
     tuple val(meta), path(hdf5)

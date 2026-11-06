@@ -80,9 +80,13 @@ workflow IDENT_DDA {
     ///////////////////////////////////////////////////////
     // PIA analysis
 
+    // Comet writes an (empty) mzid without any SpectrumIdentificationResult, if no PSM was found at all (bad database, really bad MS, ...).
+    // Do not pass these to PIA, the runs are reported with 0 identifications later.
+    ch_mzid_with_results = COMET.out.mzid.filter { _meta, mzid -> mzidHasResults(mzid) }
+
     // first round of PIA compilation (pre-filtereing or branching off labelled is performed later)
     PIA_COMPILEXML(
-        COMET.out.mzid
+        ch_mzid_with_results
     )
 
     // Create PIA configuration files:
@@ -154,8 +158,9 @@ workflow IDENT_DDA {
             ch_pia_xml_in.unlabelled.combine(ch_prefilter_json)
         )
 
+        // if no PSM passes the pre-filter, the exported mzid contains no results: skip these as well
         PIA_COMPILEXML_PREFILTERED(
-            PIA_ANALYSIS_PREFILTER.out.psms
+            PIA_ANALYSIS_PREFILTER.out.psms.filter { _meta, mzid -> mzidHasResults(mzid) }
         )
 
         ch_unlabelled_xml_for_main = PIA_COMPILEXML_PREFILTERED.out.pia_xml
@@ -183,11 +188,39 @@ workflow IDENT_DDA {
         )
 
         ch_labelled_psms = PIA_ANALYSIS_LABELLED.out.psms
+            .map { meta, psms -> [ meta + [pia_status: meta.id]+ [id: meta.mzml_id] , psms ] }
     }
 
+    // every unlabelled run gets PIA results: runs without (FDR-valid) results get [] instead, which
+    // results in 0 identifications on all levels in the ID metrics.
+    // The meta is taken from the search results, so it is identical for PSMs, peptides and proteins.
+    ch_pia_runs = COMET.out.mzid
+        .filter { meta, _mzid -> meta.label_search == false }
+        .map { meta, _mzid -> [ meta.id, meta ] }
+
+    // revert the meta.id of the PIA results to the original mzml.id
+    ch_pia_psms = ch_pia_runs
+        .join(PIA_ANALYSIS.out.psms.map { meta, psms -> [ meta.id, psms ] }, by: 0, remainder: true)
+        .map { _id, meta, psms -> [ meta + [pia_status: meta.id] + [id: meta.mzml_id], psms ?: [] ] }
+    ch_pia_peptides = ch_pia_runs
+        .join(PIA_ANALYSIS.out.peptides.map { meta, peptides -> [ meta.id, peptides ] }, by: 0, remainder: true)
+        .map { _id, meta, peptides -> [ meta + [pia_status: meta.id] + [id: meta.mzml_id], peptides ?: [] ] }
+    ch_pia_proteins = ch_pia_runs
+        .join(PIA_ANALYSIS.out.proteins.map { meta, proteins -> [ meta.id, proteins ] }, by: 0, remainder: true)
+        .map { _id, meta, proteins -> [ meta + [pia_status: meta.id] + [id: meta.mzml_id], proteins ?: [] ] }
+
     emit:
-    mzid         = COMET.out.mzid
-    pia_psms     = PIA_ANALYSIS.out.psms.mix(ch_labelled_psms)
-    pia_peptides = PIA_ANALYSIS.out.peptides
-    pia_proteins = PIA_ANALYSIS.out.proteins
+    mzid              = COMET.out.mzid
+    pia_psms          = ch_pia_psms
+    pia_peptides      = ch_pia_peptides
+    pia_proteins      = ch_pia_proteins
+    pia_labelled_psms = ch_labelled_psms
+}
+
+/**
+ * Checks whether an mzid file contains at least one SpectrumIdentificationResult,
+ * i.e. whether it can be compiled by PIA.
+ */
+def mzidHasResults(mzid) {
+    mzid.withReader { reader -> reader.lines().anyMatch { line -> line.contains('<SpectrumIdentificationResult') } }
 }

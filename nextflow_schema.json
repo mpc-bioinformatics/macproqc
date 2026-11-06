@@ -10,7 +10,7 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "outdir"],
+            "required": ["outdir"],
             "properties": {
                 "input": {
                     "type": "string",
@@ -22,6 +22,14 @@
                     "description": "Path to comma-separated file containing information about the samples in the experiment.",
                     "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://mpc-bioinformatics.github.io/macproqc/usage/#samplesheet-input).",
                     "fa_icon": "fas fa-file-csv"
+                },
+                "input_hdf5_dir": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "exists": true,
+                    "description": "Directory containing previously extracted metric HDF5 files (*.hdf5), as an alternative to --input.",
+                    "help_text": "Only used together with --skip_metrics_extraction, e.g. to re-run the mzQC export and/or the visualization on the HDF5 files of an earlier run (written to <outdir>/metrics/hdf5). Cannot be combined with --input.",
+                    "fa_icon": "fas fa-folder-open"
                 },
                 "outdir": {
                     "type": "string",
@@ -79,8 +87,7 @@
                     "fa_icon": "fas fa-save",
                     "description": "Set this parameter to true to save the generated decoy database (for later usage)."
                 }
-            },
-            "required": ["fasta"]
+            }
         },
         "identification_parameters": {
             "title": "Identification parameters",
@@ -95,13 +102,13 @@
                 },
                 "peptide_mass_tolerance_upper": {
                     "type": "number",
-                    "default": 5.0,
+                    "default": 5,
                     "fa_icon": "fas fa-arrows-alt-h",
                     "description": "Comet parameter: peptide_mass_tolerance_upper, upper bound of the precursor mass tolerance"
                 },
                 "peptide_mass_tolerance_lower": {
                     "type": "number",
-                    "default": -5.0,
+                    "default": -5,
                     "fa_icon": "fas fa-arrows-alt-h",
                     "description": "Comet parameter: peptide_mass_tolerance_lower, lower bound of the precursor mass tolerance; USUALLY NEGATIVE TO BE LOWER THAN 0"
                 },
@@ -129,7 +136,7 @@
                 },
                 "fragment_bin_offset": {
                     "type": "number",
-                    "default": 0.0,
+                    "default": 0,
                     "fa_icon": "fas fa-sort-amount-down",
                     "minimum": 0,
                     "maximum": 1,
@@ -163,6 +170,7 @@
                 "label_modifications": {
                     "type": "string",
                     "description": "Additional Comet static modifications appended only for the labelled COMETCONFIG search. Use the same syntax as static_modifications, for example \"'add_K_lysine = 8.014199;add_R_arginine = 10.008269'\".",
+                    "help_text": "If set, a second (labelled) search is performed, which is only used to find labelled spike-ins for the XIC extraction (see --spike_ins_table). It is optional for the spike-in metrics and does not affect any other QC metric. This allows searching for the labels as static modifications, instead of adding them as variable modifications to the general identification.",
                     "fa_icon": "fas fa-tags"
                 },
                 "pia_fdr_threshold": {
@@ -184,79 +192,80 @@
             },
             "fa_icon": "fas fa-search"
         },
+        "pipeline_steps": {
+            "title": "Pipeline steps",
+            "type": "object",
+            "fa_icon": "fas fa-shoe-prints",
+            "description": "Enable or disable single steps of the pipeline.",
+            "properties": {
+                "skip_metrics_extraction": {
+                    "type": "boolean",
+                    "description": "Skip the metrics extraction (spectra preparation, identification and metric collection).",
+                    "help_text": "Requires --input_hdf5_dir instead of --input, pointing to the HDF5 files of an earlier run.",
+                    "fa_icon": "fas fa-forward"
+                },
+                "skip_identification": {
+                    "type": "boolean",
+                    "description": "Skip the identification (Comet and PIA) during the metrics extraction.",
+                    "help_text": "No identification based metrics are collected and no --fasta is needed. Spike-in metrics (if --spike_ins_table is given) use only the retention time windows of the table.",
+                    "fa_icon": "fas fa-forward"
+                },
+                "skip_mzqc_export": {
+                    "type": "boolean",
+                    "description": "Skip the export of the metrics to mzQC.",
+                    "fa_icon": "fas fa-forward"
+                },
+                "skip_visualization": {
+                    "type": "boolean",
+                    "description": "Skip the visualization of the metrics.",
+                    "fa_icon": "fas fa-forward"
+                },
+                "ignore_failed_runs": {
+                    "type": "boolean",
+                    "description": "Ignore failures of single MS runs in the steps reading the raw files and process all other runs.",
+                    "help_text": "Failures in the decompression, mzML conversion, instrument header metrics and XIC extraction of single MS runs (e.g. caused by broken raw files) are ignored, instead of stopping the whole pipeline. The affected runs are missing in the results or have incomplete metrics, a warning is shown for each of them and at the end of the pipeline. Failures in any other step still stop the pipeline.",
+                    "fa_icon": "fas fa-exclamation-triangle"
+                }
+            }
+        },
+        "spikein_parameters": {
+            "title": "Spike-in parameters",
+            "type": "object",
+            "fa_icon": "fas fa-syringe",
+            "description": "Parameters for any spike-in analyses.",
+            "properties": {
+                "spike_ins_table": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "schema": "assets/schema_spike_ins.json",
+                    "mimetype": "text/csv",
+                    "pattern": "^\\S+\\.csv$",
+                    "description": "Spike-ins reference table as a csv file. Please refer to the [usage docs](https://mpc-bioinformatics.github.io/macproqc/usage) for details on the required format and columns.",
+                    "help_text": "This parameter points to the table defining spike in peptides. If this is not provided, any spike in metrics will be deactivated.",
+                    "fa_icon": "fas fa-syringe"
+                }
+            }
+        },
         "visualization_parameters": {
             "title": "Visualization parameters",
             "type": "object",
             "fa_icon": "fas fa-chart-bar",
             "description": "Parameters for the visualization of the QC results.",
             "properties": {
-                "figure_format": {
-                    "type": "string",
-                    "default": "plotly",
-                    "description": "Output format for figures (plotly, html, or both as 'html,plotly')",
-                    "enum": ["plotly", "html", "html,plotly"]
-                },
                 "output_table_type": {
                     "type": "string",
-                    "default": "csv",
+                    "default": "tsv",
                     "description": "Output format for the summary table",
-                    "enum": ["csv", "tsv", "xlsx"]
+                    "enum": ["tsv", "csv", "xlsx"],
+                    "fa_icon": "fas fa-file-excel"
                 },
-                "spikeins": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Whether spike-ins were included in the analysis. If information on identified spike-in peptides is available (spikeins = true), they can be included in the summary table and the calculation of the principle component analysis (PCA)."
-                },
-                "rt_unit": {
+                "figure_format": {
                     "type": "string",
-                    "default": "sec",
-                    "description": "Unit for retention time in plots ('min', 'sec').",
-                    "enum": ["sec", "min"]
-                },
-                "output_column_order": {
-                    "type": "string",
-                    "default": null,
-                    "description": "Order of columns for the output table, separated by commas, e.g. 'filename,startTime,nr_MS1,nr_MS2'."
-                },
-                "spikein_columns": {
-                    "type": "string",
-                    "default": "MS1 feature maximum intensity,retention time,count of identified spectra,Delta_to_expected_RT",
-                    "description": "Spike-in columns to include in the output table, separated by commas. Available columns: 'MS1 feature maximum intensity' (maximum XIC intensity observed for the spike-in peptide), 'retention time' (observed retention time at that maximum intensity), 'count of identified spectra' (number of identified spectra/PSMs matching the spike-in peptide), 'predicted retention time' (expected retention time from the spike-ins reference table), and 'Delta_to_expected_RT' (difference between observed and predicted retention time)."
-                },
-                "height_barplots": {
-                    "type": "integer",
-                    "default": 700,
-                    "description": "Height of the bar plots in pixels."
-                },
-                "width_barplots": {
-                    "type": "integer",
-                    "default": 0,
-                    "description": "Width of the bar plots in pixels. Default = 0 means automatic width."
-                },
-                "height_pca": {
-                    "type": "integer",
-                    "default": 1000,
-                    "description": "Height of the PCA plots in pixels."
-                },
-                "width_pca": {
-                    "type": "integer",
-                    "default": 1000,
-                    "description": "Width of the PCA plots in pixels."
-                },
-                "height_ionmaps": {
-                    "type": "number",
-                    "default": 10.0,
-                    "description": "Height of the ion maps plots in inches."
-                },
-                "width_ionmaps": {
-                    "type": "number",
-                    "default": 10.0,
-                    "description": "Width of the ion maps plots in inches."
-                },
-                "spike_ins_table": {
-                    "type": "string",
-                    "default": null,
-                    "description": "Spike-ins reference table as a csv file. Please refer to the [usage docs](https://mpc-bioinformatics.github.io/macproqc/usage) for details on the required format and columns."
+                    "default": "html,plotly",
+                    "description": "Output format for figures (plotly, html, or both as 'html,plotly', which is also the default)",
+                    "enum": ["plotly", "html", "html,plotly"],
+                    "fa_icon": "fas fa-chart-bar"
                 }
             }
         },
@@ -395,6 +404,12 @@
     "allOf": [
         {
             "$ref": "#/$defs/input_output_options"
+        },
+        {
+            "$ref": "#/$defs/spikein_parameters"
+        },
+        {
+            "$ref": "#/$defs/pipeline_steps"
         },
         {
             "$ref": "#/$defs/fasta_parameters"

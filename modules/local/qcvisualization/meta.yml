@@ -7,14 +7,14 @@ keywords:
   - quality control
   - visualization
 tools:
-  - "python":
-      description: "Python is a general-purpose programming language used here to parse and rewrite Comet parameter files."
-      homepage: "https://www.python.org/"
-      documentation: "https://docs.python.org/"
-      tool_dev_url: "https://github.com/python/cpython"
-      doi: ""
-      licence: ["PSF-2.0"]
-      identifier: null
+  - "macproqc-helpers":
+      description: "Helper tools for the macproqc pipeline. This module uses the `visualize` helper to visualize the results and perform statistical analyses on the metrics in the combined HDF5 file."
+      homepage: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      documentation: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      tool_dev_url: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      DOI: "no DOI available"
+      licence:
+        - BSD-3-Clause
 
 input:
   - - meta:
@@ -30,7 +30,7 @@ input:
           - edam: "http://edamontology.org/format_3590" # HDF5
   - spike_ins_table:
       type: file
-      description: Table containing information on spike-ins that should be searched for
+      description: Table containing information on spike-ins that should be searched for (optional, pass [] if no spike-ins are used)
       pattern: "*.csv"
       ontologies:
         - edam: "http://edamontology.org/format_3752" # CSV

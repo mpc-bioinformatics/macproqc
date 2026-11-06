@@ -176,20 +176,20 @@
                     [
                         "HDF5TOMZQC",
                         "macproqc_helpers",
-                        "0.0.1 (commit 604eac1491d98bfaf916bad3758a97968200058b)"
+                        "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
                     ],
                     [
                         "HDF5TOMZQC",
                         "macproqc_helpers",
-                        "0.0.1 (commit 604eac1491d98bfaf916bad3758a97968200058b)"
+                        "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
                     ]
                 ]
             }
         ],
-        "timestamp": "2026-10-06T11:03:57.800311044",
+        "timestamp": "2026-10-24T19:14:23.010094557",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.6"
+            "nextflow": "26.10.0"
         }
     },
     "small hdf5-to-mzqc test - stub": {
@@ -213,12 +213,12 @@
                     [
                         "HDF5TOMZQC",
                         "macproqc_helpers",
-                        "0.0.1 (commit 604eac1491d98bfaf916bad3758a97968200058b)"
+                        "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
                     ],
                     [
                         "HDF5TOMZQC",
                         "macproqc_helpers",
-                        "0.0.1 (commit 604eac1491d98bfaf916bad3758a97968200058b)"
+                        "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
                     ]
                 ],
                 "mzqc": [
@@ -239,20 +239,20 @@
                     [
                         "HDF5TOMZQC",
                         "macproqc_helpers",
-                        "0.0.1 (commit 604eac1491d98bfaf916bad3758a97968200058b)"
+                        "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
                     ],
                     [
                         "HDF5TOMZQC",
                         "macproqc_helpers",
-                        "0.0.1 (commit 604eac1491d98bfaf916bad3758a97968200058b)"
+                        "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
                     ]
                 ]
             }
         ],
-        "timestamp": "2026-10-06T10:48:59.125436973",
+        "timestamp": "2026-10-24T19:14:37.820736335",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.6"
+            "nextflow": "26.10.0"
         }
     }
 }
