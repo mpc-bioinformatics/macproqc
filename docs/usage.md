@@ -226,6 +226,19 @@ nextflow run nf-core/macproqc \
 
 All files ending with `.hdf5` in this directory are used, the run names are taken from the file names.
 
+## Handling broken input files
+
+By default, the pipeline stops as soon as a step fails for a single MS run, e.g. because a raw file is broken. With `--ignore_failed_runs`, failures in the steps reading the raw files are ignored instead, and all other runs are processed as usual:
+
+| Failing step                                                      | Effect on the affected run                                                    |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Decompression (gzip, tar, zip)                                    | Missing in all results                                                        |
+| Conversion to mzML (ThermoRawFileParser, tdf2mzml)                | No mzML and identification metrics; header and spike-in metrics are collected |
+| Instrument header metrics extraction (Thermo `.raw`, Bruker `.d`) | No instrument header metrics                                                  |
+| XIC extraction for the spike-ins (Thermo `.raw`, Bruker `.d`)     | No spike-in metrics                                                           |
+
+If all of these steps fail for a run, it is missing in all results. A warning is shown for each affected run, and a summary of the failed tasks at the end of the pipeline. Details of the failed tasks (status `FAILED`) are found in the execution report and trace in `<OUTDIR>/pipeline_info/`. Failures in any other step (e.g. the identification or the visualization) still stop the pipeline.
+
 ## Running the pipeline
 
 The typical command for running the pipeline is as follows:

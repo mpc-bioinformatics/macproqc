@@ -219,6 +219,12 @@
                     "type": "boolean",
                     "description": "Skip the visualization of the metrics.",
                     "fa_icon": "fas fa-forward"
+                },
+                "ignore_failed_runs": {
+                    "type": "boolean",
+                    "description": "Ignore failures of single MS runs in the steps reading the raw files and process all other runs.",
+                    "help_text": "Failures in the decompression, mzML conversion, instrument header metrics and XIC extraction of single MS runs (e.g. caused by broken raw files) are ignored, instead of stopping the whole pipeline. The affected runs are missing in the results or have incomplete metrics, a warning is shown for each of them and at the end of the pipeline. Failures in any other step still stop the pipeline.",
+                    "fa_icon": "fas fa-exclamation-triangle"
                 }
             }
         },

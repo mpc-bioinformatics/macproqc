@@ -189,6 +189,7 @@ workflow PIPELINE_COMPLETION {
 
         completionSummary(monochrome_logs)
 
+        ignoredTasksSummary(outdir)
     }
 
     workflow.onError {
@@ -201,6 +202,36 @@ workflow PIPELINE_COMPLETION {
     FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
+
+//
+// Failed tasks are only ignored with --ignore_failed_runs, make this clearly visible at the end
+//
+def ignoredTasksSummary(outdir) {
+    if (workflow.success && workflow.stats.ignoredCount > 0) {
+        log.warn(
+            "\n" +
+            "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" +
+            "  ${workflow.stats.ignoredCount} task(s) failed and were ignored due to the set parameter (--ignore_failed_runs).\n" +
+            "  The affected MS runs are missing in the results or have incomplete metrics,\n" +
+            "  see the warnings above for the single runs. Details on the failed tasks (status FAILED):\n" +
+            "    ${outdir}/pipeline_info/execution_report_*.html\n" +
+            "    ${outdir}/pipeline_info/execution_trace_*.txt\n" +
+            "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        )
+    }
+}
+
+//
+// Log a warning for every run of ch_expected without an entry in ch_present (matched by meta.id),
+// used to report runs whose tasks failed and were ignored (--ignore_failed_runs)
+//
+def warnMissingRuns(ch_expected, ch_present, message) {
+    ch_expected
+        .map { item -> [ item[0].id, item[0], item[1] ] }
+        .join(ch_present.map { item -> [ item[0].id, true ] }, by: 0, remainder: true)
+        .filter { _id, meta, _file, present -> meta != null && !present }
+        .subscribe { _id, meta, file, _present -> log.warn(message.call(meta, file)) }
+}
 
 //
 // Check the combination of input parameters and enabled pipeline steps

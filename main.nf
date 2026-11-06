@@ -44,6 +44,7 @@ workflow NFCORE_MACPROQC {
         params.skip_identification,
         params.skip_mzqc_export,
         params.skip_visualization,
+        params.ignore_failed_runs,
         params.outdir,
         params.spike_ins_table,
         params.fasta,

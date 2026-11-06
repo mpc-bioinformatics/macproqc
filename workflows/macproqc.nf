@@ -6,6 +6,7 @@
 include { paramsSummaryMap       } from 'plugin/nf-schema'
 include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_macproqc_pipeline'
+include { warnMissingRuns        } from '../subworkflows/local/utils_nfcore_macproqc_pipeline'
 
 include { PREPARE_SPECTRA } from '../subworkflows/local/prepare_spectra'
 include { IDENT_DDA } from '../subworkflows/local/ident_dda'
@@ -29,6 +30,7 @@ workflow MACPROQC {
     skip_identification         // boolean: skip the identification (Comet + PIA) during the metrics extraction
     skip_mzqc_export            // boolean: skip the mzQC export
     skip_visualization          // boolean: skip the visualization
+    ignore_failed_runs          // boolean: failed tasks reading the raw files are ignored, warn about the affected runs
     outdir
     spike_ins_table             // val: path to the spike-ins reference table (csv), or null to skip any spike in metric extraction
     fasta
@@ -88,6 +90,25 @@ workflow MACPROQC {
         )
 
         ch_hdf5 = COLLECT_METRICS.out.hdf5
+
+        if (ignore_failed_runs) {
+            // warn about runs with failed (and ignored) decompression / mzML conversion, or without any results
+            warnMissingRuns(
+                ch_samplesheet,
+                PREPARE_SPECTRA.out.uncompressed,
+                { meta, file -> "Run '${meta.id}' (${file}) could not be decompressed (or has an unsupported format)." }
+            )
+            warnMissingRuns(
+                PREPARE_SPECTRA.out.uncompressed,
+                PREPARE_SPECTRA.out.mzmls,
+                { meta, file -> "Run '${meta.id}' (${file.name}) could not be converted to mzML: mzML and identification metrics are missing." }
+            )
+            warnMissingRuns(
+                ch_samplesheet,
+                ch_hdf5,
+                { meta, file -> "!!! Run '${meta.id}' (${file}) could not be processed and is MISSING IN ALL RESULTS !!!" }
+            )
+        }
     }
 
     if (!skip_mzqc_export) {
