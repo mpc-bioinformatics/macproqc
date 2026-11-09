@@ -6,7 +6,7 @@ process XICEXTRACTIONCONFIG {
     tag "${meta.id}"
     label 'process_single'
 
-    container "ghcr.io/mpc-bioinformatics/macproqc-helpers:sha-55b549b"
+    container "ghcr.io/mpc-bioinformatics/macproqc-helpers:sha-ccb2100"
 
     input:
     tuple val(meta), path(psm_mztab_files)   // psm_mztab_files: one or more PSM mzTab files, or [] to use only the RT windows of the spike-ins table

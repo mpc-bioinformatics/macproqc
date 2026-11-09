@@ -7,7 +7,7 @@ process BRUKERMETRICSEXTRACTION {
 
     stageInMode 'copy'  // needed due to pyopenms
 
-    container "ghcr.io/mpc-bioinformatics/macproqc-helpers:sha-55b549b"
+    container "ghcr.io/mpc-bioinformatics/macproqc-helpers:sha-ccb2100"
 
     input:
     tuple val(meta), path(dotd_bruker_folder)
