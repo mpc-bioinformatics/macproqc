@@ -169,7 +169,7 @@
                     [
                         "QCVISUALIZATION",
                         "macproqc_helpers",
-                        "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                        "0.0.1 (commit ccb210017d737e08d8050b0367effc74056dc56f)"
                     ]
                 ],
                 "additional_plots": [
@@ -225,12 +225,12 @@
                     [
                         "QCVISUALIZATION",
                         "macproqc_helpers",
-                        "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                        "0.0.1 (commit ccb210017d737e08d8050b0367effc74056dc56f)"
                     ]
                 ]
             }
         ],
-        "timestamp": "2026-10-24T19:19:17.22019598",
+        "timestamp": "2026-11-09T04:06:58.910824191",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.0"

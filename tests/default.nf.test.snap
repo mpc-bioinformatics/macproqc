@@ -69,13 +69,13 @@
         "content": [
             {
                 "BRUKERMETRICSEXTRACTION": {
-                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                    "macproqc_helpers": "0.0.1 (commit ccb210017d737e08d8050b0367effc74056dc56f)"
                 },
                 "BRUKERXICEXTRACTION": {
-                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                    "macproqc_helpers": "0.0.1 (commit ccb210017d737e08d8050b0367effc74056dc56f)"
                 },
                 "COMBINEHDF5": {
-                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                    "macproqc_helpers": "0.0.1 (commit ccb210017d737e08d8050b0367effc74056dc56f)"
                 },
                 "COMET": {
                     "comet": "2026.01 rev. 1 (e4f767c)"
@@ -87,13 +87,13 @@
                     "python": "3.14.3"
                 },
                 "HDF5TOMZQC": {
-                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                    "macproqc_helpers": "0.0.1 (commit ccb210017d737e08d8050b0367effc74056dc56f)"
                 },
                 "IDMETRICSEXTRACTION": {
-                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                    "macproqc_helpers": "0.0.1 (commit ccb210017d737e08d8050b0367effc74056dc56f)"
                 },
                 "MZMLMETRICSEXTRACTION": {
-                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                    "macproqc_helpers": "0.0.1 (commit ccb210017d737e08d8050b0367effc74056dc56f)"
                 },
                 "OPENMS_DECOYDATABASE": {
                     "openms": "3.5.0"
@@ -117,16 +117,16 @@
                     "pia": "1.5.9"
                 },
                 "QCVISUALIZATION": {
-                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                    "macproqc_helpers": "0.0.1 (commit ccb210017d737e08d8050b0367effc74056dc56f)"
                 },
                 "SPIKEINMETRICSEXTRACTION": {
-                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                    "macproqc_helpers": "0.0.1 (commit ccb210017d737e08d8050b0367effc74056dc56f)"
                 },
                 "TDF2MZML": {
                     "tdf2mzml": "0.6.1"
                 },
                 "THERMOMETRICSEXTRACTION": {
-                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                    "macproqc_helpers": "0.0.1 (commit ccb210017d737e08d8050b0367effc74056dc56f)"
                 },
                 "THERMORAWFILEPARSER": {
                     "thermorawfileparser": "1.4.5"
@@ -141,7 +141,7 @@
                     "nf-core/macproqc": "v1.0.0dev"
                 },
                 "XICEXTRACTIONCONFIG": {
-                    "macproqc_helpers": "0.0.1 (commit 55b549b0868bb7b84137df34b67a4bcb86397366)"
+                    "macproqc_helpers": "0.0.1 (commit ccb210017d737e08d8050b0367effc74056dc56f)"
                 }
             },
             [
@@ -264,7 +264,7 @@
                 "metric_registry.json:md5,e7269e1eed00123904132b29a2ddf1bf"
             ]
         ],
-        "timestamp": "2026-10-24T20:51:28.941616311",
+        "timestamp": "2026-11-09T04:11:29.657193214",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.0"
