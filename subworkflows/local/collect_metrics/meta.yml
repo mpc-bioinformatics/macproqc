@@ -80,6 +80,19 @@ output:
         metrics), merged together.
         Structure: [ val(meta), path(hdf5) ]
       pattern: "*.hdf5"
+  - vendor_metrics:
+      type: channel
+      description: |
+        Channel of the Thermo/Bruker instrument header metrics HDF5 files, one per successfully
+        processed Thermo/Bruker run (used to report runs with failed and ignored extractions).
+        Structure: [ val(meta), path(hdf5) ]
+      pattern: "*.hdf5"
+  - xic:
+      type: channel
+      description: |
+        Channel of the spike-in XIC extraction results, one per successfully processed Thermo/Bruker run
+        (used to report runs with failed and ignored extractions). Empty without spike-ins table.
+        Structure: [ val(meta), path(xic) ]
 authors:
   - "@Luxxii"
   - "@di-hardt"

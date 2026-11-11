@@ -103,6 +103,20 @@ workflow MACPROQC {
                 PREPARE_SPECTRA.out.mzmls,
                 { meta, file -> "Run '${meta.id}' (${file.name}) could not be converted to mzML: mzML and identification metrics are missing." }
             )
+            // the vendor specific extractions only run on (uncompressed) Thermo/Bruker files
+            def ch_vendor_raw = PREPARE_SPECTRA.out.uncompressed.filter { meta, _file -> meta.vendor in ['thermo', 'bruker'] }
+            warnMissingRuns(
+                ch_vendor_raw,
+                COLLECT_METRICS.out.vendor_metrics,
+                { meta, file -> "Run '${meta.id}' (${file.name}): the instrument header metrics extraction failed, these metrics are missing." }
+            )
+            if (spike_ins_table) {
+                warnMissingRuns(
+                    ch_vendor_raw,
+                    COLLECT_METRICS.out.xic,
+                    { meta, file -> "Run '${meta.id}' (${file.name}): the spike-in XIC extraction failed, spike-in metrics are missing." }
+                )
+            }
             warnMissingRuns(
                 ch_samplesheet,
                 ch_hdf5,

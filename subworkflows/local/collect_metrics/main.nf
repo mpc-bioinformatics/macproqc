@@ -46,6 +46,9 @@ workflow COLLECT_METRICS {
         .mix(THERMOMETRICSEXTRACTION.out.hdf5)
         .mix(BRUKERMETRICSEXTRACTION.out.hdf5)
 
+    // the XIC extraction results (stays empty without spike-ins table)
+    ch_xics = channel.empty()
+
     if (spike_ins_table) {
         ch_spike_ins_table = channel.value(file(spike_ins_table, checkIfExists: true))
 
@@ -122,5 +125,7 @@ workflow COLLECT_METRICS {
     COMBINEHDF5(ch_grouped_hdf5)
 
     emit:
-    hdf5 = COMBINEHDF5.out.hdf5   // channel: [ val(meta), path(hdf5) ]
+    hdf5           = COMBINEHDF5.out.hdf5   // channel: [ val(meta), path(hdf5) ]
+    vendor_metrics = THERMOMETRICSEXTRACTION.out.hdf5.mix(BRUKERMETRICSEXTRACTION.out.hdf5)   // channel: [ val(meta), path(hdf5) ] - the Thermo/Bruker header metrics
+    xic            = ch_xics                // channel: [ val(meta), path(xic) ] - the spike-in XIC extraction results (empty without spike-ins table)
 }
