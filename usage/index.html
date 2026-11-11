@@ -1,0 +1,1956 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="macproqc">
+      
+      
+      
+        <link rel="canonical" href="https://mpc-bioinformatics.github.io/macproqc/usage/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../parameters/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../images/nf-core-macproqc_logo_light.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Usage - nf-core/macproqc</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#nf-coremacproqc-usage" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="nf-core/macproqc" class="md-header__button md-logo" aria-label="nf-core/macproqc" data-md-component="logo">
+      
+  <img src="../images/nf-core-macproqc_logo_light.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            nf-core/macproqc
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Usage
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mpc-bioinformatics/macproqc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mpc-bioinformatics/macproqc
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Usage
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../parameters/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Parameters
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../output/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Output
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../CONTRIBUTING/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contributing
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="nf-core/macproqc" class="md-nav__button md-logo" aria-label="nf-core/macproqc" data-md-component="logo">
+      
+  <img src="../images/nf-core-macproqc_logo_light.png" alt="logo">
+
+    </a>
+    nf-core/macproqc
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mpc-bioinformatics/macproqc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mpc-bioinformatics/macproqc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#please-read-this-documentation-on-the-nf-core-website-httpsmpc-bioinformaticsgithubiomacproqcusage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Please read this documentation on the nf-core website: https://mpc-bioinformatics.github.io/macproqc/usage/
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#samplesheet-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Samplesheet input
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Samplesheet input">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#samplesheet-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Samplesheet format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-input-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported input formats
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#protein-sequence-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protein sequence database
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Protein sequence database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#decoy-database-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decoy database generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#peptide-identification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Peptide identification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Peptide identification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comet-configuration-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comet configuration template
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#peptide-modifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Peptide modifications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#labelled-search-for-spike-ins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Labelled search (for spike-ins)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spike-ins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spike-ins
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fdr-filtering-and-protein-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FDR filtering and protein inference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-only-parts-of-the-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running only parts of the pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-broken-input-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Handling broken input files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running the pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#params-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Params file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updating-the-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Updating the pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reproducibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-nextflow-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Nextflow arguments
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Nextflow arguments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        -profile
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-resume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        -resume
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        -c
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Custom configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resource-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resource requests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Containers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-tool-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Tool Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nf-coreconfigs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nf-core/configs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-in-the-background" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running in the background
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nextflow-memory-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nextflow memory requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parameters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parameters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#please-read-this-documentation-on-the-nf-core-website-httpsmpc-bioinformaticsgithubiomacproqcusage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Please read this documentation on the nf-core website: https://mpc-bioinformatics.github.io/macproqc/usage/
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#samplesheet-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Samplesheet input
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Samplesheet input">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#samplesheet-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Samplesheet format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-input-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported input formats
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#protein-sequence-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protein sequence database
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Protein sequence database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#decoy-database-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decoy database generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#peptide-identification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Peptide identification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Peptide identification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comet-configuration-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comet configuration template
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#peptide-modifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Peptide modifications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#labelled-search-for-spike-ins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Labelled search (for spike-ins)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spike-ins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spike-ins
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fdr-filtering-and-protein-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FDR filtering and protein inference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-only-parts-of-the-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running only parts of the pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-broken-input-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Handling broken input files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running the pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#params-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Params file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updating-the-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Updating the pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reproducibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-nextflow-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Nextflow arguments
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Nextflow arguments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        -profile
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-resume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        -resume
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        -c
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Custom configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resource-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resource requests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Containers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-tool-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Tool Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nf-coreconfigs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nf-core/configs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-in-the-background" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running in the background
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nextflow-memory-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nextflow memory requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/mpc-bioinformatics/macproqc/edit/main/docs/usage.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="nf-coremacproqc-usage">nf-core/macproqc: Usage<a class="headerlink" href="#nf-coremacproqc-usage" title="Permanent link">&para;</a></h1>
+<h2 id="please-read-this-documentation-on-the-nf-core-website-httpsmpc-bioinformaticsgithubiomacproqcusage"><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:" /> Please read this documentation on the nf-core website: <a href="https://mpc-bioinformatics.github.io/macproqc/usage/">https://mpc-bioinformatics.github.io/macproqc/usage/</a><a class="headerlink" href="#please-read-this-documentation-on-the-nf-core-website-httpsmpc-bioinformaticsgithubiomacproqcusage" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><em>Documentation of pipeline parameters is generated automatically from the pipeline schema and can no longer be found in markdown files.</em></p>
+</blockquote>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>This page describes how to prepare your input data and run the nf-core/macproqc pipeline. For general nf-core and Nextflow concepts (profiles, resource configuration, reproducibility) please also refer to the <a href="https://nf-co.re/docs/running/run-pipelines">nf-core documentation</a>.</p>
+<h2 id="samplesheet-input">Samplesheet input<a class="headerlink" href="#samplesheet-input" title="Permanent link">&para;</a></h2>
+<p>You will need to create a samplesheet with information about the MS runs you would like to analyse. Use <code>--input</code> to specify its location. The file must be a comma-separated CSV with a header row.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>--input<span class="w"> </span><span class="s1">'[path to samplesheet file]'</span>
+</code></pre></div>
+<h3 id="samplesheet-format">Samplesheet format<a class="headerlink" href="#samplesheet-format" title="Permanent link">&para;</a></h3>
+<div class="highlight"><span class="filename">samplesheet.csv</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sample,spectrum_file
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>msrunone,/path/to/data/CONTROL_REP1.raw
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>msruntwo,/path/to/data/CONTROL_REP2.d.tar.gz
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>msrunthree,/path/to/data/CONTROL_REP3.mzML.gz
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sample</code></td>
+<td>Custom sample name. Cannot contain spaces.</td>
+</tr>
+<tr>
+<td><code>spectrum_file</code></td>
+<td>Full path to the mass spectrometry data file. See supported formats in the table below.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="supported-input-formats">Supported input formats<a class="headerlink" href="#supported-input-formats" title="Permanent link">&para;</a></h3>
+<p>The pipeline auto-detects the instrument vendor and compression type from the file extension:</p>
+<table>
+<thead>
+<tr>
+<th>Extension</th>
+<th>Vendor</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.raw</code></td>
+<td>Thermo Fisher</td>
+<td>Converted via ThermoRawFileParser</td>
+</tr>
+<tr>
+<td><code>.d</code></td>
+<td>Bruker</td>
+<td>Converted via tdf2mzml</td>
+</tr>
+<tr>
+<td><code>.mzML</code></td>
+<td>Any</td>
+<td>Used directly, no conversion needed</td>
+</tr>
+<tr>
+<td><code>.[raw,d,mzML].[zip, tar.gz, tar.bz2]</code></td>
+<td>See above</td>
+<td>Will be decompressed and processed as above</td>
+</tr>
+</tbody>
+</table>
+<p>An <a href="../assets/samplesheet.csv">example samplesheet</a> has been provided with the pipeline.</p>
+<h2 id="protein-sequence-database">Protein sequence database<a class="headerlink" href="#protein-sequence-database" title="Permanent link">&para;</a></h2>
+<p>The pipeline requires a protein sequence database in FASTA format for peptide identification. A single database is applied globally to all MS runs listed in the samplesheet. If the identification is skipped (see <a href="#running-only-parts-of-the-pipeline">Running only parts of the pipeline</a>), no database is needed.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>--fasta<span class="w"> </span><span class="s1">'[path to FASTA file]'</span>
+</code></pre></div>
+<p>Accepted file extensions: <code>.fasta</code>, <code>.fa</code>, <code>.fas</code>, <code>.faa</code> — optionally gzip-compressed (<code>.gz</code>).</p>
+<h3 id="decoy-database-generation">Decoy database generation<a class="headerlink" href="#decoy-database-generation" title="Permanent link">&para;</a></h3>
+<p>By default, the pipeline appends reversed decoy sequences to the target database using the OpenMS <code>DecoyDatabase</code> tool, producing a combined target-decoy FASTA. This is required for FDR estimation during peptide identification.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--skip_decoy_generation</code></td>
+<td><code>false</code></td>
+<td>Skip decoy generation. Use this when your FASTA already contains decoy sequences (labelled with the string defined by <code>--decoy_string</code>).</td>
+</tr>
+<tr>
+<td><code>--decoy_string</code></td>
+<td><code>DECOY_</code></td>
+<td>String that is combined with the accession of the protein identifier to indicate a decoy protein. Used also later by tools to estimate the FDR.</td>
+</tr>
+<tr>
+<td><code>--decoy_method</code></td>
+<td><code>reverse</code></td>
+<td>Method by which decoy sequences are generated from target sequences. Valid parameters are 'reverse' and 'shuffle'.</td>
+</tr>
+<tr>
+<td><code>--save_decoy_database</code></td>
+<td><code>false</code></td>
+<td>Write the generated target-decoy FASTA to <code>&lt;outdir&gt;/decoy_database/</code>. Useful for archiving the exact database used in a run or for reuse in a subsequent run with <code>--skip_decoy_generation</code>.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!TIP]
+If you run the pipeline repeatedly on the same dataset, generate the decoy database once with <code>--save_decoy_database</code>, then pass that file via <code>--fasta</code> and set <code>--skip_decoy_generation</code> in subsequent runs to avoid redundant processing.</p>
+</blockquote>
+<h2 id="peptide-identification">Peptide identification<a class="headerlink" href="#peptide-identification" title="Permanent link">&para;</a></h2>
+<p>The pipeline searches spectra against the (target-decoy) database using <a href="https://uwpr.github.io/Comet/">Comet</a>. Search parameters are configured through a combination of pipeline parameters and an optional Comet parameter template file.</p>
+<h3 id="comet-configuration-template">Comet configuration template<a class="headerlink" href="#comet-configuration-template" title="Permanent link">&para;</a></h3>
+<p>Comet is configured via a <code>.params</code> file. The pipeline ships a built-in default template (<code>assets/default_configs/comet.params</code>) that is used when no custom file is provided. You can supply your own template to control settings not exposed as pipeline parameters (e.g. enzyme, missed cleavages, ion series):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>--comet_config_template<span class="w"> </span><span class="s1">'/path/to/your/comet.params'</span>
+</code></pre></div>
+<p>The template is adjusted at runtime: output format flags, mass tolerances, fragment ion settings, and modifications are overwritten with the values of the pipeline parameters listed below. All other settings in the template are preserved as-is.</p>
+<h3 id="search-parameters">Search parameters<a class="headerlink" href="#search-parameters" title="Permanent link">&para;</a></h3>
+<p>The following parameters are overwritten in the Comet config at runtime:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--peptide_mass_tolerance_upper</code></td>
+<td><code>5.0</code></td>
+<td>Upper bound of precursor mass tolerance (<code>peptide_mass_tolerance_upper</code>)</td>
+</tr>
+<tr>
+<td><code>--peptide_mass_tolerance_lower</code></td>
+<td><code>-5.0</code></td>
+<td>Lower bound of precursor mass tolerance (<code>peptide_mass_tolerance_lower</code>). Usually negative.</td>
+</tr>
+<tr>
+<td><code>--peptide_mass_units</code></td>
+<td><code>2</code></td>
+<td>Units for precursor mass tolerance: <code>0</code> = amu, <code>1</code> = mmu, <code>2</code> = ppm</td>
+</tr>
+<tr>
+<td><code>--isotope_error</code></td>
+<td><code>2</code></td>
+<td>Isotope offset range: <code>0</code> = off, <code>1</code> = 0/1 (C13), <code>2</code> = 0/1/2, <code>3</code> = 0/1/2/3, <code>4</code> = -1/0/1/2/3, <code>5</code> = -1/0/1</td>
+</tr>
+<tr>
+<td><code>--fragment_bin_tol</code></td>
+<td><code>0.02</code></td>
+<td>Fragment ion bin width in amu (<code>fragment_bin_tol</code>)</td>
+</tr>
+<tr>
+<td><code>--fragment_bin_offset</code></td>
+<td><code>0.0</code></td>
+<td>Fragment ion bin offset, 0.0–1.0 (<code>fragment_bin_offset</code>)</td>
+</tr>
+<tr>
+<td><code>--theoretical_fragment_ions</code></td>
+<td><code>0</code></td>
+<td><code>0</code> = use flanking peaks, <code>1</code> = monoisotopic peak only</td>
+</tr>
+<tr>
+<td><code>--psms_per_spectrum</code></td>
+<td><code>5</code></td>
+<td>Number of PSM candidates reported per spectrum (<code>num_output_lines</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>The pipeline always enforces the following settings regardless of what is set in the template:</p>
+<ul>
+<li>Output format is set to mzIdentML (all other Comet output formats are disabled).</li>
+<li>Internal decoy search is disabled (<code>decoy_search = 0</code>); decoys are handled externally by the pipeline.</li>
+<li><code>max_duplicate_proteins = -1</code> to report all protein matches per PSM.</li>
+<li><code>equal_I_and_L = 0</code> (isoleucine and leucine are treated as distinct).</li>
+</ul>
+<h3 id="peptide-modifications">Peptide modifications<a class="headerlink" href="#peptide-modifications" title="Permanent link">&para;</a></h3>
+<p>Variable and static modifications can be set via pipeline parameters. The syntax matches the Comet params file format; multiple entries are separated by a semicolon. The modification string must be enclosed in single quotes when passed on the command line.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--variable_modifications</code></td>
+<td><code>""</code></td>
+<td>Variable modifications to set in the Comet params file (<code>variable_modXX = ...</code> entries)</td>
+</tr>
+<tr>
+<td><code>--static_modifications</code></td>
+<td><code>""</code></td>
+<td>Static modifications to set in the Comet params file (<code>add_XX_... = ...</code> entries)</td>
+</tr>
+<tr>
+<td><code>--label_modifications</code></td>
+<td><code>""</code></td>
+<td>Label-specific static modifications for a second, parallel labelled search (see below). Same syntax as <code>--static_modifications</code>.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!TIP]
+When passing modification strings on the command line, wrap the entire value in double quotes and the Comet-format string in single quotes:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>--variable_modifications<span class="w"> </span><span class="s2">"'variable_mod01 = 15.9949 M 0 3 -1 0 0 0.0;variable_mod02 = 79.966331 STY 0 3 -1 0 0 97.976896'"</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>--static_modifications<span class="w"> </span><span class="s2">"'add_C_cysteine = 57.021464'"</span>
+</code></pre></div>
+<p>Only modifications already present in the template can be overwritten this way. To add new modification slots, provide a custom <code>--comet_config_template</code>.</p>
+</blockquote>
+<h3 id="labelled-search-for-spike-ins">Labelled search (for spike-ins)<a class="headerlink" href="#labelled-search-for-spike-ins" title="Permanent link">&para;</a></h3>
+<p>When <code>--label_modifications</code> is set to a non-empty string, the pipeline runs a <strong>second, parallel Comet search</strong> alongside the standard unlabelled search. The labelled search uses the same parameters as the unlabelled search, but the <code>--label_modifications</code> entries are appended to <code>--static_modifications</code> to account for stable isotope labels (e.g. heavy lysine and arginine).</p>
+<p>This labelled search is only used for the <a href="#spike-ins">spike-ins</a>: its identifications help to find the labelled spike-in peptides for the XIC extraction. It is not used for any other QC metric, and it is not mandatory for the spike-in metrics. The point of a separate search is that the labels can be searched as static modifications only here, instead of adding them as variable modifications to the general identification, which would enlarge the search space and affect the identification based QC metrics.</p>
+<p>Example for spike-ins labelled with heavy lysine (K+8) and arginine (R+10):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>--static_modifications<span class="w"> </span><span class="s2">"'add_C_cysteine = 57.021464'"</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>--label_modifications<span class="w">  </span><span class="s2">"'add_K_lysine = 8.014199;add_R_arginine = 10.008269'"</span>
+</code></pre></div>
+<p>Each spectrum file produces two result files: one from the unlabelled search and one from the labelled search. Both are written to the <code>comet/</code> output directory.</p>
+<h3 id="spike-ins">Spike-ins<a class="headerlink" href="#spike-ins" title="Permanent link">&para;</a></h3>
+<p>Specific quality control samples may contain spike-in or reference peptides. If a spike-in table is given, the extracted ion chromatograms (XICs) of these peptides are extracted from the Thermo <code>.raw</code> and Bruker <code>.d</code> files, and their maximum intensity, retention time and number of identifications are added to the QC metrics and the visualization.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>--spike_ins_table<span class="w"> </span><span class="s1">'[path to spike-ins CSV file]'</span>
+</code></pre></div>
+<p>The spike-ins are given in a comma-separated table with the following format (an example is provided with the pipeline in <code>assets/default_configs/spike_ins_whole_proforma.csv</code>):</p>
+<div class="highlight"><span class="filename">spike_ins.csv</span><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>name,sequence,mz,RT,mz-tol,mz-tol-unit,rt-tol
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>SPIKE1,GEPAAAAAPEAGASPVEK[+8.014199]/2,815.9118,-1,10,ppm,300
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>SPIKE2,NLVVGDETTSSLR[+10.008269]/2,700.8664,1830,10,ppm,300
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>Unique identifier for the spike-in peptide.</td>
+</tr>
+<tr>
+<td><code>sequence</code></td>
+<td>ProForma peptidoform sequence of the spike-in, including any modifications and the charge (e.g. <code>/2</code>).</td>
+</tr>
+<tr>
+<td><code>mz</code></td>
+<td>Expected mass-to-charge ratio (m/z) of the spike-in.</td>
+</tr>
+<tr>
+<td><code>RT</code></td>
+<td>Expected retention time of the spike-in in seconds, or <code>-1</code> if it is not known.</td>
+</tr>
+<tr>
+<td><code>mz-tol</code></td>
+<td>Mass tolerance around <code>mz</code> used to extract the XIC (a number, e.g. <code>10</code>).</td>
+</tr>
+<tr>
+<td><code>mz-tol-unit</code></td>
+<td>Unit of <code>mz-tol</code>: <code>ppm</code> (recommended). Thermo <code>.raw</code> files also support <code>amu</code>, <code>mmu</code> and <code>da</code>, while the XIC extraction from Bruker <code>.d</code> folders only supports <code>ppm</code>.</td>
+</tr>
+<tr>
+<td><code>rt-tol</code></td>
+<td>Retention time tolerance in seconds around the (expected or identified) retention time, used to extract the XIC.</td>
+</tr>
+</tbody>
+</table>
+<p>The table is validated at the start of the pipeline (whenever it is used by the metrics extraction or the visualization): all columns are required, <code>name</code> must be unique, <code>mz</code> and <code>mz-tol</code> must be greater than 0, <code>RT</code> must be <code>-1</code> or a value of at least 0, <code>rt-tol</code> must be at least 0 and <code>mz-tol-unit</code> must be one of <code>ppm</code>, <code>amu</code>, <code>mmu</code> or <code>da</code>.</p>
+<p>The retention time window used to extract the XIC of each spike-in is determined as follows:</p>
+<ol>
+<li>If the spike-in was identified in the run, the window is centred on the mean retention time of its identifications. The half window size is <code>rt-tol</code>, or half of the retention time range of the identifications, if that is larger.</li>
+<li>Otherwise, if an <code>RT</code> is given, the window is <code>RT</code> ± <code>rt-tol</code>.</li>
+<li>Otherwise (<code>RT</code> is <code>-1</code> and no identification), the XIC is extracted over the whole run.</li>
+</ol>
+<p>For this tuning of the retention time windows, the PSMs of the unlabelled <strong>and</strong> (if <code>--label_modifications</code> is set) the labelled search are used. The spike-ins are matched to the PSMs by their plain amino acid sequence, so each search contributes the spike-ins it can identify: e.g. unlabelled spike-ins are found in the unlabelled search, while labelled spike-ins are found in the labelled search. The filtering of these PSMs is intentionally more relaxed than the general FDR filtering: all PSMs with a Comet expectation value below 0.01 are used. These identifications are also used to report the number of identifications of each spike-in.</p>
+<p>Without identifications (e.g. with <code>--skip_identification</code>), only the retention times given in the table are used, and no spike-in is counted as identified.</p>
+<h2 id="fdr-filtering-and-protein-inference">FDR filtering and protein inference<a class="headerlink" href="#fdr-filtering-and-protein-inference" title="Permanent link">&para;</a></h2>
+<p>The PSM results are processed with <a href="https://github.com/medbioinf/pia">PIA</a> (PIA - Protein Inference Algorithms) for FDR filtering and peptide/protein inference.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--pia_fdr_threshold</code></td>
+<td><code>0.01</code></td>
+<td>FDR threshold used by PIA for the final PSM-, peptide- and protein-level filtering.</td>
+</tr>
+<tr>
+<td><code>--pia_prefilter_threshold</code></td>
+<td><code>0.05</code></td>
+<td>FDR threshold for an optional PSM-level pre-filtering pass, run before the final <code>--pia_fdr_threshold</code> analysis on the unlabelled search. Set to <code>0</code> to disable pre-filtering.</td>
+</tr>
+</tbody>
+</table>
+<p>When <code>--pia_prefilter_threshold</code> is greater than <code>0</code>, the unlabelled search's PSMs are first filtered on this looser threshold and recompiled, before the final analysis (at <code>--pia_fdr_threshold</code>) runs on the reduced PSM set - this speeds up inference on large searches.</p>
+<p>If a run has no (FDR-valid) identifications, e.g. because the search finds no PSM at all or no PSM passes the pre-filtering or the final FDR filtering, it is still reported, with 0 PSMs, peptides and protein groups.</p>
+<p>Labelled search results (produced when <code>--label_modifications</code> is set, mainly used for spike-in peptides) only ever receive a PSM-level export - protein and peptide inference is not meaningful for the labelled search channel, so both are skipped, and no pre-filtering is applied to labelled results either.</p>
+<h2 id="visualization">Visualization<a class="headerlink" href="#visualization" title="Permanent link">&para;</a></h2>
+<p>The visualization creates plots and a summary table over all MS runs (see the <a href="../output/#visualization">output documentation</a>). Their formats can be set with:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--figure_format</code></td>
+<td><code>html,plotly</code></td>
+<td>Format of the figures: <code>plotly</code> (plotly JSON files), <code>html</code> (standalone interactive HTML files) or <code>html,plotly</code></td>
+</tr>
+<tr>
+<td><code>--output_table_type</code></td>
+<td><code>tsv</code></td>
+<td>Format of the summary and loadings tables: <code>tsv</code>, <code>csv</code> or <code>xlsx</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="running-only-parts-of-the-pipeline">Running only parts of the pipeline<a class="headerlink" href="#running-only-parts-of-the-pipeline" title="Permanent link">&para;</a></h2>
+<p>The pipeline consists of three main steps, which are all executed by default and can each be disabled:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Step</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--skip_metrics_extraction</code></td>
+<td>Metrics extraction: preparation of the spectra, identification and collection of all metrics into one HDF5 file per run (<code>metrics/hdf5</code>)</td>
+</tr>
+<tr>
+<td><code>--skip_mzqc_export</code></td>
+<td>Export of the metrics into mzQC files (<code>metrics/mzqc</code>)</td>
+</tr>
+<tr>
+<td><code>--skip_visualization</code></td>
+<td>Visualization of the metrics (<code>qcvisualization</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>Additionally, the identification can be skipped within the metrics extraction with <code>--skip_identification</code>. Then no identification based metrics are collected, no <code>--fasta</code> is needed, and spike-in metrics (if <code>--spike_ins_table</code> is given) only use the retention time windows of the table.</p>
+<p>If the metrics extraction is skipped, the HDF5 files of an earlier run have to be given with <code>--input_hdf5_dir</code> instead of a samplesheet with <code>--input</code> (both cannot be combined). This allows e.g. to re-create the visualization with other settings, without repeating the identification:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>nf-core/macproqc<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">   </span>--skip_metrics_extraction<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">   </span>--skip_mzqc_export<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">   </span>--input_hdf5_dir<span class="w"> </span>./results/metrics/hdf5<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">   </span>--figure_format<span class="w"> </span>html<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">   </span>--outdir<span class="w"> </span>./results_html<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">   </span>-profile<span class="w"> </span>docker
+</code></pre></div>
+<p>All files ending with <code>.hdf5</code> in this directory are used, the run names are taken from the file names.</p>
+<h2 id="handling-broken-input-files">Handling broken input files<a class="headerlink" href="#handling-broken-input-files" title="Permanent link">&para;</a></h2>
+<p>By default, the pipeline stops as soon as a step fails for a single MS run, e.g. because a raw file is broken. With <code>--ignore_failed_runs</code>, failures in the steps reading the raw files are ignored instead, and all other runs are processed as usual:</p>
+<table>
+<thead>
+<tr>
+<th>Failing step</th>
+<th>Effect on the affected run</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Decompression (gzip, tar, zip)</td>
+<td>Missing in all results</td>
+</tr>
+<tr>
+<td>Conversion to mzML (ThermoRawFileParser, tdf2mzml)</td>
+<td>No mzML and identification metrics; header and spike-in metrics are collected</td>
+</tr>
+<tr>
+<td>Instrument header metrics extraction (Thermo <code>.raw</code>, Bruker <code>.d</code>)</td>
+<td>No instrument header metrics</td>
+</tr>
+<tr>
+<td>XIC extraction for the spike-ins (Thermo <code>.raw</code>, Bruker <code>.d</code>)</td>
+<td>No spike-in metrics</td>
+</tr>
+</tbody>
+</table>
+<p>If all of these steps fail for a run, it is missing in all results. A warning is shown for each affected run, and a summary of the failed tasks at the end of the pipeline. Details of the failed tasks (status <code>FAILED</code>) are found in the execution report and trace in <code>&lt;OUTDIR&gt;/pipeline_info/</code>. Failures in any other step (e.g. the identification or the visualization) still stop the pipeline.</p>
+<h2 id="running-the-pipeline">Running the pipeline<a class="headerlink" href="#running-the-pipeline" title="Permanent link">&para;</a></h2>
+<p>The typical command for running the pipeline is as follows:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>nf-core/macproqc<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">   </span>--input<span class="w"> </span>./samplesheet.csv<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">   </span>--fasta<span class="w"> </span>./database.fasta<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">   </span>--outdir<span class="w"> </span>./results<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">   </span>-profile<span class="w"> </span>docker
+</code></pre></div>
+<p>This will launch the pipeline with the <code>docker</code> configuration profile. See below for more information about profiles.</p>
+<p>Note that the pipeline will create the following files in your working directory:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>work/<span class="w">               </span><span class="c1"># Directory containing the Nextflow working files</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>&lt;OUTDIR&gt;/<span class="w">           </span><span class="c1"># Finished results in the specified location (defined with --outdir)</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>.nextflow_log<span class="w">       </span><span class="c1"># Log file from Nextflow</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Other Nextflow hidden files, e.g. history of pipeline runs and old logs</span>
+</code></pre></div>
+<h3 id="params-file">Params file<a class="headerlink" href="#params-file" title="Permanent link">&para;</a></h3>
+<p>If you wish to repeatedly use the same parameters for multiple runs, rather than specifying each flag in the command, you can specify them in a YAML or JSON params file via <code>-params-file &lt;file&gt;</code>.</p>
+<blockquote>
+<p>[!WARNING]
+Do not use <code>-c &lt;file&gt;</code> to specify parameters as this will result in errors. Custom config files specified with <code>-c</code> must only be used for <a href="https://nf-co.re/docs/running/run-pipelines#configuring-pipelines">tuning process resource specifications</a>, other infrastructural tweaks (such as output directories), or module arguments (args).</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>nf-core/macproqc<span class="w"> </span>-profile<span class="w"> </span>docker<span class="w"> </span>-params-file<span class="w"> </span>params.yaml
+</code></pre></div>
+<p>with <code>params.yaml</code>:</p>
+<div class="highlight"><span class="filename">params.yaml</span><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">input</span><span class="p">:</span><span class="w"> </span><span class="s">"./samplesheet.csv"</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nt">fasta</span><span class="p">:</span><span class="w"> </span><span class="s">"./database.fasta"</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="nt">outdir</span><span class="p">:</span><span class="w"> </span><span class="s">"./results/"</span>
+</code></pre></div>
+<p>You can also generate parameter files via <a href="https://nf-co.re/launch">nf-core/launch</a>.</p>
+<h3 id="updating-the-pipeline">Updating the pipeline<a class="headerlink" href="#updating-the-pipeline" title="Permanent link">&para;</a></h3>
+<p>When you run the above command, Nextflow automatically pulls the pipeline code from GitHub and stores it as a cached version. When running the pipeline after this, it will always use the cached version if available — even if the pipeline has been updated since. To make sure that you're running the latest pipeline version, regularly update the cached version:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>nextflow<span class="w"> </span>pull<span class="w"> </span>nf-core/macproqc
+</code></pre></div>
+<h3 id="reproducibility">Reproducibility<a class="headerlink" href="#reproducibility" title="Permanent link">&para;</a></h3>
+<p>It is a good idea to specify the pipeline version when running the pipeline on your data. This ensures that a specific version of the pipeline code and software are used when you run your pipeline.</p>
+<p>First, go to the <a href="https://github.com/mpc-bioinformatics/macproqc/releases">nf-core/macproqc releases page</a> and find the latest pipeline version — numeric only (e.g. <code>1.3.1</code>). Then specify this when running the pipeline with <code>-r</code> (one hyphen) — e.g. <code>-r 1.3.1</code>.</p>
+<p>This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future. To further assist in reproducibility, you can use share and reuse <a href="#running-the-pipeline">parameter files</a> to repeat pipeline runs with the same settings without having to write out a command with every single parameter.</p>
+<blockquote>
+<p>[!TIP]
+If you wish to share such profile (such as upload as supplementary material for academic publications), make sure to NOT include cluster specific paths to files, nor institutional specific profiles.</p>
+</blockquote>
+<h2 id="core-nextflow-arguments">Core Nextflow arguments<a class="headerlink" href="#core-nextflow-arguments" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>[!NOTE]
+These options are part of Nextflow and use a <em>single</em> hyphen (pipeline parameters use a double-hyphen).</p>
+</blockquote>
+<h3 id="-profile"><code>-profile</code><a class="headerlink" href="#-profile" title="Permanent link">&para;</a></h3>
+<p>Use this parameter to choose a configuration profile. Profiles can give configuration presets for different compute environments.</p>
+<p>Several generic profiles are bundled with the pipeline which instruct the pipeline to use software packaged using different methods (Docker, Singularity, Podman, Apptainer, Conda) — see below.</p>
+<blockquote>
+<p>[!IMPORTANT]
+We highly recommend the use of Docker or Singularity containers for full pipeline reproducibility, however when this is not possible, Conda is also supported.</p>
+</blockquote>
+<p>The pipeline also dynamically loads configurations from <a href="https://github.com/nf-core/configs">https://github.com/nf-core/configs</a> when it runs, making multiple config profiles for various institutional clusters available at run time. For more information and to check if your system is supported, please see the <a href="https://github.com/nf-core/configs#documentation">nf-core/configs documentation</a>.</p>
+<p>Note that multiple profiles can be loaded, for example: <code>-profile test,docker</code> — the order of arguments is important! They are loaded in sequence, so later profiles can overwrite earlier profiles.</p>
+<p>If <code>-profile</code> is not specified, the pipeline will run locally and expect all software to be installed and available on the <code>PATH</code>. This is <em>not</em> recommended, since it can lead to different results on different machines dependent on the computer environment.</p>
+<ul>
+<li><code>test</code></li>
+<li>A profile with a complete configuration for automated testing</li>
+<li>Includes links to test data so needs no other parameters</li>
+<li><code>docker</code></li>
+<li>A generic configuration profile to be used with <a href="https://docker.com/">Docker</a></li>
+<li><code>singularity</code></li>
+<li>A generic configuration profile to be used with <a href="https://sylabs.io/docs/">Singularity</a></li>
+<li><code>podman</code></li>
+<li>A generic configuration profile to be used with <a href="https://podman.io/">Podman</a></li>
+<li><code>apptainer</code></li>
+<li>A generic configuration profile to be used with <a href="https://apptainer.org/">Apptainer</a></li>
+<li><code>wave</code></li>
+<li>A generic configuration profile to enable <a href="https://seqera.io/wave/">Wave</a> containers. Use together with one of the above (requires Nextflow <code>24.03.0-edge</code> or later).</li>
+<li><code>conda</code></li>
+<li>A generic configuration profile to be used with <a href="https://conda.io/docs/">Conda</a>. Please only use Conda as a last resort i.e. when it's not possible to run the pipeline with Docker, Singularity, Podman, Shifter, Charliecloud, or Apptainer.</li>
+</ul>
+<h3 id="-resume"><code>-resume</code><a class="headerlink" href="#-resume" title="Permanent link">&para;</a></h3>
+<p>Specify this when restarting a pipeline. Nextflow will use cached results from any pipeline steps where the inputs are the same, continuing from where it got to previously. For more info about this parameter, see <a href="https://www.nextflow.io/blog/2019/demystifying-nextflow-resume.html">this blog post</a>.</p>
+<p>You can also supply a run name to resume a specific run: <code>-resume [run-name]</code>. Use the <code>nextflow log</code> command to show previous run names.</p>
+<h3 id="-c"><code>-c</code><a class="headerlink" href="#-c" title="Permanent link">&para;</a></h3>
+<p>Specify the path to a specific config file (this is a core Nextflow command). See the <a href="https://nf-co.re/usage/configuration">nf-core website documentation</a> for more information.</p>
+<h2 id="custom-configuration">Custom configuration<a class="headerlink" href="#custom-configuration" title="Permanent link">&para;</a></h2>
+<h3 id="resource-requests">Resource requests<a class="headerlink" href="#resource-requests" title="Permanent link">&para;</a></h3>
+<p>Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customise the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the pipeline steps, if the job exits with any of the error codes specified <a href="https://github.com/nf-core/rnaseq/blob/4c27ef5610c87db00c3c5a3eed10b1d161abf575/conf/base.config#L18">here</a> it will automatically be resubmitted with higher resources request (2 x original, then 3 x original). If it still fails after the third attempt then the pipeline execution is stopped.</p>
+<p>To change the resource requests, please see the <a href="https://nf-co.re/docs/running/configuration/nextflow-for-your-system#set-max-resources">max resources</a> and <a href="https://nf-co.re/docs/running/configuration/nextflow-for-your-system#customize-process-resources">customise process resources</a> section of the nf-core website.</p>
+<h3 id="custom-containers">Custom Containers<a class="headerlink" href="#custom-containers" title="Permanent link">&para;</a></h3>
+<p>In some cases, you may wish to change the container or conda environment used by a pipeline steps for a particular tool. To use a different container from the default container or conda environment specified in a pipeline, please see the <a href="https://nf-co.re/docs/running/configuration/nextflow-for-your-system#update-tool-versions">updating tool versions</a> section of the nf-core website.</p>
+<h3 id="custom-tool-arguments">Custom Tool Arguments<a class="headerlink" href="#custom-tool-arguments" title="Permanent link">&para;</a></h3>
+<p>A pipeline might not always support every possible argument or option of a particular tool used in pipeline. Fortunately, nf-core pipelines provide some freedom to users to insert additional parameters that the pipeline does not include by default.</p>
+<p>To learn how to provide additional arguments to a particular tool of the pipeline, please see the <a href="https://nf-co.re/docs/running/configuration/nextflow-for-your-system#modifying-tool-arguments">customising tool arguments</a> section of the nf-core website.</p>
+<h3 id="nf-coreconfigs">nf-core/configs<a class="headerlink" href="#nf-coreconfigs" title="Permanent link">&para;</a></h3>
+<p>In most cases, you will only need to create a custom config as a one-off but if you and others within your organisation are likely to be running nf-core pipelines regularly and need to use the same settings regularly it may be a good idea to request that your custom config file is uploaded to the <code>nf-core/configs</code> git repository. Before you do this please can you test that the config file works with your pipeline of choice using the <code>-c</code> parameter. You can then create a pull request to the <code>nf-core/configs</code> repository with the addition of your config file, associated documentation file (see examples in <a href="https://github.com/nf-core/configs/tree/master/docs"><code>nf-core/configs/docs</code></a>), and amending <a href="https://github.com/nf-core/configs/blob/master/nfcore_custom.config"><code>nfcore_custom.config</code></a> to include your custom profile.</p>
+<p>See the main <a href="https://www.nextflow.io/docs/latest/config.html">Nextflow documentation</a> for more information about creating your own configuration files.</p>
+<p>If you have any questions or issues please send us a message on <a href="https://nf-co.re/join/slack">Slack</a> on the <a href="https://nfcore.slack.com/channels/configs"><code>#configs</code> channel</a>.</p>
+<h2 id="running-in-the-background">Running in the background<a class="headerlink" href="#running-in-the-background" title="Permanent link">&para;</a></h2>
+<p>Nextflow handles job submissions and supervises the running jobs. The Nextflow process must run until the pipeline is finished.</p>
+<p>The Nextflow <code>-bg</code> flag launches Nextflow in the background, detached from your terminal so that the workflow does not stop if you log out of your session. The logs are saved to a file.</p>
+<p>Alternatively, you can use <code>screen</code> / <code>tmux</code> or similar tool to create a detached session which you can log back into at a later time.
+Some HPC setups also allow you to run nextflow within a cluster job submitted your job scheduler (from where it submits more jobs).</p>
+<h2 id="nextflow-memory-requirements">Nextflow memory requirements<a class="headerlink" href="#nextflow-memory-requirements" title="Permanent link">&para;</a></h2>
+<p>In some cases, the Nextflow Java virtual machines can start to request a large amount of memory.
+We recommend adding the following line to your environment to limit this (typically in <code>~/.bashrc</code> or <code>~./bash_profile</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nv">NXF_OPTS</span><span class="o">=</span><span class="s1">'-Xms1g -Xmx4g'</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/mpc-bioinformatics/macproqc" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://nfcore.slack.com/channels/macproqc" target="_blank" rel="noopener" title="nfcore.slack.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M94.1 315.1c0 25.9-21.2 47.1-47.1 47.1S0 341 0 315.1 21.2 268 47.1 268h47.1v47.1zm23.7 0c0-25.9 21.2-47.1 47.1-47.1s47.1 21.2 47.1 47.1v117.8c0 25.9-21.2 47.1-47.1 47.1s-47.1-21.2-47.1-47.1zm47.1-189c-25.9 0-47.1-21.2-47.1-47.1s21.2-47 47.1-47S212 53.2 212 79.1v47.1h-47.1zm0 23.7c25.9 0 47.1 21.2 47.1 47.1S190.8 244 164.9 244H47.1C21.2 244 0 222.8 0 196.9s21.2-47.1 47.1-47.1zm189 47.1c0-25.9 21.2-47.1 47.1-47.1s47 21.2 47 47.1-21.2 47.1-47.1 47.1h-47.1v-47.1zm-23.7 0c0 25.9-21.2 47.1-47.1 47.1S236 222.8 236 196.9V79.1c0-25.9 21.2-47.1 47.1-47.1s47.1 21.2 47.1 47.1zm-47.1 189c25.9 0 47.1 21.2 47.1 47.1s-21.2 47-47.1 47-47.1-21.2-47.1-47.1v-47.1h47.1zm0-23.7c-25.9 0-47.1-21.2-47.1-47.1s21.2-47.1 47.1-47.1h117.8c25.9 0 47.1 21.2 47.1 47.1s-21.2 47.1-47.1 47.1z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.sections", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit", "content.tabs.link"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
