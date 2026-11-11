@@ -52,6 +52,9 @@ workflow COLLECT_METRICS {
     if (spike_ins_table) {
         ch_spike_ins_table = channel.value(file(spike_ins_table, checkIfExists: true))
 
+        // the spike-in XIC extraction is only available for raw data (no XICs for mzML-only runs)
+        ch_vendor_raw = ch_raw.filter { meta, _raw -> meta.vendor in ['thermo', 'bruker'] }
+
         // all PSM mzTabs per run (labelled and unlabelled), sorted for a stable order
         ch_psm_mztabs_per_run = ch_labelled_psm_mztab
             .mix(ch_unlabelled_pia_results.map { meta, psms, _peptides, _proteins -> [ meta, psms ] })
@@ -60,9 +63,10 @@ workflow COLLECT_METRICS {
             .groupTuple(by: 0, sort: { a, b -> a.name <=> b.name })
 
         // now join with the meta.id from raw, and make sure to have an input for all files (even if it is empty an [])
-        ch_xic_input_mztab = ch_raw
+        ch_xic_input_mztab = ch_vendor_raw
             .map { meta, _raw -> [ meta.id, meta ] }
             .join(ch_psm_mztabs_per_run, by: 0, remainder: true)
+            .filter { _id, meta, _psm_mztabs -> meta != null }   // drops the PSMs of mzML-only runs
             .map { _id, meta, psm_mztabs -> [ meta, psm_mztabs ?: [] ] }
 
         // create the XIC extraction config and the identifications matched to the spike-ins
@@ -73,7 +77,7 @@ workflow COLLECT_METRICS {
 
         // pair each raw file with its XIC extraction config (joined on meta.id, since the meta maps
         // themselves may carry different extra keys depending on their origin)
-        ch_raw_and_config = ch_raw
+        ch_raw_and_config = ch_vendor_raw
             .map { meta, raw -> [ meta.id, meta, raw ] }
             .join(
                 XICEXTRACTIONCONFIG.out.config.map { meta, xic_config, ident_csv -> [ meta.id, xic_config, ident_csv ] },
@@ -81,7 +85,7 @@ workflow COLLECT_METRICS {
             )
             .map { _id, meta, raw, xic_config, ident_csv -> [ meta, raw, xic_config, ident_csv ] }
 
-        // branch by vendor to run the correct XIC extraction (mzML-only runs have no raw/d_folder and are dropped here)
+        // branch by vendor to run the correct XIC extraction
         ch_raw_and_config
             .branch { meta, _raw, _xic_config, _ident_csv ->
                 thermo: meta.vendor == 'thermo'
