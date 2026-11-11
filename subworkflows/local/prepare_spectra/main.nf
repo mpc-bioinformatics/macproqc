@@ -89,16 +89,24 @@ workflow PREPARE_SPECTRA {
 
     // Uncompress the spectra files
     GUNZIP(ch_branched_spectra.gzipped)
-    ch_gunzipped_spectra = GUNZIP.out.gunzip.map { meta, path -> path.isFile() ? [meta, path] : [meta, path.listFiles().first()] }
-    ch_uncompressed_spectra = ch_uncompressed_spectra.mix(ch_gunzipped_spectra)
-
     UNTAR(ch_branched_spectra.tarred)
-    ch_untarred_spectra = UNTAR.out.untar.map { meta, path -> path.isFile() || meta.vendor == VENDOR_BRUKER ? [meta, path] : [meta, path.listFiles().first()] }
-    ch_uncompressed_spectra = ch_uncompressed_spectra.mix(ch_untarred_spectra)
-
     UNZIP(ch_branched_spectra.zipped)
-    unzipped_spectra = UNZIP.out.unzipped_archive.map { meta, path -> path.isFile() ? [meta, path] : [meta, path.listFiles().first()] }
-    ch_uncompressed_spectra = ch_uncompressed_spectra.mix(unzipped_spectra)
+
+    // find the spectrum file in the decompressed data: archives must contain exactly one
+    ch_decompressed = GUNZIP.out.gunzip
+        .mix(UNTAR.out.untar, UNZIP.out.unzipped_archive)
+        .map { meta, path -> [meta, findSpectrumFiles(path, meta.vendor)] }
+        .branch { _meta, spectrum_files ->
+            valid: spectrum_files.size() == 1
+            invalid: true
+        }
+
+    ch_decompressed.invalid.subscribe { meta, spectrum_files ->
+        log.warn("Run '${meta.id}': the archive must contain exactly one ${meta.vendor} spectrum file, but ${spectrum_files.size()} were found. It is ignored.")
+    }
+
+    ch_uncompressed_spectra = ch_uncompressed_spectra
+        .mix(ch_decompressed.valid.map { meta, spectrum_files -> [meta, spectrum_files[0]] })
 
     // remove compression from meta (as a new map, the meta maps are shared with other channels)
     ch_uncompressed_spectra = ch_uncompressed_spectra.map { meta, path ->
@@ -125,4 +133,21 @@ workflow PREPARE_SPECTRA {
     emit:
     mzmls = ch_mzmls
     uncompressed = ch_uncompressed_spectra
+}
+
+/**
+ * Returns the spectrum file(s) found in a decompressed input (file or extraction directory):
+ * Thermo: *.raw files, mzML: *.mzML files, Bruker: the .d folders (the folders containing an analysis.tdf).
+ * Hidden files (e.g. macOS "._" files) and "__MACOSX" folders are skipped.
+ */
+def findSpectrumFiles(path, vendor) {
+    if (path.isFile()) {
+        return [path]
+    }
+    def all_files = files("${path}/**", type: 'file').findAll { f -> !path.relativize(f).toString().contains('__MACOSX') }
+    if (vendor == 'bruker') {
+        return all_files.findAll { f -> f.name == 'analysis.tdf' }.collect { f -> f.parent }
+    }
+    def extension = vendor == 'thermo' ? '.raw' : '.mzml'
+    return all_files.findAll { f -> f.name.toLowerCase().endsWith(extension) }
 }

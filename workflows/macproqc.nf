@@ -96,7 +96,7 @@ workflow MACPROQC {
             warnMissingRuns(
                 ch_samplesheet,
                 PREPARE_SPECTRA.out.uncompressed,
-                { meta, file -> "Run '${meta.id}' (${file}) could not be decompressed (or has an unsupported format)." }
+                { meta, file -> "Run '${meta.id}' (${file}) could not be decompressed (or has an unsupported format or archive content)." }
             )
             warnMissingRuns(
                 PREPARE_SPECTRA.out.uncompressed,
