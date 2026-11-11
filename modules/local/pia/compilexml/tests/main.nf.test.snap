@@ -206,10 +206,10 @@
                 "</AnalysisProtocolCollection>"
             ]
         ],
-        "timestamp": "2026-09-09T13:03:46.387247689",
+        "timestamp": "2026-11-11T10:42:49.543702418",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.6"
+            "nextflow": "26.10.0"
         }
     }
 }

@@ -45,7 +45,7 @@ An [example samplesheet](../assets/samplesheet.csv) has been provided with the p
 
 ## Protein sequence database
 
-The pipeline requires a protein sequence database in FASTA format for peptide identification. A single database is applied globally to all MS runs listed in the samplesheet.
+The pipeline requires a protein sequence database in FASTA format for peptide identification. A single database is applied globally to all MS runs listed in the samplesheet. If the identification is skipped (see [Running only parts of the pipeline](#running-only-parts-of-the-pipeline)), no database is needed.
 
 ```bash
 --fasta '[path to FASTA file]'
@@ -123,11 +123,13 @@ Variable and static modifications can be set via pipeline parameters. The syntax
 >
 > Only modifications already present in the template can be overwritten this way. To add new modification slots, provide a custom `--comet_config_template`.
 
-### Labelled quantification search
+### Labelled search (for spike-ins)
 
-When `--label_modifications` is set to a non-empty string, the pipeline runs a **second, parallel Comet search** alongside the standard unlabelled search. The labelled search uses the same parameters as the unlabelled search, but the `--label_modifications` entries are appended to `--static_modifications` to account for stable isotope labels (e.g. SILAC). In this workflow, this can be used to explicitly identify labelled spike-in peptides.
+When `--label_modifications` is set to a non-empty string, the pipeline runs a **second, parallel Comet search** alongside the standard unlabelled search. The labelled search uses the same parameters as the unlabelled search, but the `--label_modifications` entries are appended to `--static_modifications` to account for stable isotope labels (e.g. heavy lysine and arginine).
 
-Example for a SILAC K+8 / R+10 experiment:
+This labelled search is only used for the [spike-ins](#spike-ins): its identifications help to find the labelled spike-in peptides for the XIC extraction. It is not used for any other QC metric, and it is not mandatory for the spike-in metrics. The point of a separate search is that the labels can be searched as static modifications only here, instead of adding them as variable modifications to the general identification, which would enlarge the search space and affect the identification based QC metrics.
+
+Example for spike-ins labelled with heavy lysine (K+8) and arginine (R+10):
 
 ```bash
 --static_modifications "'add_C_cysteine = 57.021464'"
@@ -138,21 +140,41 @@ Each spectrum file produces two result files: one from the unlabelled search and
 
 ### Spike-ins
 
-Specific quality control samples may contain spike-in peptides. These spike-ins can be provided via a comma-separated spike-in table with the following format:
+Specific quality control samples may contain spike-in or reference peptides. If a spike-in table is given, the extracted ion chromatograms (XICs) of these peptides are extracted from the Thermo `.raw` and Bruker `.d` files, and their maximum intensity, retention time and number of identifications are added to the QC metrics and the visualization.
 
-```csv title="spike_ins.csv"
-name,sequence,mz,RT,mz-tol,rt-tol
-SPIKE1,GEPAAAAAPEAGASPVEK[+8.014199]/2,815.9118,5,10 ppm,36000
+```bash
+--spike_ins_table '[path to spike-ins CSV file]'
 ```
 
-| Column     | Description                                                                                                                                                    |
-| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`     | Unique identifier for the spike-in peptide.                                                                                                                    |
-| `sequence` | Proforma peptidoform sequence of the spike-in, including any modifications.                                                                                    |
-| `mz`       | Expected mass-to-charge ratio (m/z) of the spike-in.                                                                                                           |
-| `RT`       | Expected retention time of the spike-in in seconds.                                                                                                            |
-| `mz-tol`   | Mass tolerance around `mz` used to search for the spike-in (e.g. `10 ppm`).                                                                                    |
-| `rt-tol`   | Retention time tolerance in seconds around `RT` used to search for the spike-in. The high value of 36000 in this example means that the whole run is searched. |
+The spike-ins are given in a comma-separated table with the following format (an example is provided with the pipeline in `assets/default_configs/spike_ins_whole_proforma.csv`):
+
+```csv title="spike_ins.csv"
+name,sequence,mz,RT,mz-tol,mz-tol-unit,rt-tol
+SPIKE1,GEPAAAAAPEAGASPVEK[+8.014199]/2,815.9118,-1,10,ppm,300
+SPIKE2,NLVVGDETTSSLR[+10.008269]/2,700.8664,1830,10,ppm,300
+```
+
+| Column        | Description                                                                                                                                                           |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`        | Unique identifier for the spike-in peptide.                                                                                                                           |
+| `sequence`    | ProForma peptidoform sequence of the spike-in, including any modifications and the charge (e.g. `/2`).                                                                |
+| `mz`          | Expected mass-to-charge ratio (m/z) of the spike-in.                                                                                                                  |
+| `RT`          | Expected retention time of the spike-in in seconds, or `-1` if it is not known.                                                                                       |
+| `mz-tol`      | Mass tolerance around `mz` used to extract the XIC (a number, e.g. `10`).                                                                                             |
+| `mz-tol-unit` | Unit of `mz-tol`: `ppm` (recommended). Thermo `.raw` files also support `amu`, `mmu` and `da`, while the XIC extraction from Bruker `.d` folders only supports `ppm`. |
+| `rt-tol`      | Retention time tolerance in seconds around the (expected or identified) retention time, used to extract the XIC.                                                      |
+
+The table is validated at the start of the pipeline (whenever it is used by the metrics extraction or the visualization): all columns are required, `name` must be unique, `mz` and `mz-tol` must be greater than 0, `RT` must be `-1` or a value of at least 0, `rt-tol` must be at least 0 and `mz-tol-unit` must be one of `ppm`, `amu`, `mmu` or `da`.
+
+The retention time window used to extract the XIC of each spike-in is determined as follows:
+
+1. If the spike-in was identified in the run, the window is centred on the mean retention time of its identifications. The half window size is `rt-tol`, or half of the retention time range of the identifications, if that is larger.
+2. Otherwise, if an `RT` is given, the window is `RT` ± `rt-tol`.
+3. Otherwise (`RT` is `-1` and no identification), the XIC is extracted over the whole run.
+
+For this tuning of the retention time windows, the PSMs of the unlabelled **and** (if `--label_modifications` is set) the labelled search are used. The spike-ins are matched to the PSMs by their plain amino acid sequence, so each search contributes the spike-ins it can identify: e.g. unlabelled spike-ins are found in the unlabelled search, while labelled spike-ins are found in the labelled search. The filtering of these PSMs is intentionally more relaxed than the general FDR filtering: all PSMs with a Comet expectation value below 0.01 are used. These identifications are also used to report the number of identifications of each spike-in.
+
+Without identifications (e.g. with `--skip_identification`), only the retention times given in the table are used, and no spike-in is counted as identified.
 
 ## FDR filtering and protein inference
 
@@ -165,7 +187,57 @@ The PSM results are processed with [PIA](https://github.com/medbioinf/pia) (PIA 
 
 When `--pia_prefilter_threshold` is greater than `0`, the unlabelled search's PSMs are first filtered on this looser threshold and recompiled, before the final analysis (at `--pia_fdr_threshold`) runs on the reduced PSM set - this speeds up inference on large searches.
 
+If a run has no (FDR-valid) identifications, e.g. because the search finds no PSM at all or no PSM passes the pre-filtering or the final FDR filtering, it is still reported, with 0 PSMs, peptides and protein groups.
+
 Labelled search results (produced when `--label_modifications` is set, mainly used for spike-in peptides) only ever receive a PSM-level export - protein and peptide inference is not meaningful for the labelled search channel, so both are skipped, and no pre-filtering is applied to labelled results either.
+
+## Visualization
+
+The visualization creates plots and a summary table over all MS runs (see the [output documentation](output.md#visualization)). Their formats can be set with:
+
+| Parameter             | Default       | Description                                                                                                      |
+| --------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `--figure_format`     | `html,plotly` | Format of the figures: `plotly` (plotly JSON files), `html` (standalone interactive HTML files) or `html,plotly` |
+| `--output_table_type` | `tsv`         | Format of the summary and loadings tables: `tsv`, `csv` or `xlsx`                                                |
+
+## Running only parts of the pipeline
+
+The pipeline consists of three main steps, which are all executed by default and can each be disabled:
+
+| Parameter                   | Step                                                                                                                                     |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `--skip_metrics_extraction` | Metrics extraction: preparation of the spectra, identification and collection of all metrics into one HDF5 file per run (`metrics/hdf5`) |
+| `--skip_mzqc_export`        | Export of the metrics into mzQC files (`metrics/mzqc`)                                                                                   |
+| `--skip_visualization`      | Visualization of the metrics (`qcvisualization`)                                                                                         |
+
+Additionally, the identification can be skipped within the metrics extraction with `--skip_identification`. Then no identification based metrics are collected, no `--fasta` is needed, and spike-in metrics (if `--spike_ins_table` is given) only use the retention time windows of the table.
+
+If the metrics extraction is skipped, the HDF5 files of an earlier run have to be given with `--input_hdf5_dir` instead of a samplesheet with `--input` (both cannot be combined). This allows e.g. to re-create the visualization with other settings, without repeating the identification:
+
+```bash
+nextflow run nf-core/macproqc \
+   --skip_metrics_extraction \
+   --skip_mzqc_export \
+   --input_hdf5_dir ./results/metrics/hdf5 \
+   --figure_format html \
+   --outdir ./results_html \
+   -profile docker
+```
+
+All files ending with `.hdf5` in this directory are used, the run names are taken from the file names.
+
+## Handling broken input files
+
+By default, the pipeline stops as soon as a step fails for a single MS run, e.g. because a raw file is broken. With `--ignore_failed_runs`, failures in the steps reading the raw files are ignored instead, and all other runs are processed as usual:
+
+| Failing step                                                      | Effect on the affected run                                                    |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Decompression (gzip, tar, zip)                                    | Missing in all results                                                        |
+| Conversion to mzML (ThermoRawFileParser, tdf2mzml)                | No mzML and identification metrics; header and spike-in metrics are collected |
+| Instrument header metrics extraction (Thermo `.raw`, Bruker `.d`) | No instrument header metrics                                                  |
+| XIC extraction for the spike-ins (Thermo `.raw`, Bruker `.d`)     | No spike-in metrics                                                           |
+
+If all of these steps fail for a run, it is missing in all results. A warning is shown for each affected run, and a summary of the failed tasks at the end of the pipeline. Details of the failed tasks (status `FAILED`) are found in the execution report and trace in `<OUTDIR>/pipeline_info/`. Failures in any other step (e.g. the identification or the visualization) still stop the pipeline.
 
 ## Running the pipeline
 
@@ -174,6 +246,7 @@ The typical command for running the pipeline is as follows:
 ```bash
 nextflow run nf-core/macproqc \
    --input ./samplesheet.csv \
+   --fasta ./database.fasta \
    --outdir ./results \
    -profile docker
 ```
@@ -204,6 +277,7 @@ with `params.yaml`:
 
 ```yaml title="params.yaml"
 input: "./samplesheet.csv"
+fasta: "./database.fasta"
 outdir: "./results/"
 ```
 

@@ -1,6 +1,6 @@
 process PIA_COMPILEXML {
     tag "$meta.id"
-    label 'process_high'
+    label 'process_medium'
 
     container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/pia:1.5.9--hdfd78af_0':
@@ -10,7 +10,7 @@ process PIA_COMPILEXML {
     tuple val(meta), path(identifications)
 
     output:
-    tuple val(meta), path("*.pia.xml"), emit: pia_xml
+    tuple val(meta), path("*.pia.xml"), optional: true, emit: pia_xml
     tuple val("${task.process}"), val('pia'), eval('pia --version 1>&1 | head -1  | sed "s/.*version //"'), topic: versions, emit: versions_pia
 
     when:
@@ -22,14 +22,21 @@ process PIA_COMPILEXML {
     def pia_ram = task.memory.toMega()
     def pia_threads = task.cpus
     """
-    pia \\
-        ${args} \\
-        -Xms2g \\
-        -Xmx${pia_ram}m \\
-        --threads ${pia_threads} \\
-        --compile \\
-        -o '${prefix}.pia.xml' \\
-        '${identifications}'
+    # mzid files without any SpectrumIdentificationResult (no PSM found / passing the prefilter) cannot be
+    # compiled by PIA: skip these, no pia.xml is written and the run is reported with 0 identifications,
+    # that's why the pia.xml output is optional.
+    if grep -q '<SpectrumIdentificationResult' '${identifications}'; then
+        pia \\
+            ${args} \\
+            -Xms2g \\
+            -Xmx${pia_ram}m \\
+            --threads ${pia_threads} \\
+            --compile \\
+            -o '${prefix}.pia.xml' \\
+            '${identifications}'
+    else
+        echo "No identifications in ${identifications}, PIA compilation skipped." >&2
+    fi
     """
 
     stub:

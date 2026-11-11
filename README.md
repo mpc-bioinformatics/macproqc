@@ -24,12 +24,18 @@
 The pipeline performs the following main steps:
 
 - **Spectra preparation** - raw vendor files are decompressed and converted to the open mzML format using ThermoRawFileParser (Thermo) or tdf2mzml (Bruker).
-- **Raw-data QC metrics extraction** _(migrating)_ - MS1/MS2 spectrum counts, TIC quartiles, precursor charge distributions, retention-time coverage and more are extracted from the mzML files using pyOpenMS.
-- **Peptide identification** _(migrating)_ - MS2 spectra are searched against a user-supplied FASTA database, without and if necessary with label information.
-- **FDR filtering and protein inference** _(migrating)_ - PSM-level results are filtered at 1 % FDR and protein groups are inferred with PIA - Protein Inference Algorithms.
+- **Peptide identification** - MS2 spectra are searched with Comet against a user-supplied FASTA database (decoys are generated with OpenMS), without and, if label modifications are given, additionally with (static) label information.
+- **FDR filtering and protein inference** - PSMs are filtered at a configurable FDR (default 1 %), and peptides and protein groups are inferred with PIA - Protein Inference Algorithms.
+- **QC metrics extraction** - per MS run, all QC metrics are collected into one HDF5 file:
+  - from the mzML files (pyOpenMS): MS1/MS2 spectrum counts, TIC and TIC quartiles, precursor charge distributions, retention-time coverage, MS1 maps and more
+  - from the vendor files: instrument headers and logs, e.g. pump pressure, temperatures and lock mass corrections (Thermo) or calibrants (Bruker)
+  - from the identification results: numbers of PSMs, peptides and protein groups, PSM charges, missed cleavages and precursor mass errors
+  - optionally for spike-in/reference peptides: XIC-based maximum intensity, retention time and number of identifications
 - **QC metrics for peptide features** _(migrating)_ - OpenMS identifies isotope features; found features are mapped to identifications to yield identification rates and QC metrics are extracted.
-- **mzQC output** _(migrating)_ - all QC metrics are exported in the standardised [mzQC](https://hupo-psi.github.io/mzQC/) format for interoperability.
-- **Visualisation** _(migrating)_ - an interactive report with barplots, TIC overlays, ion maps and PCA plots is generated using Plotly.
+- **mzQC output** - all QC metrics are exported in the standardised [mzQC](https://hupo-psi.github.io/mzQC/) format for interoperability.
+- **Visualisation** - interactive Plotly plots (barplots, TIC overlays, ion maps, PCA plots, instrument header plots, ...) and a summary table are created over all MS runs.
+
+The identification, the mzQC export and the visualisation can be skipped individually. The mzQC export and visualisation can also be run on the HDF5 files of an earlier run, without repeating the metrics extraction.
 
 ## Usage
 
@@ -55,6 +61,7 @@ Now, you can run the pipeline using:
 nextflow run nf-core/macproqc \
    -profile docker \
    --input samplesheet.csv \
+   --fasta database.fasta \
    --outdir ./results
 ```
 
@@ -65,8 +72,14 @@ For more details and further functionality, please refer to the [usage documenta
 
 ## Pipeline output
 
+The main results are written to the following folders of the output directory:
+
+- `metrics/hdf5/` - one HDF5 file per MS run with all collected QC metrics
+- `metrics/mzqc/` - the QC metrics of each MS run in the mzQC format
+- `qcvisualization/` - plots and summary table over all MS runs
+- `mzmls/`, `comet/`, `pia/` - the converted spectra and the identification results
+
 For more details about the output files and reports, please refer to the [output documentation](https://mpc-bioinformatics.github.io/macproqc/output/).
-Update these paths information!
 
 ## Credits
 

@@ -61,6 +61,35 @@ output:
         The id field encodes the search type: <sample>-unlabelled or <sample>-labelled.
         Structure: [ val(meta), path(mzid) ]
       pattern: "*.mzid"
+  - pia_psms:
+      type: channel
+      description: |
+        Channel of the PIA PSM exports (mzTab) of the unlabelled search, one per input spectrum
+        file (the id is reverted to the sample id). If the search found no PSM at all or PIA found
+        no (FDR-valid) results for a run, the file is given as [], which results in 0 identifications.
+        Structure: [ val(meta), path(psms) ]
+      pattern: "*.piaExport-PSMs.mzTab"
+  - pia_peptides:
+      type: channel
+      description: |
+        Channel of the PIA peptide exports (csv) of the unlabelled search, one per input spectrum
+        file. Given as [], if the search or PIA found no (FDR-valid) results for a run.
+        Structure: [ val(meta), path(peptides) ]
+      pattern: "*.piaExport-peptides.csv"
+  - pia_proteins:
+      type: channel
+      description: |
+        Channel of the PIA protein exports (mzTab) of the unlabelled search, one per input spectrum
+        file. Given as [], if the search or PIA found no (FDR-valid) results for a run.
+        Structure: [ val(meta), path(proteins) ]
+      pattern: "*.piaExport-proteins.mzTab"
+  - pia_labelled_psms:
+      type: channel
+      description: |
+        Channel of the PIA PSM exports (mzTab) of the labelled search (only if label modifications
+        are searched). Runs without results (in the search or PIA) are missing in this channel.
+        Structure: [ val(meta), path(psms) ]
+      pattern: "*.piaExport-PSMs.mzTab"
 authors:
   - "@julianu"
 maintainers:

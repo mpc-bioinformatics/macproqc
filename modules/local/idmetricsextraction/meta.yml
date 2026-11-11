@@ -30,19 +30,19 @@ input:
           e.g. `[ id:'sample1' ]`
     - psms:
         type: file
-        description: PSM export of PIA in mzTab format (must contain the decoy column)
+        description: PSM export of PIA in mzTab format (must contain the decoy column), or [] if there are no results (counted as 0)
         pattern: "*.mzTab"
         ontologies:
           - edam: "http://edamontology.org/format_3681" # mzTab
     - peptides:
         type: file
-        description: Peptide export of PIA in CSV format
+        description: Peptide export of PIA in CSV format, or [] if there are no results (counted as 0)
         pattern: "*.csv"
         ontologies:
           - edam: "http://edamontology.org/format_3752" # CSV
     - proteins:
         type: file
-        description: Protein export of PIA in mzTab format
+        description: Protein export of PIA in mzTab format, or [] if there are no results (counted as 0)
         pattern: "*.mzTab"
         ontologies:
           - edam: "http://edamontology.org/format_3681" # mzTab

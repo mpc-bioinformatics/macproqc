@@ -107,6 +107,9 @@ nextflow_process {
     test("idmetricsextraction - metrics in mzQC") {
 
         when {
+            params {
+                outdir = "$outputDir"
+            }
             process {
                 """
                 input[0] = IDMETRICSEXTRACTION.out.hdf5
@@ -127,22 +130,13 @@ nextflow_process {
                 'MS:4000215',   // missed cleavages fractions
             ]
 
-            // floating point values differ in the last digits between runs, so round them to 8 digits
-            def roundMetricValue
-            roundMetricValue = { v ->
-                if (v instanceof Map) return v.collectEntries { k, x -> [ k, roundMetricValue(x) ] }
-                if (v instanceof List) return v.collect { roundMetricValue(it) }
-                if (v instanceof BigDecimal || v instanceof Double) return v.toBigDecimal().setScale(8, java.math.RoundingMode.HALF_UP)
-                return v
-            }
-
             def idMetrics = [:]
             if (process.success) {
                 def mzqc = new groovy.json.JsonSlurper().parse(new File(process.out.mzqc[0][1].toString())).mzQC
                 idMetrics = new TreeMap(
                     mzqc.runQualities[0].qualityMetrics
                         .findAll { it.accession in idMetricAccessions }
-                        .collectEntries { [ it.accession, roundMetricValue(it.value) ] }
+                        .collectEntries { [ it.accession, it.value ] }
                 )
             }
 

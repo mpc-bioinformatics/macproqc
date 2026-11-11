@@ -45,7 +45,9 @@ output:
             e.g. `[ id:'sample1' ]`
       - "*.pia.xml":
           type: file
-          description: Compiled PIA intermediate file, containing all PSMs, peptides and accessions of the input identifications
+          description: |
+            Compiled PIA intermediate file, containing all PSMs, peptides and accessions of the input identifications.
+            Not written for inputs without any identification (no SpectrumIdentificationResult).
           pattern: "*.pia.xml"
           ontologies:
             - edam: "http://edamontology.org/format_2332" # XML

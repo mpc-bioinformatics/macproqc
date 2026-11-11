@@ -325,10 +325,10 @@
                 "</AnalysisProtocolCollection>"
             ]
         ],
-        "timestamp": "2026-07-17T09:06:46.164976827",
+        "timestamp": "2026-11-11T10:38:14.370839564",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.3"
+            "nextflow": "26.10.0"
         }
     },
     "labelled-and-unlabelled-mzid-AnalysisProtocolCollection": {
@@ -652,10 +652,10 @@
                 ]
             ]
         ],
-        "timestamp": "2026-07-17T09:06:56.560145687",
+        "timestamp": "2026-11-11T10:38:55.460069652",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.3"
+            "nextflow": "26.10.0"
         }
     },
     "labelled-and-unlabelled-comet-params-file": {
@@ -665,20 +665,20 @@
                 "test-mzmlraw-unlabelled.comet.params:md5,7822f70c1989221693a4903e7f9a3b6b"
             ]
         ],
-        "timestamp": "2026-07-17T09:06:56.460458695",
+        "timestamp": "2026-11-11T10:38:55.332324909",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.3"
+            "nextflow": "26.10.0"
         }
     },
     "comet-params-file": {
         "content": [
             "test-mzmlraw-unlabelled.comet.params:md5,7822f70c1989221693a4903e7f9a3b6b"
         ],
-        "timestamp": "2026-07-17T09:06:46.05395568",
+        "timestamp": "2026-11-11T10:38:14.22070183",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.3"
+            "nextflow": "26.10.0"
         }
     },
     "labelled-and-unlabelled-mzid-filename-and-elementcount": {
