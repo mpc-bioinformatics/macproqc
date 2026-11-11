@@ -64,9 +64,10 @@ workflow PREPARE_SPECTRA {
         def full_extension = EXTENSION_TO_VENDOR_MAP.keySet()
             .findAll { ext -> name.endsWith(ext) }
             .max { ext -> ext.length() }
-        meta.vendor = EXTENSION_TO_VENDOR_MAP[full_extension] ?: VENDOR_UNKNOWN
-        meta.compression = EXTENSION_TO_COMPRESSION_MAP[full_extension] ?: COMPRESSION_UNSUPPORTED
-        return [meta, path]
+        def vendor = EXTENSION_TO_VENDOR_MAP[full_extension] ?: VENDOR_UNKNOWN
+        def compression = EXTENSION_TO_COMPRESSION_MAP[full_extension] ?: COMPRESSION_UNSUPPORTED
+        // create a new meta map, as the incoming maps are shared with other channels
+        return [meta + [vendor: vendor, compression: compression], path]
     }
 
     // Filter the spectra files which are compresseds
@@ -99,10 +100,9 @@ workflow PREPARE_SPECTRA {
     unzipped_spectra = UNZIP.out.unzipped_archive.map { meta, path -> path.isFile() ? [meta, path] : [meta, path.listFiles().first()] }
     ch_uncompressed_spectra = ch_uncompressed_spectra.mix(unzipped_spectra)
 
-    // remove compression from meta
+    // remove compression from meta (as a new map, the meta maps are shared with other channels)
     ch_uncompressed_spectra = ch_uncompressed_spectra.map { meta, path ->
-        meta.remove('compression')
-        return [meta, path]
+        [meta.findAll { key, _value -> key != 'compression' }, path]
     }
 
     // Branch into the different kind of spectra files and convert to mzML if necessary
