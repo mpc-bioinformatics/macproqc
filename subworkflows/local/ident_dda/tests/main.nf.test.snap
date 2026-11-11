@@ -233,7 +233,7 @@
                 "<userParam name=\"ms_level\" value=\"2\" />",
                 "<userParam name=\"num_enzyme_termini\" value=\"2\" />",
                 "<userParam name=\"num_output_lines\" value=\"1\" />",
-                "<userParam name=\"num_threads\" value=\"4\" />",
+                "<userParam name=\"num_threads\" value=\"6\" />",
                 "<userParam name=\"output_mzidentmlfile\" value=\"1\" />",
                 "<userParam name=\"output_pepxmlfile\" value=\"0\" />",
                 "<userParam name=\"output_percolatorfile\" value=\"0\" />",
@@ -325,10 +325,10 @@
                 "</AnalysisProtocolCollection>"
             ]
         ],
-        "timestamp": "2026-07-17T09:06:46.164976827",
+        "timestamp": "2026-11-11T08:37:49.039471843",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.3"
+            "nextflow": "26.10.0"
         }
     },
     "labelled-and-unlabelled-mzid-AnalysisProtocolCollection": {
@@ -398,7 +398,7 @@
                     "<userParam name=\"ms_level\" value=\"2\" />",
                     "<userParam name=\"num_enzyme_termini\" value=\"2\" />",
                     "<userParam name=\"num_output_lines\" value=\"1\" />",
-                    "<userParam name=\"num_threads\" value=\"4\" />",
+                    "<userParam name=\"num_threads\" value=\"6\" />",
                     "<userParam name=\"output_mzidentmlfile\" value=\"1\" />",
                     "<userParam name=\"output_pepxmlfile\" value=\"0\" />",
                     "<userParam name=\"output_percolatorfile\" value=\"0\" />",
@@ -559,7 +559,7 @@
                     "<userParam name=\"ms_level\" value=\"2\" />",
                     "<userParam name=\"num_enzyme_termini\" value=\"2\" />",
                     "<userParam name=\"num_output_lines\" value=\"1\" />",
-                    "<userParam name=\"num_threads\" value=\"4\" />",
+                    "<userParam name=\"num_threads\" value=\"6\" />",
                     "<userParam name=\"output_mzidentmlfile\" value=\"1\" />",
                     "<userParam name=\"output_pepxmlfile\" value=\"0\" />",
                     "<userParam name=\"output_percolatorfile\" value=\"0\" />",
@@ -652,33 +652,33 @@
                 ]
             ]
         ],
-        "timestamp": "2026-07-17T09:06:56.560145687",
+        "timestamp": "2026-11-11T08:38:25.618425586",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.3"
+            "nextflow": "26.10.0"
         }
     },
     "labelled-and-unlabelled-comet-params-file": {
         "content": [
             [
-                "test-mzmlraw-labelled.comet.params:md5,4e513d5872c1d4ccf375995b85cb30b4",
-                "test-mzmlraw-unlabelled.comet.params:md5,7822f70c1989221693a4903e7f9a3b6b"
+                "test-mzmlraw-labelled.comet.params:md5,b089712d4a2f4edb307e394719e67097",
+                "test-mzmlraw-unlabelled.comet.params:md5,a7641550c603fc58f6fd27e73fbe25ca"
             ]
         ],
-        "timestamp": "2026-07-17T09:06:56.460458695",
+        "timestamp": "2026-11-11T08:38:25.487505487",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.3"
+            "nextflow": "26.10.0"
         }
     },
     "comet-params-file": {
         "content": [
-            "test-mzmlraw-unlabelled.comet.params:md5,7822f70c1989221693a4903e7f9a3b6b"
+            "test-mzmlraw-unlabelled.comet.params:md5,a7641550c603fc58f6fd27e73fbe25ca"
         ],
-        "timestamp": "2026-07-17T09:06:46.05395568",
+        "timestamp": "2026-11-11T08:37:48.879248106",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.3"
+            "nextflow": "26.10.0"
         }
     },
     "labelled-and-unlabelled-mzid-filename-and-elementcount": {
