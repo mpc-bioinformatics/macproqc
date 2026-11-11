@@ -80,13 +80,10 @@ workflow IDENT_DDA {
     ///////////////////////////////////////////////////////
     // PIA analysis
 
-    // Comet writes an (empty) mzid without any SpectrumIdentificationResult, if no PSM was found at all (bad database, really bad MS, ...).
-    // Do not pass these to PIA, the runs are reported with 0 identifications later.
-    ch_mzid_with_results = COMET.out.mzid.filter { _meta, mzid -> mzidHasResults(mzid) }
-
     // first round of PIA compilation (pre-filtereing or branching off labelled is performed later)
+    // mzids without any PSM (bad database, really bad MS, ...) are skipped by the module, these runs are reported with 0 identifications later
     PIA_COMPILEXML(
-        ch_mzid_with_results
+        COMET.out.mzid
     )
 
     // Create PIA configuration files:
@@ -158,9 +155,9 @@ workflow IDENT_DDA {
             ch_pia_xml_in.unlabelled.combine(ch_prefilter_json)
         )
 
-        // if no PSM passes the pre-filter, the exported mzid contains no results: skip these as well
+        // if no PSM passes the pre-filter, the exported mzid contains no results and is skipped by the module
         PIA_COMPILEXML_PREFILTERED(
-            PIA_ANALYSIS_PREFILTER.out.psms.filter { _meta, mzid -> mzidHasResults(mzid) }
+            PIA_ANALYSIS_PREFILTER.out.psms
         )
 
         ch_unlabelled_xml_for_main = PIA_COMPILEXML_PREFILTERED.out.pia_xml
@@ -215,12 +212,4 @@ workflow IDENT_DDA {
     pia_peptides      = ch_pia_peptides
     pia_proteins      = ch_pia_proteins
     pia_labelled_psms = ch_labelled_psms
-}
-
-/**
- * Checks whether an mzid file contains at least one SpectrumIdentificationResult,
- * i.e. whether it can be compiled by PIA.
- */
-def mzidHasResults(mzid) {
-    mzid.withReader { reader -> reader.lines().anyMatch { line -> line.contains('<SpectrumIdentificationResult') } }
 }

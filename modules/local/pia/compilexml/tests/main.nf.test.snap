@@ -97,7 +97,7 @@
                 "<mzid:userParam name=\"num_enzyme_termini\" value=\"2\"></mzid:userParam>",
                 "<mzid:userParam name=\"num_output_lines\" value=\"1\"></mzid:userParam>",
                 "<mzid:userParam name=\"num_results\" value=\"100\"></mzid:userParam>",
-                "<mzid:userParam name=\"num_threads\" value=\"4\"></mzid:userParam>",
+                "<mzid:userParam name=\"num_threads\" value=\"6\"></mzid:userParam>",
                 "<mzid:userParam name=\"output_mzidentmlfile\" value=\"1\"></mzid:userParam>",
                 "<mzid:userParam name=\"output_pepxmlfile\" value=\"0\"></mzid:userParam>",
                 "<mzid:userParam name=\"output_percolatorfile\" value=\"0\"></mzid:userParam>",
@@ -206,10 +206,10 @@
                 "</AnalysisProtocolCollection>"
             ]
         ],
-        "timestamp": "2026-09-09T13:03:46.387247689",
+        "timestamp": "2026-11-11T07:27:09.176148478",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.6"
+            "nextflow": "26.10.0"
         }
     }
 }
