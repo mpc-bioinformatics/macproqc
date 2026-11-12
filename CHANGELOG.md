@@ -9,6 +9,8 @@ Initial release of nf-core/macproqc, created with the [nf-core](https://nf-co.re
 
 ### `Added`
 
+- Local module `DIAUDITOR` (OpenMS DIAuditor, requires OpenMS >= 3.6.0) computing per-run and per-isolation-window DIA QC metrics. Not yet wired into the workflow.
+
 ### `Fixed`
 
 ### `Dependencies`
