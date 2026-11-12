@@ -1,0 +1,97 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "diauditor"
+description: Computes quality metrics of data-independent acquisition (DIA) runs, per run and per isolation window, using OpenMS DIAuditor.
+keywords:
+  - proteomics
+  - mass spectrometry
+  - dia
+  - quality control
+  - mzqc
+  - openms
+  - diauditor
+tools:
+  - "DIAuditor":
+      description: "OpenMS' implementation of DIAuditor (https://github.com/dtabb73/DIAuditor) for computing quality metrics of DIA runs, per run and per isolation window (available from OpenMS 3.6.0)."
+      homepage: "https://openms.de"
+      documentation: "https://openms.de/documentation/DIAuditor_8cpp.html"
+      tool_dev_url: "https://github.com/OpenMS/OpenMS"
+      doi: "10.1038/s41592-024-02197-7"
+      licence: ["BSD-3-Clause"]
+      identifier: ""
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - spectra:
+        type: file
+        description: One or more DIA runs (one table row per run)
+        pattern: "*.{mzML,raw,d}"
+        ontologies:
+          - edam: "http://edamontology.org/format_3244" # mzML
+
+output:
+  report:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.tsv":
+          type: file
+          description: Table with one row per run
+          pattern: "*.tsv"
+          ontologies:
+            - edam: "http://edamontology.org/format_3475" # TSV
+  windows:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*_windows.tsv":
+          type: file
+          description: Table with one row per isolation window of each run
+          pattern: "*_windows.tsv"
+          ontologies:
+            - edam: "http://edamontology.org/format_3475" # TSV
+  mzqc:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.mzQC":
+          type: file
+          description: mzQC file with the run metrics
+          pattern: "*.mzQC"
+          ontologies:
+            - edam: "http://edamontology.org/format_3655" # JSON
+  versions_openms:
+    - - "${task.process}":
+          type: string
+          description: The name of the process
+      - "openms":
+          type: string
+          description: The name of the tool
+      - "FileInfo --help 2>&1 | sed -nE 's/^Version: ([0-9.]+).*/\\1/p'":
+          type: eval
+          description: The expression to obtain the version of the tool
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - openms:
+          type: string
+          description: The name of the tool
+      - "FileInfo --help 2>&1 | sed -nE 's/^Version: ([0-9.]+).*/\\1/p'":
+          type: eval
+          description: The expression to obtain the version of the tool
+authors:
+  - "@di-hardt"
+maintainers:
+  - "@di-hardt"
