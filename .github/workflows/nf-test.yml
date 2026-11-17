@@ -13,33 +13,61 @@ on:
 
 # Cancel if a newer run is started
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: self-host-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NFT_VER: "0.9.4"
-  NFT_WORKDIR: "~"
   NXF_ANSI_LOG: false
   NXF_SINGULARITY_CACHEDIR: ${{ github.workspace }}/.singularity
   NXF_SINGULARITY_LIBRARYDIR: ${{ github.workspace }}/.singularity
 
 jobs:
+  # -----------------------------------------------------------------------
+  # Gate: single job that always runs. For PRs from org members/owners/
+  # collaborators and for non-PR events, no environment is applied and the
+  # job passes immediately. For PRs from external contributors the job is
+  # held at the 'ci-approval' environment until a team member approves.
+  # -----------------------------------------------------------------------
+  ci-gate:
+    name: CI gate
+    runs-on: ubuntu-latest
+    environment: >-
+      ${{ github.event_name == 'pull_request' &&
+          !contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'),
+                    github.event.pull_request.author_association)
+          && 'ci-approval' || '' }}
+    steps:
+      - name: Gate passed
+        run: echo "CI gate passed."
+
   nf-test-changes:
     name: nf-test-changes
-    runs-on: # use self-hosted runners
-      - runs-on=${{ github.run_id }}-nf-test-changes
-      - runner=4cpu-linux-x64
+    needs: [ci-gate]
+    runs-on: # use self-hosted CUBiMed.RUB runners
+      - self-hosted
+      - Linux
+      - X64
     outputs:
       shard: ${{ steps.set-shards.outputs.shard }}
       total_shards: ${{ steps.set-shards.outputs.total_shards }}
     steps:
-      - name: Clean Workspace # Purge the workspace in case it's running on a self-hosted runner
+      - name: Clean Workspace and nf-test (self-hosted)
+        shell: bash
         run: |
+          rm -rf "$HOME/.nf-test" || true
           ls -la ./
           rm -rf ./* || true
           rm -rf ./.??* || true
           ls -la ./
+
+      - name: Set up Java (for self-hosted)
+        uses: actions/setup-java@1d018f9b8b9b505bb578a83b230fabcce01af93b # v5
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
@@ -48,6 +76,7 @@ jobs:
         id: set-shards
         uses: ./.github/actions/get-shards
         env:
+          NFT_WORKDIR: ${{ runner.temp }}/nft-${{ github.run_id }}-${{ github.run_attempt }}
           NFT_VER: ${{ env.NFT_VER }}
         with:
           max_shards: 7
@@ -61,9 +90,10 @@ jobs:
     name: "${{ matrix.profile }} | ${{ matrix.NXF_VER }} | ${{ matrix.shard }}/${{ needs.nf-test-changes.outputs.total_shards }}"
     needs: [nf-test-changes]
     if: ${{ needs.nf-test-changes.outputs.total_shards != '0' }}
-    runs-on: # use self-hosted runners
-      - runs-on=${{ github.run_id }}-nf-test
-      - runner=4cpu-linux-x64
+    runs-on: # use self-hosted CUBiMed.RUB runners
+      - self-hosted
+      - Linux
+      - X64
     strategy:
       fail-fast: false
       matrix:
@@ -85,6 +115,11 @@ jobs:
       TOTAL_SHARDS: ${{ needs.nf-test-changes.outputs.total_shards }}
 
     steps:
+      - name: Clear stale nf-test install (self-hosted)
+        shell: bash
+        run: |
+          rm -rf "$HOME/.nf-test" || true
+
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
@@ -94,7 +129,7 @@ jobs:
         uses: ./.github/actions/nf-test
         continue-on-error: ${{ matrix.NXF_VER == 'latest-everything' }}
         env:
-          NFT_WORKDIR: ${{ env.NFT_WORKDIR }}
+          NFT_WORKDIR: ${{ runner.temp }}/nft-${{ github.run_id }}-${{ github.run_attempt }}
           NXF_VERSION: ${{ matrix.NXF_VER }}
         with:
           profile: ${{ matrix.profile }}
@@ -135,9 +170,10 @@ jobs:
   confirm-pass:
     needs: [nf-test]
     if: always()
-    runs-on: # use self-hosted runners
-      - runs-on=${{ github.run_id }}-confirm-pass
-      - runner=2cpu-linux-x64
+    runs-on: # use self-hosted CUBiMed.RUB runners
+      - self-hosted
+      - Linux
+      - X64
     steps:
       - name: One or more tests failed (excluding latest-everything)
         if: ${{ contains(needs.*.result, 'failure') }}

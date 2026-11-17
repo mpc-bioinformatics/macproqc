@@ -1,0 +1,69 @@
+{
+    "idmetricsextraction - pia exports - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.idmetrics.hdf5:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        "IDMETRICSEXTRACTION",
+                        "macproqc_helpers",
+                        "0.0.1 (commit ccb210017d737e08d8050b0367effc74056dc56f)"
+                    ]
+                ],
+                "hdf5": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.idmetrics.hdf5:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_macproqc_helpers": [
+                    [
+                        "IDMETRICSEXTRACTION",
+                        "macproqc_helpers",
+                        "0.0.1 (commit ccb210017d737e08d8050b0367effc74056dc56f)"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-11-09T04:03:28.007374991",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.0"
+        }
+    },
+    "idmetricsextraction - pia exports": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "test.idmetrics.hdf5:md5,88abc40538cd45980570844130ded44d"
+                ]
+            ],
+            {
+                "versions_macproqc_helpers": [
+                    [
+                        "IDMETRICSEXTRACTION",
+                        "macproqc_helpers",
+                        "0.0.1 (commit ccb210017d737e08d8050b0367effc74056dc56f)"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-11-09T04:03:11.723515827",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.0"
+        }
+    }
+}

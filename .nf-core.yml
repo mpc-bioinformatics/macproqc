@@ -16,8 +16,7 @@ nf_core_version: 4.2.2
 repository_type: pipeline
 template:
   author: Julian Uszkoreit, Dirk Winkelhardt, Karin Schork, Maike Weber, Dominik Lux
-  description: A workflow for the quality control of mass spectrometry-based proteomics
-    analyses
+  description: A workflow for the quality control of mass spectrometry-based proteomics analyses
   force: false
   is_nfcore: true
   name: macproqc

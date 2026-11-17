@@ -1,0 +1,166 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "qcvisualization"
+description: Visualization of the collected QC metrics from the macproqc pipeline (given as hdf5 files).
+keywords:
+  - proteomics
+  - mass spectrometry
+  - quality control
+  - visualization
+tools:
+  - "macproqc-helpers":
+      description: "Helper tools for the macproqc pipeline. This module uses the `visualize` helper to visualize the results and perform statistical analyses on the metrics in the combined HDF5 file."
+      homepage: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      documentation: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      tool_dev_url: "https://github.com/mpc-bioinformatics/macproqc-helpers"
+      DOI: "no DOI available"
+      licence:
+        - BSD-3-Clause
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - hdf5_files:
+        type: file
+        description: Hdf5 files containing the QC metrics collected by the macproqc pipeline
+        pattern: "*.hdf5"
+        ontologies:
+          - edam: "http://edamontology.org/format_3590" # HDF5
+  - spike_ins_table:
+      type: file
+      description: Table containing information on spike-ins that should be searched for (optional, pass [] if no spike-ins are used)
+      pattern: "*.csv"
+      ontologies:
+        - edam: "http://edamontology.org/format_3752" # CSV
+  - figure_format:
+      type: string
+      description: Type of output figures (one or more of "html" and "plotly", comma-separated)
+  - output_table_type:
+      type: string
+      description: Type of the output table (one of "csv", "tsv" or "xlsx")
+  - spikeins:
+      type: boolean
+      description: Whether to analyse spike-ins
+  - rt_unit:
+      type: string
+      description: Unit of the retention time, either "sec" for seconds or "min" for minutes
+  - output_column_order:
+      type: string
+      description: Comma-separated order of columns in the output table. If not set, the default column order is used.
+  - spikein_columns:
+      type: string
+      description: Comma-separated columns of the spike-in dataframes that should end up in the result table
+  - height_barplots:
+      type: integer
+      description: Height of the barplots in pixels
+  - width_barplots:
+      type: integer
+      description: Width of the barplots in pixels (0 for flexible width)
+  - height_pca:
+      type: integer
+      description: Height of the PCA plots in pixels
+  - width_pca:
+      type: integer
+      description: Width of the PCA plots in pixels
+  - height_ionmaps:
+      type: integer
+      description: Height of the ion maps in inches
+  - width_ionmaps:
+      type: integer
+      description: Width of the ion maps in inches
+
+output:
+  jsons:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.json":
+          type: file
+          description: Plotly graphics in JSON format
+          pattern: "*.json"
+          ontologies:
+            - edam: "http://edamontology.org/format_3464" # JSON
+  htmls:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.html":
+          type: file
+          description: Plotly graphics in HTML format
+          pattern: "*.html"
+          ontologies:
+            - edam: "http://edamontology.org/format_2331" # HTML
+  output_tables:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.{csv,tsv,xlsx}":
+          type: file
+          description: Output tables in CSV, TSV, or Excel format
+          pattern: "*.{csv,tsv,xlsx}"
+          ontologies:
+            - edam: "http://edamontology.org/format_3752" # CSV
+            - edam: "http://edamontology.org/format_3475" # TSV
+            - edam: "http://edamontology.org/format_3620" # Excel
+  ms1_maps:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - ms1_maps:
+          type: directory
+          description: Directory containing MS1 maps in PNG format
+  additional_plots:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - additional_plots:
+          type: directory
+          description: Directory containing additional plots in JSON or HTML format
+  bruker_calibrants:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - bruker_calibrants:
+          type: directory
+          description: Directory containing bruker calibrants plot in JSON or HTML format
+  versions_macproqc_helpers:
+    - - "${task.process}":
+          type: string
+          description: The name of the process
+      - "macproqc_helpers":
+          type: string
+          description: The name of the tool
+      - "macproqc-helpers --version":
+          type: eval
+          description: The expression to obtain the version of the tool (including the commit hash)
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - macproqc_helpers:
+          type: string
+          description: The name of the tool
+      - macproqc-helpers --version:
+          type: eval
+          description: The expression to obtain the version of the tool (including the commit hash)
+
+authors:
+  - "@KarinSchork"
+maintainers:
+  - "@KarinSchork"

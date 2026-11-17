@@ -1,0 +1,97 @@
+nextflow_process {
+
+    name "Test Process PIA_CONFIGURE"
+    script "../main.nf"
+    process "PIA_CONFIGURE"
+
+    tag "modules"
+    tag "modules_"
+    tag "pia"
+    tag "pia/configure"
+
+    test("pia-configure - all mzTab 0.03 FDR") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    id: 'pia-test',
+                    psm_export: true,
+                    peptide_export: true,
+                    protein_export: true,
+                    fdr_filter: true,
+                    remove_decoys: true,
+                    fdr_threshold: 0.03,
+                    psm_export_format: 'mzTab'
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out.pia_json[0][1]).match() }
+            )
+        }
+
+    }
+
+    test("pia-configure - mzid with decoys 0.05 FDR") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    id: 'pia-test',
+                    psm_export: true,
+                    peptide_export: false,
+                    protein_export: false,
+                    fdr_filter: true,
+                    remove_decoys: false,
+                    fdr_threshold: 0.05,
+                    psm_export_format: 'mzid'
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out.pia_json[0][1]).match() }
+            )
+        }
+
+    }
+    test("pia_configure - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [
+                    id: "pia-stub-test",
+                    psm_export: true,
+                    peptide_export: true,
+                    protein_export: true,
+                    fdr_filter: true,
+                    remove_decoys: true,
+                    fdr_threshold: 0.01,
+                    psm_export_format: 'mzTab'
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out.pia_json[0][1]).match() }
+            )
+        }
+
+    }
+
+}

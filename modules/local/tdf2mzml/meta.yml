@@ -1,0 +1,70 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "tdf2mzml"
+description: Converts Bruker timsTOF raw data (`.d` folders in TDF format) into zlib-compressed mzML files using tdf2mzml.
+keywords:
+  - proteomics
+  - mass spectrometry
+  - bruker
+  - timstof
+  - conversion
+  - mzml
+tools:
+  - "tdf2mzml":
+      description: "Converts Bruker timsTOF TDF raw data (.d folders) into the open mzML format."
+      homepage: "https://github.com/mafreitas/tdf2mzml"
+      documentation: "https://github.com/mafreitas/tdf2mzml"
+      tool_dev_url: "https://github.com/mafreitas/tdf2mzml"
+      doi: ""
+      licence: ["BSD-4-Clause"]
+      identifier: ""
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - d_folder:
+        type: directory
+        description: Bruker timsTOF raw data folder (containing the `analysis.tdf` and `analysis.tdf_bin` files)
+        pattern: "*.d"
+
+output:
+  spectra:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.mzML":
+          type: file
+          description: Converted spectra in mzML format (zlib compressed binary data)
+          pattern: "*.mzML"
+          ontologies:
+            - edam: "http://edamontology.org/format_3244" # mzML
+  versions_tdf2mzml:
+    - - "${task.process}":
+          type: string
+          description: The name of the process
+      - "tdf2mzml":
+          type: string
+          description: The name of the tool
+      - "tdf2mzml --version":
+          type: eval
+          description: The expression to obtain the version of the tool
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - tdf2mzml:
+          type: string
+          description: The name of the tool
+      - tdf2mzml --version:
+          type: eval
+          description: The expression to obtain the version of the tool
+authors:
+  - "@di-hardt"
+maintainers:
+  - "@di-hardt"

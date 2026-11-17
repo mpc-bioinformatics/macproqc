@@ -49,7 +49,7 @@ For more detail, see the [blog post](https://nf-co.re/blog/2026/statement-on-ai)
 
 ### Getting help
 
-For further information and help, see the [nf-core/macproqc documentation](https://nf-co.re/macproqc/usage) or ask on the nf-core [#macproqc](https://nfcore.slack.com/channels/macproqc) Slack channel ([join our Slack here](https://nf-co.re/join/slack)).
+For further information and help, see the [nf-core/macproqc documentation](https://mpc-bioinformatics.github.io/macproqc/usage/) or write an issue on the GitHub page.
 
 ### GitHub Codespaces
 

@@ -1,0 +1,196 @@
+{
+    "directory": "<FOLDER_WHERE_MACQUAC_IS_LOCATED>",
+    "script": "main.nf",
+    "nextflow_parameters": [
+        {
+            "name": "profile",
+            "value": "docker"
+        }
+    ],
+    "args": {
+        "dynamic": [
+            {
+                "type": "path",
+                "name": "main_raw_spectra_folder",
+                "label": "RAW files",
+                "desc": "Folder containing RAW files",
+                "selectable_files": false,
+                "selectable_folders": true
+            },
+            {
+                "type": "path",
+                "name": "main_fasta_file",
+                "label": "Fasta file",
+                "desc": "FASTA file",
+                "selectable_files": true,
+                "selectable_folders": false
+            },
+            {
+                "type": "path",
+                "name": "main_comet_params",
+                "label": "Comet Parmeter file",
+                "desc": "FASTA file",
+                "selectable_files": true,
+                "selectable_folders": false
+            },
+            {
+                "type": "path",
+                "name": "spike_ins_table",
+                "label": "Spike-ins table",
+                "desc": "CSV file containing spike-ins",
+                "selectable_files": true,
+                "selectable_folders": false
+            },
+            {
+                "type": "value-select",
+                "name": "search_spike_ins",
+                "label": "Search spike-ins?",
+                "desc": "Search for spike-ins?",
+                "options": [
+                    {
+                        "label": "Yes",
+                        "value": "true"
+                    },
+                    {
+                        "label": "No",
+                        "value": "false"
+                    }
+                ],
+                "value": "true"
+            },
+            {
+                "type": "value-select",
+                "name": "search_labelled_spikeins",
+                "label": "Search labelld spike-ins?",
+                "desc": "Search for labelled spike-ins?",
+                "options": [
+                    {
+                        "label": "Yes",
+                        "value": "true"
+                    },
+                    {
+                        "label": "No",
+                        "value": "false"
+                    }
+                ],
+                "value": "true"
+            }
+        ],
+        "static": [
+            {
+                "name": "main_outdir",
+                "value": "results"
+            }
+        ]
+    },
+    "results": [
+        {
+            "type": "table",
+            "header": "Summary",
+            "description": "",
+            "path": "results/qc_results/table0_summary.csv"
+        },
+        {
+            "type": "plotly",
+            "header": "MS1/MS2",
+            "description": "",
+            "path": "results/qc_results/fig1_barplot_MS1_MS2.json"
+        },
+        {
+            "type": "plotly",
+            "header": "PSM, peptides & proteins",
+            "description": "",
+            "path": "results/qc_results/fig2_barplot_PSMs_peptides_proteins.json"
+        },
+        {
+            "type": "plotly",
+            "header": "Features",
+            "description": "",
+            "path": "results/qc_results/fig3_barplot_features.json"
+        },
+        {
+            "type": "plotly",
+            "header": "TIC",
+            "description": "",
+            "path": "results/qc_results/fig4_TIC_overlay.json"
+        },
+        {
+            "type": "plotly",
+            "header": "TIC quartiles",
+            "description": "",
+            "path": "results/qc_results/fig5_barplot_TIC_quartiles.json"
+        },
+        {
+            "type": "plotly",
+            "header": "MS1 TIC quartiles",
+            "description": "",
+            "path": "results/qc_results/fig6_barplot_MS1_TIC_quartiles.json"
+        },
+        {
+            "type": "plotly",
+            "header": "MS2 TIC quartiles",
+            "description": "",
+            "path": "results/qc_results/fig7_barplot_MS2_TIC_quartiles.json"
+        },
+        {
+            "type": "plotly",
+            "header": "Precursor charge state",
+            "description": "",
+            "path": "results/qc_results/fig8_barplot_precursor_chargestate.json"
+        },
+        {
+            "type": "plotly",
+            "header": "PSM charge state",
+            "description": "",
+            "path": "results/qc_results/fig9_barplot_PSM_chargestate.json"
+        },
+        {
+            "type": "plotly",
+            "header": "PSM missed cleavages",
+            "description": "",
+            "path": "results/qc_results/fig10_barplot_PSM_missedcleavages.json"
+        },
+        {
+            "type": "plotly",
+            "header": "PCA all",
+            "description": "",
+            "path": "results/qc_results/fig11a_PCA_all.json"
+        },
+        {
+            "type": "plotly",
+            "header": "Loadings all",
+            "description": "",
+            "path": "results/qc_results/fig11b_Loadings_all.json"
+        },
+        {
+            "type": "plotly",
+            "header": "PCA raw",
+            "description": "",
+            "path": "results/qc_results/fig12a_PCA_raw.json"
+        },
+        {
+            "type": "plotly",
+            "header": "Loadings raw",
+            "description": "",
+            "path": "results/qc_results/fig12b_Loadings_raw.json"
+        },
+        {
+            "type": "plotly",
+            "header": "Ion injection times",
+            "description": "",
+            "path": "results/qc_results/THERMO_PLOTS_FIG15/THERMO_EXTRA_IonInjectionTimemsMS1Levelfiltered.json"
+        },
+        {
+            "type": "plotly",
+            "header": "Lock mass correction",
+            "description": "",
+            "path": "results/qc_results/THERMO_PLOTS_FIG15/THERMO_EXTRA_LMmzCorrectionppmLMCorrectionMS1Levelfiltered.json"
+        },
+        {
+            "type": "multi-result-view",
+            "header": "Ionmaps",
+            "path": "results/qc_results/fig13_ionmaps",
+            "description": ""
+        }
+    ]
+}

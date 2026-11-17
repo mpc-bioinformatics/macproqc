@@ -10,7 +10,7 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "outdir"],
+            "required": ["outdir"],
             "properties": {
                 "input": {
                     "type": "string",
@@ -20,8 +20,16 @@
                     "mimetype": "text/csv",
                     "pattern": "^\\S+\\.csv$",
                     "description": "Path to comma-separated file containing information about the samples in the experiment.",
-                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://nf-co.re/macproqc/usage#samplesheet-input).",
+                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://mpc-bioinformatics.github.io/macproqc/usage/#samplesheet-input).",
                     "fa_icon": "fas fa-file-csv"
+                },
+                "input_hdf5_dir": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "exists": true,
+                    "description": "Directory containing previously extracted metric HDF5 files (*.hdf5), as an alternative to --input.",
+                    "help_text": "Only used together with --skip_metrics_extraction, e.g. to re-run the mzQC export and/or the visualization on the HDF5 files of an earlier run (written to <outdir>/metrics/hdf5). Cannot be combined with --input.",
+                    "fa_icon": "fas fa-folder-open"
                 },
                 "outdir": {
                     "type": "string",
@@ -35,6 +43,229 @@
                     "fa_icon": "fas fa-envelope",
                     "help_text": "Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits. If set in your user config file (`~/.nextflow/config`) then you don't need to specify this on the command line for every run.",
                     "pattern": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$"
+                }
+            }
+        },
+        "fasta_parameters": {
+            "title": "FASTA parameters",
+            "type": "object",
+            "fa_icon": "fas fa-database",
+            "description": "Database settings, to specify the FASTA, create decoys, ...",
+            "properties": {
+                "fasta": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "fa_icon": "fas fa-file",
+                    "pattern": "^\\S+\\.(fasta|fa|fas|faa)(.gz)?$",
+                    "description": "Global input FASTA protein database",
+                    "help_text": "Path to a single protein database file applied to all MS runs. Whether the file already contains decoys is controlled by --skip_decoy_generation."
+                },
+                "skip_decoy_generation": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-fast-forward",
+                    "description": "Add this parameter when you want to skip the generation of the decoy database.",
+                    "help_text": "If you want to use your own decoys, you can specify a dataset that includes decoy sequences."
+                },
+                "decoy_string": {
+                    "type": "string",
+                    "default": "DECOY_",
+                    "fa_icon": "fas fa-text-width",
+                    "description": "String that is combined with the accession of the protein identifier to indicate a decoy protein.",
+                    "help_text": "This is passed to the decoy generation as well as to tools using this. Usually, this is a prefix of the protein accession."
+                },
+                "decoy_method": {
+                    "type": "string",
+                    "default": "reverse",
+                    "fa_icon": "fas fa-random",
+                    "description": "Method used to generate decoy sequences.",
+                    "help_text": "Passed directly to OpenMS DecoyDatabase. Valid values are 'reverse' (default) and 'shuffle'. Has no effect when --skip_decoy_generation is set.",
+                    "enum": ["reverse", "shuffle"]
+                },
+                "save_decoy_database": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-save",
+                    "description": "Set this parameter to true to save the generated decoy database (for later usage)."
+                }
+            }
+        },
+        "identification_parameters": {
+            "title": "Identification parameters",
+            "type": "object",
+            "description": "Search engine specific settings and general settings for the identification of peptides and proteins in MS data. Additional untypical parameters can be adjucted by the modules.config, see there for reference.",
+            "properties": {
+                "comet_config_template": {
+                    "type": "string",
+                    "description": "This is the default comet parameters file. In this file, parameters can be set, which are neither passed by common runtime (threads, fasta, ...) or by common search engine parameters. If not set or null, the provided default in assets is used.",
+                    "format": "file-path",
+                    "fa_icon": "fas fa-cogs"
+                },
+                "peptide_mass_tolerance_upper": {
+                    "type": "number",
+                    "default": 5,
+                    "fa_icon": "fas fa-arrows-alt-h",
+                    "description": "Comet parameter: peptide_mass_tolerance_upper, upper bound of the precursor mass tolerance"
+                },
+                "peptide_mass_tolerance_lower": {
+                    "type": "number",
+                    "default": -5,
+                    "fa_icon": "fas fa-arrows-alt-h",
+                    "description": "Comet parameter: peptide_mass_tolerance_lower, lower bound of the precursor mass tolerance; USUALLY NEGATIVE TO BE LOWER THAN 0"
+                },
+                "peptide_mass_units": {
+                    "type": "integer",
+                    "default": 2,
+                    "fa_icon": "fas fa-tachometer-alt",
+                    "minimum": 0,
+                    "maximum": 2,
+                    "description": "Comet parameter: peptide_mass_units, 0=amu, 1=mmu, 2=ppm"
+                },
+                "isotope_error": {
+                    "type": "integer",
+                    "default": 2,
+                    "fa_icon": "fas fa-arrows-alt-h",
+                    "minimum": 0,
+                    "maximum": 5,
+                    "description": "Comet parameter: isotope_error, 0=off, 1=0/1 (C13 error), 2=0/1/2, 3=0/1/2/3, 4=-1/0/1/2/3, 5=-1/0/1"
+                },
+                "fragment_bin_tol": {
+                    "type": "number",
+                    "default": 0.02,
+                    "fa_icon": "fas fa-arrows-alt-h",
+                    "description": "Comet parameter: fragment_bin_tol, binning to use on fragment ions"
+                },
+                "fragment_bin_offset": {
+                    "type": "number",
+                    "default": 0,
+                    "fa_icon": "fas fa-sort-amount-down",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Comet parameter: fragment_bin_offset, offset position to start the binning (0.0 to 1.0)"
+                },
+                "theoretical_fragment_ions": {
+                    "type": "integer",
+                    "default": 0,
+                    "fa_icon": "fas fa-clipboard",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Comet parameter: theoretical_fragment_ions, 0=use flanking peaks, 1=M peak only"
+                },
+                "psms_per_spectrum": {
+                    "type": "integer",
+                    "default": 5,
+                    "fa_icon": "fas fa-list-ol",
+                    "minimum": 1,
+                    "description": "Comet parameter: num_output_lines: num peptide results to show"
+                },
+                "variable_modifications": {
+                    "type": "string",
+                    "description": "Comet parameter: adjust or add the variable modifications to overwrite in the template. The actual string MUST be in single quotes inside a string, like \"'variable_mod01 = 15.9949 M 0 3 -1 0 0 0.0'\". Variables are defined like in the comet params file (with 'variable_modXX = ...'). Multiple modifications can be defined by separating them with a semicolon.",
+                    "fa_icon": "fas fa-tags"
+                },
+                "static_modifications": {
+                    "type": "string",
+                    "description": "Comet parameter: set the variable modifications to overwrite in the template.The actual string MUST be in single quotes inside a string, like \"'add_C_cysteine = 57.021464'\". The variables are defined like in the comet params file (with 'add_XX_... = ...'). Multiple modifications can be defined by separating them with a semicolon.",
+                    "fa_icon": "fas fa-tags"
+                },
+                "label_modifications": {
+                    "type": "string",
+                    "description": "Additional Comet static modifications appended only for the labelled COMETCONFIG search. Use the same syntax as static_modifications, for example \"'add_K_lysine = 8.014199;add_R_arginine = 10.008269'\".",
+                    "help_text": "If set, a second (labelled) search is performed, which is only used to find labelled spike-ins for the XIC extraction (see --spike_ins_table). It is optional for the spike-in metrics and does not affect any other QC metric. This allows searching for the labels as static modifications, instead of adding them as variable modifications to the general identification.",
+                    "fa_icon": "fas fa-tags"
+                },
+                "pia_fdr_threshold": {
+                    "type": "number",
+                    "default": 0.01,
+                    "fa_icon": "fas fa-percentage",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "FDR threshold used by PIA for the final PSM-, peptide- and protein-level filtering."
+                },
+                "pia_prefilter_threshold": {
+                    "type": "number",
+                    "default": 0.05,
+                    "fa_icon": "fas fa-filter",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "FDR threshold used by PIA's optional PSM-level pre-filtering pass, run before the final --pia_fdr_threshold analysis on the unlabelled search to speed up the total time and reduce the memory consumption for the whole analysis. Set to 0 to disable pre-filtering."
+                }
+            },
+            "fa_icon": "fas fa-search"
+        },
+        "pipeline_steps": {
+            "title": "Pipeline steps",
+            "type": "object",
+            "fa_icon": "fas fa-shoe-prints",
+            "description": "Enable or disable single steps of the pipeline.",
+            "properties": {
+                "skip_metrics_extraction": {
+                    "type": "boolean",
+                    "description": "Skip the metrics extraction (spectra preparation, identification and metric collection).",
+                    "help_text": "Requires --input_hdf5_dir instead of --input, pointing to the HDF5 files of an earlier run.",
+                    "fa_icon": "fas fa-forward"
+                },
+                "skip_identification": {
+                    "type": "boolean",
+                    "description": "Skip the identification (Comet and PIA) during the metrics extraction.",
+                    "help_text": "No identification based metrics are collected and no --fasta is needed. Spike-in metrics (if --spike_ins_table is given) use only the retention time windows of the table.",
+                    "fa_icon": "fas fa-forward"
+                },
+                "skip_mzqc_export": {
+                    "type": "boolean",
+                    "description": "Skip the export of the metrics to mzQC.",
+                    "fa_icon": "fas fa-forward"
+                },
+                "skip_visualization": {
+                    "type": "boolean",
+                    "description": "Skip the visualization of the metrics.",
+                    "fa_icon": "fas fa-forward"
+                },
+                "ignore_failed_runs": {
+                    "type": "boolean",
+                    "description": "Ignore failures of single MS runs in the steps reading the raw files and process all other runs.",
+                    "help_text": "Failures in the decompression, mzML conversion, instrument header metrics and XIC extraction of single MS runs (e.g. caused by broken raw files) are ignored, instead of stopping the whole pipeline. The affected runs are missing in the results or have incomplete metrics, a warning is shown for each of them and at the end of the pipeline. Failures in any other step still stop the pipeline.",
+                    "fa_icon": "fas fa-exclamation-triangle"
+                }
+            }
+        },
+        "spikein_parameters": {
+            "title": "Spike-in parameters",
+            "type": "object",
+            "fa_icon": "fas fa-syringe",
+            "description": "Parameters for any spike-in analyses.",
+            "properties": {
+                "spike_ins_table": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "schema": "assets/schema_spike_ins.json",
+                    "mimetype": "text/csv",
+                    "pattern": "^\\S+\\.csv$",
+                    "description": "Spike-ins reference table as a csv file. Please refer to the [usage docs](https://mpc-bioinformatics.github.io/macproqc/usage) for details on the required format and columns.",
+                    "help_text": "This parameter points to the table defining spike in peptides. If this is not provided, any spike in metrics will be deactivated.",
+                    "fa_icon": "fas fa-syringe"
+                }
+            }
+        },
+        "visualization_parameters": {
+            "title": "Visualization parameters",
+            "type": "object",
+            "fa_icon": "fas fa-chart-bar",
+            "description": "Parameters for the visualization of the QC results.",
+            "properties": {
+                "output_table_type": {
+                    "type": "string",
+                    "default": "tsv",
+                    "description": "Output format for the summary table",
+                    "enum": ["tsv", "csv", "xlsx"],
+                    "fa_icon": "fas fa-file-excel"
+                },
+                "figure_format": {
+                    "type": "string",
+                    "default": "html,plotly",
+                    "description": "Output format for figures (plotly, html, or both as 'html,plotly', which is also the default)",
+                    "enum": ["plotly", "html", "html,plotly"],
+                    "fa_icon": "fas fa-chart-bar"
                 }
             }
         },
@@ -142,6 +373,13 @@
                     "default": "https://raw.githubusercontent.com/nf-core/test-datasets/",
                     "hidden": true
                 },
+                "macproqc_testdata_base_path": {
+                    "type": "string",
+                    "fa_icon": "far fa-check-circle",
+                    "description": "Base URL or local path to location of specific macproqc test dataset files",
+                    "default": "https://raw.githubusercontent.com/mpc-bioinformatics/macproqc-test-data/main/testdata/",
+                    "hidden": true
+                },
                 "trace_report_suffix": {
                     "type": "string",
                     "fa_icon": "far fa-calendar",
@@ -166,6 +404,21 @@
     "allOf": [
         {
             "$ref": "#/$defs/input_output_options"
+        },
+        {
+            "$ref": "#/$defs/spikein_parameters"
+        },
+        {
+            "$ref": "#/$defs/pipeline_steps"
+        },
+        {
+            "$ref": "#/$defs/fasta_parameters"
+        },
+        {
+            "$ref": "#/$defs/identification_parameters"
+        },
+        {
+            "$ref": "#/$defs/visualization_parameters"
         },
         {
             "$ref": "#/$defs/institutional_config_options"

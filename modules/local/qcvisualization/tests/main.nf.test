@@ -1,0 +1,114 @@
+
+nextflow_process {
+
+    name "Test Process QCVISUALIZATION"
+    script "../main.nf"
+    process "QCVISUALIZATION"
+
+    tag "modules"
+    tag "modules_"
+    tag "qcvisualization"
+
+    test("qcvisualization - default params") {
+
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ],
+                    [
+                    file(params.macproqc_testdata_base_path + 'visualization/EXII01980std.hdf5', checkIfExists: true),
+                    file(params.macproqc_testdata_base_path + 'visualization/EXII01990std.hdf5', checkIfExists: true),
+                    ]
+                ]
+                input[1] = 'csv'      // output_table_type
+                input[2] = 'plotly'   // figure_format
+                input[3] = file('${projectDir}/assets/default_configs/spike_ins_whole_proforma.csv', checkIfExists: true)
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assertAll(
+                { assert snapshot(
+                    process.out.jsons,
+                    process.out.output_tables,
+                    process.out.ms1_maps,
+                    process.out.additional_plots
+                ).match() },
+            )
+        }
+    }
+
+    test("qcvisualization - changed params") {
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ],
+                    [
+                    file(params.macproqc_testdata_base_path + 'visualization/EXII01980std.hdf5', checkIfExists: true),
+                    file(params.macproqc_testdata_base_path + 'visualization/EXII01990std.hdf5', checkIfExists: true),
+                    ]
+                ]
+                input[1] = 'xlsx'     // output_table_type
+                input[2] = 'html'     // figure_format
+                input[3] = file('${projectDir}/assets/default_configs/spike_ins_whole_proforma.csv', checkIfExists: true)
+                """
+            }
+        }
+
+
+        then {
+            assert process.success
+            assertAll(
+                { assert snapshot(
+                    process.out.ms1_maps
+                ).match() },
+            )
+        }
+    }
+
+
+    test("qcvisualization - stub") {
+
+        options "-stub"
+
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ],
+                    [
+                    file(params.macproqc_testdata_base_path + 'visualization/EXII01980std.hdf5', checkIfExists: true),
+                    file(params.macproqc_testdata_base_path + 'visualization/EXII01990std.hdf5', checkIfExists: true),
+                    ]
+                ]
+                input[1] = 'csv'      // output_table_type
+                input[2] = 'plotly'   // figure_format
+                input[3] = file('${projectDir}/assets/default_configs/spike_ins_whole_proforma.csv', checkIfExists: true)
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+
+
+}

@@ -1,0 +1,32 @@
+{
+    "pia-configure - all mzTab 0.03 FDR": {
+        "content": [
+            "pia-test.pia.json:md5,80dba4ecc05da78cc7ca97565722dcc8"
+        ],
+        "timestamp": "2026-09-09T12:28:24.036254756",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "pia-configure - mzid with decoys 0.05 FDR": {
+        "content": [
+            "pia-test.pia.json:md5,1690ff10c00e1107ab0125c9c4f999c6"
+        ],
+        "timestamp": "2026-09-09T12:28:29.945476146",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "pia_configure - stub": {
+        "content": [
+            "pia-stub-test.pia.json:md5,d41d8cd98f00b204e9800998ecf8427e"
+        ],
+        "timestamp": "2026-09-09T12:28:35.300449765",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    }
+}

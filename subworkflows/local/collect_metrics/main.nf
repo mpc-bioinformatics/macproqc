@@ -1,0 +1,135 @@
+include { IDMETRICSEXTRACTION }    from '../../../modules/local/idmetricsextraction/main'
+include { MZMLMETRICSEXTRACTION }    from '../../../modules/local/mzmlmetricsextraction/main'
+include { THERMOMETRICSEXTRACTION }  from '../../../modules/local/thermometricsextraction/main'
+include { BRUKERMETRICSEXTRACTION }  from '../../../modules/local/brukermetricsextraction/main'
+include { XICEXTRACTIONCONFIG }      from '../../../modules/local/xicextractionconfig/main'
+include { THERMOXICEXTRACTION }      from '../../../modules/local/thermoxicextraction/main'
+include { BRUKERXICEXTRACTION }      from '../../../modules/local/brukerxicextraction/main'
+include { SPIKEINMETRICSEXTRACTION } from '../../../modules/local/spikeinmetricsextraction/main'
+include { COMBINEHDF5 }              from '../../../modules/local/combinehdf5/main'
+
+workflow COLLECT_METRICS {
+    take:
+    ch_mzml                     // channel: [ val(meta), path(mzml) ]
+    ch_raw                      // channel: [ val(meta), path(spectra_file) ] - all uncompressed spectra files, meta.vendor in ['thermo', 'bruker', 'mzml', ...] (only thermo/bruker get metrics from here)
+    ch_unlabelled_pia_results   // channel: [ val(meta), path(pia_psms), path(pia_peptides), path(pia_proteins) ] - the (unlabelled) ID results, may be empty (no ID metrics)
+    ch_labelled_psm_mztab       // channel: [ val(meta), path(psm_mztab_file) ] - only consumed when spike_ins_table is given, may be empty (spike-ins use only the table RT windows)
+    spike_ins_table             // val: path to the spike-ins reference table (csv), or null to skip the spike-in XIC metrics chain
+
+    main:
+
+    // this channel will be filled with all per-metric HDF5 produced for a given run, to be merged into one HDF5 at the end
+    ch_all_hdf5 = channel.empty()
+
+    // Perform ID based metric extraction (if identification data is provided, if channel is empty, it will be skipped)
+    IDMETRICSEXTRACTION(ch_unlabelled_pia_results)
+    ch_all_hdf5 = ch_all_hdf5.mix(IDMETRICSEXTRACTION.out.hdf5)
+
+    // mzML-based metrics (MS1/MS2 counts, TIC, RT, precursor charge, ...)
+    // TODO: check the meta.params for the MZMLMETRICSEXTRACTION, nothing is forwarded right now! Add these as params!
+    MZMLMETRICSEXTRACTION(ch_mzml)
+    ch_all_hdf5 = ch_all_hdf5.mix(MZMLMETRICSEXTRACTION.out.hdf5)
+
+    // vendor-specific instrument header metrics (pump pressure, calibrants, ...)
+    ch_raw
+        .branch { meta, _raw ->
+            thermo: meta.vendor == 'thermo'
+            bruker: meta.vendor == 'bruker'
+        }
+        .set { ch_branched_raw }
+
+    // TODO: check the meta.params for the THERMOMETRICSEXTRACTION, nothing is forwarded right now! Add these as params!
+    THERMOMETRICSEXTRACTION(ch_branched_raw.thermo)
+    // TODO: check the meta.params for the BRUKERMETRICSEXTRACTION, nothing is forwarded right now! Add these as params!
+    BRUKERMETRICSEXTRACTION(ch_branched_raw.bruker)
+    ch_all_hdf5 = ch_all_hdf5
+        .mix(THERMOMETRICSEXTRACTION.out.hdf5)
+        .mix(BRUKERMETRICSEXTRACTION.out.hdf5)
+
+    // the XIC extraction results (stays empty without spike-ins table)
+    ch_xics = channel.empty()
+
+    if (spike_ins_table) {
+        ch_spike_ins_table = channel.value(file(spike_ins_table, checkIfExists: true))
+
+        // the spike-in XIC extraction is only available for raw data (no XICs for mzML-only runs)
+        ch_vendor_raw = ch_raw.filter { meta, _raw -> meta.vendor in ['thermo', 'bruker'] }
+
+        // all PSM mzTabs per run (labelled and unlabelled), sorted for a stable order
+        ch_psm_mztabs_per_run = ch_labelled_psm_mztab
+            .mix(ch_unlabelled_pia_results.map { meta, psms, _peptides, _proteins -> [ meta, psms ] })
+            .filter { _meta, psm_mztab -> psm_mztab }   // runs without PSMs, given as [], are dropped here and get [] from the join below
+            .map { meta, psm_mztab -> [ meta.id, psm_mztab ] }
+            .groupTuple(by: 0, sort: { a, b -> a.name <=> b.name })
+
+        // now join with the meta.id from raw, and make sure to have an input for all files (even if it is empty an [])
+        ch_xic_input_mztab = ch_vendor_raw
+            .map { meta, _raw -> [ meta.id, meta ] }
+            .join(ch_psm_mztabs_per_run, by: 0, remainder: true)
+            .filter { _id, meta, _psm_mztabs -> meta != null }   // drops the PSMs of mzML-only runs
+            .map { _id, meta, psm_mztabs -> [ meta, psm_mztabs ?: [] ] }
+
+        // create the XIC extraction config and the identifications matched to the spike-ins
+        XICEXTRACTIONCONFIG(
+            ch_xic_input_mztab,
+            ch_spike_ins_table
+        )
+
+        // pair each raw file with its XIC extraction config (joined on meta.id, since the meta maps
+        // themselves may carry different extra keys depending on their origin)
+        ch_raw_and_config = ch_vendor_raw
+            .map { meta, raw -> [ meta.id, meta, raw ] }
+            .join(
+                XICEXTRACTIONCONFIG.out.config.map { meta, xic_config, ident_csv -> [ meta.id, xic_config, ident_csv ] },
+                by: 0
+            )
+            .map { _id, meta, raw, xic_config, ident_csv -> [ meta, raw, xic_config, ident_csv ] }
+
+        // branch by vendor to run the correct XIC extraction
+        ch_raw_and_config
+            .branch { meta, _raw, _xic_config, _ident_csv ->
+                thermo: meta.vendor == 'thermo'
+                bruker: meta.vendor == 'bruker'
+            }
+            .set { ch_branched_raw_and_config }
+
+        THERMOXICEXTRACTION(
+            ch_branched_raw_and_config.thermo.map { meta, raw, xic_config, _ident_csv -> [ meta, raw, xic_config ] }
+        )
+        BRUKERXICEXTRACTION(
+            ch_branched_raw_and_config.bruker.map { meta, raw, xic_config, _ident_csv -> [ meta, raw, xic_config ] }
+        )
+
+        ch_xics = THERMOXICEXTRACTION.out.xic.mix(BRUKERXICEXTRACTION.out.xic)
+
+        // re-attach the identifications csv (joined on meta.id) for the metrics extraction
+        ch_xics_and_identifications = ch_xics
+            .map { meta, xic -> [ meta.id, meta, xic ] }
+            .join(
+                ch_raw_and_config.map { meta, _raw, _xic_config, ident_csv -> [ meta.id, ident_csv ] },
+                by: 0
+            )
+            .map { _id, meta, xic, ident_csv -> [ meta, xic, ident_csv ] }
+
+        SPIKEINMETRICSEXTRACTION(
+            ch_xics_and_identifications,
+            ch_spike_ins_table
+        )
+
+        ch_all_hdf5 = ch_all_hdf5.mix(SPIKEINMETRICSEXTRACTION.out.hdf5)
+    }
+
+    // group every per-metric HDF5 produced for a given run and merge them into one HDF5
+    // (metas may carry different keys, so merge all of them instead of picking one)
+    ch_grouped_hdf5 = ch_all_hdf5
+        .map { meta, hdf5 -> [ meta.id, meta, hdf5 ] }
+        .groupTuple(by: 0)
+        .map { _id, metas, hdf5s -> [ metas.inject([:]) { merged, m -> merged + m }, hdf5s ] }
+
+    COMBINEHDF5(ch_grouped_hdf5)
+
+    emit:
+    hdf5           = COMBINEHDF5.out.hdf5   // channel: [ val(meta), path(hdf5) ]
+    vendor_metrics = THERMOMETRICSEXTRACTION.out.hdf5.mix(BRUKERMETRICSEXTRACTION.out.hdf5)   // channel: [ val(meta), path(hdf5) ] - the Thermo/Bruker header metrics
+    xic            = ch_xics                // channel: [ val(meta), path(xic) ] - the spike-in XIC extraction results (empty without spike-ins table)
+}

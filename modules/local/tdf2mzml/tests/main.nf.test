@@ -1,0 +1,68 @@
+// nf-core modules test tdf2mzml
+nextflow_process {
+
+    name "Test Process TDF2MZML"
+    script "../main.nf"
+    process "TDF2MZML"
+
+    tag "modules"
+    tag "modules_"
+    tag "tdf2mzml"
+    tag "untar"
+
+    setup {
+        // need to untar the file first (this is another module)
+        run("UNTAR") {
+            script "../../../nf-core/untar/main.nf"
+            process {
+                """
+                input[0] = channel.of([
+                    [ id:'sample_small_d' ],
+                    file(params.macproqc_testdata_base_path + 'msspectra/50fmol_BSA_S1-A2_1_32.d.tar.bz2', checkIfExists: true)
+                ])
+                """
+            }
+        }
+    }
+
+    test("tdf2mzml - small d sample") {
+        when {
+            process {
+                """
+                input[0] = UNTAR.out.untar
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                {
+                    // count the spectra in the converted mzML file
+                    assert snapshot(path(process.out.spectra[0][1]).readLines().count { it.stripLeading().startsWith("<spectrum ") }).match()
+                },
+            )
+        }
+    }
+
+    test("tdf2mzml - small d sample - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = UNTAR.out.untar
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assertAll(
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}

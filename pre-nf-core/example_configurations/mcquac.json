@@ -1,0 +1,60 @@
+{
+    "main_input_folder": "./spectra_or_hdf5_qc_from_previous_runs",
+    "main_outdir": "./results",
+    "main_fasta_file": "./path_to_fasta",
+    "visualization_parameters": {
+        "visualize_only": "false",
+        "rt_unit": "sec",
+        "output_column_order": "",
+        "spikein_columns": "Maximum_Intensity,RT_at_Maximum_Intensity,PSMs,Delta_to_expected_RT",
+        "output_table_type": "csv",
+        "figure_format": "plotly",
+        "height_barplots": 700,
+        "width_barplots": 0 ,
+        "height_pca": 1000,
+        "width_pca": 1000,
+        "height_ionmaps": 10,
+        "width_ionmaps": 10,
+        "visualization_mem": "16.GB"
+    },
+    "spike_in_parameters": {
+        "spike_ins_table": "${projectDir}/example_configurations/spike_ins.csv",
+        "search_spike_ins": true,
+        "search_labelled_spikeins": true
+    },
+    "metric_extraction_parameters": {
+        "ms_run_metrics__bruker_raw_mem": "1.GB",
+        "ms_run_metrics__thermo_raw_mem": "10.GB",
+        "ms_run_metrics__mzml_mem": "10.GB",
+        "base_peak_tic_up_to": 105,
+        "filter_threshold": 1e-5,
+        "report_up_to_charge": 5,
+        "max_parallel_xic_extractors_factor": 2,
+        "feature_detection__openms_threads": 8,
+        "feature_detection__openms_memory": "8.GB",
+        "feature_detection__min_charge": 2,
+        "feature_detection__max_charge": 5
+    },
+    "conversion_parameters": {
+        "file_conversion__bruker_raw_conversion_mem": "5.GB",
+        "file_conversion__bruker_raw_conversion_cpu": 4,
+        "file_conversion__thermo_raw_conversion_mem": "10.GB"
+    },
+    "identification_parameters": {
+        "identification__comet_threads": 8,
+        "identification__comet_mem": "10.GB",
+        "identification__generate_decoys": true,
+        "identification__store_decoy_fasta": false,
+        "identification__decoy_method": "shuffle",
+        "identification__peptide_mass_tolerance_upper": 5,
+        "identification__peptide_mass_tolerance_lower": -5,
+        "identification__peptide_mass_units": 2,
+        "identification__isotope_error": 2,
+        "identification__fragment_bin_tol": 0.02,
+        "identification__fragment_bin_offset": 0,
+        "identification__theoretical_fragment_ions": 0,
+        "identification__label_modifications": "add_K_lysine = 8.014199;add_R_arginine = 10.008269",
+        "identification__pia_threads": 8,
+        "identification__pia_gb_ram": 16
+    }
+}

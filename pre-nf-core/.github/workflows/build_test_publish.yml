@@ -1,0 +1,50 @@
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - id: sanitize_repo_name
+        name: Sanitize repository name
+        run: |
+          echo "repository=${GITHUB_REPOSITORY@L}" >> $GITHUB_OUTPUT
+
+      - name: Build Docker image
+        id: build
+        run: |
+          docker build -t ghcr.io/${{ steps.sanitize_repo_name.outputs.repository  }}:${{ github.ref_name }} -f docker/Dockerfile .
+
+      # First we would need some tests
+      # - name: Run tests in Docker container
+      #   id: test
+      #   if: steps.build.outcome == 'success'
+      #   run: |
+      #     docker run --rm --entrypoint "" ghcr.io/${{ steps.sanitize_repo_name.outputs.repository  }}:${{ github.ref_name }} python -m unittest discover tests '*_test.py' 
+
+      - name: Log in to GitHub Container Registry
+        id: registry_login
+        if: steps.build.outcome == 'success' && github.event_name != 'pull_request'
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push Docker image
+        if: steps.registry_login.outcome == 'success' && github.event_name != 'pull_request'
+        run: |
+          docker tag ghcr.io/${{ steps.sanitize_repo_name.outputs.repository  }}:${{ github.ref_name }} ghcr.io/${{ steps.sanitize_repo_name.outputs.repository  }}:latest
+
+          docker push ghcr.io/${{ steps.sanitize_repo_name.outputs.repository  }}:${{ github.ref_name }}
+
+          docker push ghcr.io/${{ steps.sanitize_repo_name.outputs.repository  }}:latest

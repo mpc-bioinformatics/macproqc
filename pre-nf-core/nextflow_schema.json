@@ -1,0 +1,374 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com///nextflow_schema.json",
+  "title": " pipeline parameters",
+  "description": "",
+  "type": "object",
+  "$defs": {
+    "main_parameters": {
+      "title": "Main parameters",
+      "type": "object",
+      "description": "Main parameters for McQuaC",
+      "default": "",
+      "properties": {
+        "main_input_folder": {
+          "type": "string",
+          "format": "directory-path",
+          "description": "Folder containing the spectra files to be analysed (Thermo raw, Bruker .d or mzML), or hdf5 files if running only the visualization. All applicable files in this folder will be processed.",
+          "exists": true,
+          "default": "./"
+        },
+        "main_outdir": {
+          "type": "string",
+          "description": "Output-Directory of the result files",
+          "default": "./results",
+          "format": "directory-path"
+        },
+        "main_fasta_file": {
+          "type": "string",
+          "description": "The FASTA file used for identification",
+          "format": "file-path",
+          "exists": true,
+          "mimetype": "text/plain",
+          "fa_icon": "far fa-file-code"
+        }
+      },
+      "required": ["main_input_folder", "main_fasta_file"]
+    },
+    "visualization_parameters": {
+      "title": "Visualization parameters",
+      "type": "object",
+      "description": "Parameters for visualization script",
+      "default": "",
+      "properties": {
+        "visualize_only": {
+          "type": "boolean",
+          "description": "If true, only the visualization part of teh workflow will be executed."
+        },
+        "rt_unit": {
+          "type": "string",
+          "description": "Unit of the retention time, either sec for seconds or min for minutes.",
+          "default": "sec",
+          "enum": ["sec", "min"]
+        },
+        "output_column_order": {
+          "type": "string",
+          "description": "Order of columns in the output table",
+          "default": "''"
+        },
+        "spikein_columns": {
+          "type": "string",
+          "default": "Maximum_Intensity,RT_at_Maximum_Intensity,PSMs,Delta_to_expected_RT",
+          "description": "Columns of the spike-in dataframes that should end up in the result table"
+        },
+        "output_table_type": {
+          "type": "string",
+          "description": "Type of the output table, either csv or xlsx",
+          "default": "csv",
+          "format": "file-path",
+          "enum": ["csv", "xlsx"]
+        },
+        "figure_format": {
+          "type": "string",
+          "description": "Type of output figures (one or more of html and plotly)",
+          "default": "plotly",
+          "format": "file-path",
+          "enum": ["html", "plotly", "html,plotly"]
+        },
+        "height_barplots": {
+          "type": "integer",
+          "default": 700,
+          "description": "Height of the barplots in pixels"
+        },
+        "width_barplots": {
+          "type": "integer",
+          "default": 0,
+          "description": "Width of the barplots in pixels, 0 = flexible width"
+        },
+        "height_pca": {
+          "type": "integer",
+          "default": 1000,
+          "description": "Height of the PCA plot in pixels"
+        },
+        "width_pca": {
+          "type": "integer",
+          "default": 1000,
+          "description": "Width of the PCA plot in pixels"
+        },
+        "height_ionmaps": {
+          "type": "integer",
+          "default": 10,
+          "description": "Height of the ion maps in inches"
+        },
+        "width_ionmaps": {
+          "type": "integer",
+          "default": 10,
+          "description": "Width of the ion maps in inches"
+        },
+        "visualization_mem": {
+          "type": "string",
+          "default": "16.GB",
+          "description": "Memory used for the visualization process"
+        }
+      }
+    },
+    "spike_in_parameters": {
+      "title": "Spike in parameters",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "spike_ins_table": {
+          "type": "string",
+          "description": "The information about spike-ins",
+          "default": "${projectDir}/example_configurations/spike_ins.csv",
+          "format": "file-path",
+          "mimetype": "text/csv"
+        },
+        "search_spike_ins": {
+          "type": "boolean",
+          "description": "Parameter to check if a specific identification and feature extraction for spike in peptides / proteins should be performed. NOTE: FASTA has to contain the spike ins too!",
+          "default": true
+        },
+        "search_labelled_spikeins": {
+          "type": "boolean",
+          "default": true,
+          "description": "Perform a special identification and look for labelled peptides"
+        }
+      }
+    },
+    "metric_extraction_parameters": {
+      "title": "Metric extraction parameters",
+      "type": "object",
+      "description": "Parameters used for the extraction of metrics",
+      "default": "",
+      "properties": {
+        "ms_run_metrics__bruker_raw_mem": {
+          "type": "string",
+          "default": "1.GB",
+          "description": "Memory used for the extraction of metrics from Bruker headers"
+        },
+        "ms_run_metrics__thermo_raw_mem": {
+          "type": "string",
+          "default": "10.GB",
+          "description": "Memory used for the extraction of metrics from Thermo headers"
+        },
+        "ms_run_metrics__mzml_mem": {
+          "type": "string",
+          "description": "Memory used for the extraction of metrics from mzML files",
+          "default": "10.GB"
+        },
+        "ms_run_metrics__bruker_headers": {
+          "type": "string",
+          "description": "Set if you want to extract specific headers from Bruker measurements, otherwise the default is used."
+        },
+        "ms_run_metrics__bruker_calibrants": {
+          "type": "string",
+          "description": "Set if you want to extract specific calibrants in Bruker raw measurements, otherwise the default is used (622.0290 m/z, 922.009798 m/z and 1221.990637 m/z with a 10 m/z and 0.1 1/k0 tolerance). Have a look into the corresponding python script for the headers."
+        },
+        "ms_run_metrics__thermo_headers": {
+          "type": "string",
+          "description": "Set if you want to extract specific headers from Thermo measurements, otherwise the default is used."
+        },
+        "base_peak_tic_up_to": {
+          "type": "integer",
+          "default": 105,
+          "description": "Retrieve the Basepeak Intensity Max and the Total Ion Current from minute 0 up to the given number in minutes. Defaults to 105 (minutes)."
+        },
+        "filter_threshold": {
+          "type": "number",
+          "default": 1e-5,
+          "description": "Threshold for the MS1 peaks, to be included in the output file. Defaults to 0.00001 (0.001%) of the highest overall MS1 peak. Values lower will be disregarded."
+        },
+        "report_up_to_charge": {
+          "type": "integer",
+          "default": 5,
+          "description": "Upper limit of range to be reported in a csv table for the charge, defaults to 5."
+        },
+        "max_parallel_xic_extractors_factor": {
+          "type": "integer",
+          "default": 2,
+          "description": "Factor for the number of maximum forks for the XIC extractor processes, calculated by dividing the number of available processors by this number. In fact, the number of required CPUs per task is set to the given value.",
+          "minimum": 1
+        },
+        "feature_detection__openms_threads": {
+          "type": "integer",
+          "default": 8,
+          "description": "Allowed number of threads / CPUs for the OpenMS feature detection",
+          "minimum": 1
+        },
+        "feature_detection__openms_memory": {
+          "type": "string",
+          "default": "8.GB",
+          "description": "Allowed memory for the OpenMS feature detection tasks"
+        },
+        "feature_detection__min_charge": {
+          "type": "integer",
+          "default": 2,
+          "description": "Minimum charge for the feature detection"
+        },
+        "feature_detection__max_charge": {
+          "type": "integer",
+          "default": 5,
+          "description": "Maximum charge for the feature detection"
+        }
+      }
+    },
+    "conversion_parameters": {
+      "title": "Conversion parameters",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "file_conversion__bruker_raw_conversion_mem": {
+          "type": "string",
+          "default": "5.GB",
+          "description": "Memory for the tdf2mzml to convert .d into mzML"
+        },
+        "file_conversion__bruker_raw_conversion_cpu": {
+          "type": "integer",
+          "default": 4,
+          "description": "Number of CPUs / threads for the bruker raw file conversion"
+        },
+        "file_conversion__thermo_raw_conversion_mem": {
+          "type": "string",
+          "default": "10.GB",
+          "description": "Memory for the Thermo Raw File Parser to convert .raw into mzML"
+        }
+      }
+    },
+    "identification_parameters": {
+      "title": "Identification parameters",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "identification__comet_threads": {
+          "type": "integer",
+          "default": 8,
+          "description": "CPUs / threads used for the identification with Comet"
+        },
+        "identification__comet_mem": {
+          "type": "string",
+          "default": "10.GB",
+          "description": "Memory used for the identification with Comet"
+        },
+        "identification__generate_decoys": {
+          "type": "boolean",
+          "default": true,
+          "description": "If true, decoys are generated before starting the spectrum identification. Otherwise, decoys should already be in the FASTA file"
+        },
+        "identification__store_decoy_fasta": {
+          "type": "boolean",
+          "default": false,
+          "description": "If true, the generated decoy DB will be stored in the output folder"
+        },
+        "identification__decoy_method": {
+          "type": "string",
+          "description": "Applied method for the generation of decoys, either \"reverse\" or \"shuffle\"",
+          "enum": ["reverse", "shuffle"],
+          "default": "reverse"
+        },
+        "identification__peptide_mass_tolerance_upper": {
+          "type": "number",
+          "description": "Comet parameter: peptide_mass_tolerance_upper, upper bound of the precursor mass tolerance",
+          "default": 5
+        },
+        "identification__peptide_mass_tolerance_lower": {
+          "type": "number",
+          "default": -5,
+          "description": "Comet parameter: peptide_mass_tolerance_lower, lower bound of the precursor mass tolerance; USUALLY NEGATIVE TO BE LOWER THAN 0"
+        },
+        "identification__peptide_mass_units": {
+          "type": "integer",
+          "default": 2,
+          "description": "Comet parameter: peptide_mass_units, 0=amu, 1=mmu, 2=ppm",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "identification__isotope_error": {
+          "type": "integer",
+          "default": 2,
+          "description": "Comet parameter: isotope_error, 0=off, 1=0/1 (C13 error), 2=0/1/2, 3=0/1/2/3, 4=-1/0/1/2/3, 5=-1/0/1",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "identification__fragment_bin_tol": {
+          "type": "number",
+          "default": 0.02,
+          "description": "Comet parameter: fragment_bin_tol, binning to use on fragment ions"
+        },
+        "identification__fragment_bin_offset": {
+          "type": "number",
+          "default": 0,
+          "description": "Comet parameter: fragment_bin_offset, offset position to start the binning (0.0 to 1.0)",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "identification__theoretical_fragment_ions": {
+          "type": "integer",
+          "default": 0,
+          "description": "Comet parameter: theoretical_fragment_ions, 0=use flanking peaks, 1=M peak only",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "identification__label_modifications": {
+          "type": "string",
+          "default": "add_K_lysine = 8.014199;add_R_arginine = 10.008269",
+          "description": "The labels encoded in Comet static labels. Only used during the special identification for labelled spike ins if \"search_labelled_spikeins\" is true."
+        },
+        "identification__pia_threads": {
+          "type": "integer",
+          "default": 8,
+          "description": "Allowed number of CPUs / threads for PIA",
+          "minimum": 1
+        },
+        "identification__pia_gb_ram": {
+          "type": "integer",
+          "default": 16,
+          "description": "Allowed RAM to be used by PIA, in GB",
+          "minimum": 4
+        },
+        "identification__pia_fdr_threshold": {
+          "type": "number",
+          "default": 0.01,
+          "description": "The FDR threshold used for filtering PSMs by PIA, typically set to 0.01 (1%).",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "identification__pia_prefilter": {
+          "type": "number",
+          "default": 0.05,
+          "description": "Perform pre-filtering on PSM level before protein and peptide inference in PIA, use this threshold for pre-filtering. Set to 0 to disable pre-filtering.",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "identification__peptides_table": {
+          "type": "boolean",
+          "default": false,
+          "description": "If this is true, for each analysed MS run one peptide table will be exported."
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "#/$defs/main_parameters"
+    },
+    {
+      "$ref": "#/$defs/visualization_parameters"
+    },
+    {
+      "$ref": "#/$defs/spike_in_parameters"
+    },
+    {
+      "$ref": "#/$defs/metric_extraction_parameters"
+    },
+    {
+      "$ref": "#/$defs/conversion_parameters"
+    },
+    {
+      "$ref": "#/$defs/identification_parameters"
+    }
+  ]
+}

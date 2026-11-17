@@ -1,0 +1,71 @@
+site_name: nf-core/macproqc
+site_description: macproqc
+site_url: https://mpc-bioinformatics.github.io/macproqc/
+repo_url: https://github.com/mpc-bioinformatics/macproqc
+repo_name: mpc-bioinformatics/macproqc
+edit_uri: edit/main/docs/
+
+docs_dir: docs
+
+theme:
+  name: material
+  logo: images/nf-core-macproqc_logo_light.png
+  favicon: images/nf-core-macproqc_logo_light.png
+  palette:
+    - scheme: default
+      primary: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.top
+    - navigation.sections
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+    - content.tabs.link
+
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+  - Home: index.md
+  - Usage: usage.md
+  - Parameters: parameters.md
+  - Output: output.md
+  - Contributing: CONTRIBUTING.md
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/mpc-bioinformatics/macproqc
+    - icon: fontawesome/brands/slack
+      link: https://nfcore.slack.com/channels/macproqc

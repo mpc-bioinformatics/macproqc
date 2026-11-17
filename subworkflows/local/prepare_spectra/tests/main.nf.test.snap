@@ -1,0 +1,35 @@
+{
+    "mini raw file test": {
+        "content": [
+            "test-raw.mzML",
+            1193
+        ],
+        "timestamp": "2026-06-18T13:18:51.3708392",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.3"
+        }
+    },
+    "mini bruker .d test": {
+        "content": [
+            "test-d.mzML",
+            6849
+        ],
+        "timestamp": "2026-06-18T13:19:23.20527304",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.3"
+        }
+    },
+    "mini raw file test - stub": {
+        "content": [
+            "test-raw.mzML",
+            0
+        ],
+        "timestamp": "2026-06-18T13:19:28.766201186",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.3"
+        }
+    }
+}

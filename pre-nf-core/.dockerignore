@@ -1,0 +1,6 @@
+# Prevent anything from being send to the docker daemon
+# except the few files we need.
+*
+!environment.yml
+!requirements.txt
+!docker/comet/entrypoint.sh

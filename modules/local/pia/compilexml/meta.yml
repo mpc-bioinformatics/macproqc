@@ -1,0 +1,79 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "pia_compilexml"
+description: Compiles identification results (e.g. search engine outputs) into a PIA intermediate XML file (`pia --compile`), which is the input for the PIA analysis (PIA_ANALYSIS).
+keywords:
+  - proteomics
+  - protein inference
+  - identification
+  - pia
+tools:
+  - "pia":
+      description: "PIA is a toolbox for MS based protein inference and identification
+        analysis."
+      homepage: "https://github.com/medbioinf/pia"
+      documentation: "https://github.com/medbioinf/pia/wiki"
+      tool_dev_url: "https://github.com/medbioinf/pia"
+      doi: "10.1021/acs.jproteome.5b00121"
+      licence: ["BSD-3-clause"]
+      identifier: biotools:pia_d
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - identifications:
+        type: file
+        description: |
+          Identification file(s) to compile, e.g. search engine results in mzIdentML format.
+          PIA also supports further formats, like OpenMS idXML, mzTab, X!Tandem XML and Mascot DAT files.
+        pattern: "*.{mzid,mzIdentML,idXML,mzTab,xml,dat,txt}"
+        ontologies:
+          - edam: "http://edamontology.org/format_3247" # mzIdentML
+          - edam: "http://edamontology.org/format_3764" # OpenMS idXML
+          - edam: "http://edamontology.org/format_3681" # mzTab
+          - edam: "http://edamontology.org/format_3711" # X!Tandem XML
+          - edam: "http://edamontology.org/format_3713" # Mascot DAT
+
+output:
+  pia_xml:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.pia.xml":
+          type: file
+          description: |
+            Compiled PIA intermediate file, containing all PSMs, peptides and accessions of the input identifications.
+            Not written for inputs without any identification (no SpectrumIdentificationResult).
+          pattern: "*.pia.xml"
+          ontologies:
+            - edam: "http://edamontology.org/format_2332" # XML
+  versions_pia:
+    - - "${task.process}":
+          type: string
+          description: The name of the process
+      - "pia":
+          type: string
+          description: The name of the tool
+      - "pia --version":
+          type: eval
+          description: The expression to obtain the version of the tool
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - pia:
+          type: string
+          description: The name of the tool
+      - pia --version:
+          type: eval
+          description: The expression to obtain the version of the tool
+authors:
+  - "@julianu"
+maintainers:
+  - "@julianu"

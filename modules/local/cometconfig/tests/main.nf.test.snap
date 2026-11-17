@@ -1,0 +1,68 @@
+{
+    "cometconfig - create a config file with adjusted params": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "default-params-file"
+                        },
+                        "default-params-file.comet.params:md5,78787a7920831e45fdce26d9d9e76fa1"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,15bec1026732d0b834c58b344979eca6"
+                ],
+                "params": [
+                    [
+                        {
+                            "id": "default-params-file"
+                        },
+                        "default-params-file.comet.params:md5,78787a7920831e45fdce26d9d9e76fa1"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,15bec1026732d0b834c58b344979eca6"
+                ]
+            }
+        ],
+        "timestamp": "2026-07-02T14:54:06.395881189",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.3"
+        }
+    },
+    "cometconfig - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "default-params-file"
+                        },
+                        "default-params-file.comet.params:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,15bec1026732d0b834c58b344979eca6"
+                ],
+                "params": [
+                    [
+                        {
+                            "id": "default-params-file"
+                        },
+                        "default-params-file.comet.params:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,15bec1026732d0b834c58b344979eca6"
+                ]
+            }
+        ],
+        "timestamp": "2026-07-02T14:45:40.971020737",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.3"
+        }
+    }
+}

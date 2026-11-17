@@ -1,0 +1,108 @@
+nextflow_process {
+
+    name "Test Process PIA_COMPILEXML"
+    script "../main.nf"
+    process "PIA_COMPILEXML"
+
+    tag "modules"
+    tag "modules_"
+    tag "comet"
+    tag "openms/decoydatabase"
+    tag "pia"
+    tag "pia/compilexml"
+
+    setup {
+        run("OPENMS_DECOYDATABASE") {
+            script "../../../../nf-core/openms/decoydatabase/main.nf"
+            process {
+                """
+                input[0] = channel.of([
+                    [ id:'test_db' ],
+                    file(params.modules_testdata_base_path + 'proteomics/database/yeast_UPS.fasta', checkIfExists: true),
+                ])
+                """
+            }
+        }
+
+        run("COMET") {
+            script "../../../../nf-core/comet/main.nf"
+
+            process {
+                """
+                def originalParams = file(params.modules_testdata_base_path + 'proteomics/parameter/OVEMB150205.comet.params', checkIfExists: true)
+                def modifiedParams = new File('./modified.comet.params')
+                modifiedParams.text = originalParams.text
+                    .replaceAll('(?m)^output_percolatorfile =.*', 'output_percolatorfile = 0')
+                    .replaceAll('(?m)^output_txtfile =.*', 'output_txtfile = 0')
+                    .replaceAll('(?m)^output_mzidentmlfile =.*', 'output_mzidentmlfile = 1')
+
+                input[0] = OPENMS_DECOYDATABASE.out.decoy_fasta.map { meta, fasta ->
+                    [
+                        [ id:'test'],
+                        file(params.modules_testdata_base_path + 'proteomics/msspectra/OVEMB150205_12.mzML', checkIfExists: true),
+                        fasta,
+                        file(modifiedParams),
+                    ]
+                }
+                """
+            }
+        }
+    }
+
+    test("pia-compilexml - small test") {
+
+        when {
+            process {
+                """
+                input[0] = COMET.out.mzid
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                {
+                    // count the spectrum matches in the PIA XML output
+                    assert snapshot(
+                        file(process.out.pia_xml[0][1]).name,
+                        file(process.out.pia_xml[0][1]).readLines().count { it.stripLeading().startsWith("<spectrumMatch ") },
+                        file(process.out.pia_xml[0][1]).readLines().count { it.stripLeading().startsWith("<accession ") },
+                        file(process.out.pia_xml[0][1]).readLines().count { it.stripLeading().startsWith("<peptide ") }
+                    ).match("pia.xml-filename-and-elementcount")
+                },
+                {
+                    // the AnalysisProtocolCollection should stay the same (unless between comet versions)
+                    def lines = file(process.out.pia_xml[0][1]).readLines()
+                    def startIdx = lines.findIndexOf { it.contains('<AnalysisProtocolCollection') }
+                    def endIdx   = lines.findIndexOf { it.contains('</AnalysisProtocolCollection>') }
+                    assert startIdx >= 0 : "AnalysisProtocolCollection not found in pia.xml file"
+                    assert snapshot(lines[startIdx..endIdx].collect { it.trim() }).match("pia.xml-AnalysisProtocolCollection")
+                },
+            )
+        }
+
+    }
+
+    test("pia-compilexml - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = COMET.out.mzid
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out.pia_xml[0][1]).match() }
+            )
+        }
+
+    }
+
+}

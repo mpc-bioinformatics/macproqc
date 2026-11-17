@@ -1,0 +1,57 @@
+// nf-core modules test cometconfig
+nextflow_process {
+
+    name "Test Process COMETCONFIG"
+    script "../main.nf"
+    process "COMETCONFIG"
+
+    tag "modules"
+    tag "cometconfig"
+
+    test("cometconfig - create a config file with adjusted params") {
+
+        config "./nextflow.config"
+
+        when {
+            process {
+                """
+                input[0] = channel.of([
+                    [ id:'default-params-file' ],
+                    file("${projectDir}/assets/default_configs/comet.params", checkIfExists: true),
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("cometconfig - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = channel.of([
+                    [ id:'default-params-file' ],
+                    file("${projectDir}/assets/default_configs/comet.params", checkIfExists: true),
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}

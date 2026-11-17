@@ -1,0 +1,76 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "pia_configure"
+description: Generates a PIA analysis JSON configuration (based on `pia --example`), which is adjusted by the settings given in the meta map (FDR filtering, decoy removal and PSM/peptide/protein inference and export). The configuration is used by PIA_ANALYSIS.
+keywords:
+  - proteomics
+  - protein inference
+  - identification
+  - fdr
+  - configuration
+  - pia
+tools:
+  - "pia":
+      description: "PIA is a toolbox for MS based protein inference and identification
+        analysis."
+      homepage: "https://github.com/medbioinf/pia"
+      documentation: "https://github.com/medbioinf/pia/wiki"
+      tool_dev_url: "https://github.com/medbioinf/pia"
+      doi: "10.1021/acs.jproteome.5b00121"
+      licence: ["BSD-3-clause"]
+      identifier: biotools:pia_d
+
+input:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing the ID and the settings of the PIA analysis configuration.
+        All keys but `id` are optional, the defaults are given in brackets:
+        - `id`: identifier of the configuration, used as file prefix
+        - `psm_export` (true): export the PSMs
+        - `peptide_export` (true): infer and export the peptides
+        - `protein_export` (true): infer (spectrum extractor) and export the proteins
+        - `fdr_filter` (true): filter PSMs, peptides and proteins by FDR / q-value
+        - `remove_decoys` (true): remove decoys (accessions starting with `DECOY_`) when FDR filtering
+        - `fdr_threshold` (0.01): threshold for the FDR filtering and protein inference
+        - `psm_export_format` ('mzTab'): format of the PSM export, either `mzTab` or `mzid`
+        e.g. `[ id:'analysis1', fdr_threshold:0.05, psm_export_format:'mzid' ]`
+
+output:
+  pia_json:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing the ID and the settings of the PIA analysis configuration
+            e.g. `[ id:'analysis1' ]`
+      - "*.pia.json":
+          type: file
+          description: PIA analysis configuration file
+          pattern: "*.pia.json"
+          ontologies:
+            - edam: "http://edamontology.org/format_3464" # JSON
+  versions_pia:
+    - - "${task.process}":
+          type: string
+          description: The name of the process
+      - "pia":
+          type: string
+          description: The name of the tool
+      - "pia --version":
+          type: eval
+          description: The expression to obtain the version of the tool
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - pia:
+          type: string
+          description: The name of the tool
+      - pia --version:
+          type: eval
+          description: The expression to obtain the version of the tool
+authors:
+  - "@julianu"
+maintainers:
+  - "@julianu"

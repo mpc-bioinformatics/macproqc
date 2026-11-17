@@ -1,0 +1,66 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "thermoxicextraction"
+description: Extract XICs for spike-in/reference peptides from Thermo raw files using ThermoRawFileParser's XIC extraction mode.
+keywords:
+  - proteomics
+  - xic
+  - spike-ins
+  - thermorawfileparser
+  - mass spectrometry
+tools:
+  - "thermorawfileparser":
+      description: "A software to convert Thermo RAW files to open formats, and to extract chromatograms/XICs from them."
+      homepage: "https://github.com/compomics/ThermoRawFileParser"
+      documentation: "https://github.com/compomics/ThermoRawFileParser"
+      tool_dev_url: "https://github.com/compomics/ThermoRawFileParser"
+      doi: "10.1021/acs.jproteome.9b00328"
+      licence: ["Apache-2.0"]
+      identifier: "biotools:thermorawfileparser"
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - raw:
+        type: file
+        description: Thermo raw file to extract XICs from
+        pattern: "*.{raw,RAW}"
+    - xic_config:
+        type: file
+        description: XIC extraction configuration file (as produced by XICEXTRACTIONCONFIG)
+        pattern: "*.json"
+
+output:
+  xic:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.json":
+          type: file
+          description: The extracted XICs in JSON format
+          pattern: "*.json"
+  versions_thermoxicextraction:
+    - - "${task.process}":
+          type: string
+          description: The name of the process
+      - "thermorawfileparser":
+          type: string
+          description: The name of the tool
+      - 'eval("ThermoRawFileParser.sh --version")':
+          type: eval
+          description: The version of the tool
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The version of the tool
+
+authors:
+  - "@di-hardt"
+maintainers:
+  - "@di-hardt"

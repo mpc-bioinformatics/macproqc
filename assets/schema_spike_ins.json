@@ -1,0 +1,49 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/nf-core/macproqc/master/assets/schema_spike_ins.json",
+    "title": "nf-core/macproqc pipeline - params.spike_ins_table schema",
+    "description": "Schema for the file provided with params.spike_ins_table",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "name": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "Spike-in name must be provided and cannot contain spaces"
+            },
+            "sequence": {
+                "type": "string",
+                "pattern": "^\\S(.*\\S)?$",
+                "errorMessage": "Spike-in sequence must be provided as ProForma peptidoform (including the charge) without leading or trailing spaces"
+            },
+            "mz": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "errorMessage": "Spike-in mz must be a number greater than 0"
+            },
+            "RT": {
+                "type": "number",
+                "anyOf": [{ "const": -1 }, { "minimum": 0 }],
+                "errorMessage": "Spike-in RT must be a retention time in seconds (>= 0), or -1 if it is not known"
+            },
+            "mz-tol": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "errorMessage": "Spike-in mz-tol must be a number greater than 0"
+            },
+            "mz-tol-unit": {
+                "type": "string",
+                "enum": ["ppm", "amu", "mmu", "da"],
+                "errorMessage": "Spike-in mz-tol-unit must be one of: ppm | amu | mmu | da"
+            },
+            "rt-tol": {
+                "type": "number",
+                "minimum": 0,
+                "errorMessage": "Spike-in rt-tol must be a retention time tolerance in seconds (>= 0)"
+            }
+        },
+        "required": ["name", "sequence", "mz", "RT", "mz-tol", "mz-tol-unit", "rt-tol"]
+    },
+    "uniqueEntries": ["name"]
+}

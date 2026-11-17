@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "prepare_spectra"
+description: Prepares the spectra for identification, e.g. conversion into mzML format, uncompressing, etc.
+keywords:
+  - spectra
+  - mzML
+  - uncompress
+  - decompress
+  - conversion
+components:
+  - gunzip
+  - unzip
+  - untar
+  - thermorawfileparser
+  - tdf2mzml
+input:
+  - ch_spectra:
+      type: path
+      description: |
+        The input channel containing the .d-folders (Bruker), .raw-file (Thermo) or mzML-files
+        or any of the compressed versions (.tar.gz, .gz, .zip) of these files/folders.
+        Structure: [ val(meta), path(spectra_format) ]
+      pattern: "*.{d,raw,RAW,mzML,mzml}{.tar.gz,.gz,.zip}"
+output:
+  - mzml:
+      type: file
+      description: |
+        Channel containing converted mzML files
+        Structure: [ val(meta), path(mzml) ]
+      pattern: "*.mzML"
+  - uncompressed:
+      type: file
+      description: |
+        Channel containing uncompressed spectra files (e.g. .d-folders, .raw-file (Thermo) or mzML-files)
+        Structure: [ val(meta), path(file or folder) ]
+      pattern: "*"
+authors:
+  - "@di-hardt"
+  - "@julianu"
+maintainers:
+  - "@di-hardt"

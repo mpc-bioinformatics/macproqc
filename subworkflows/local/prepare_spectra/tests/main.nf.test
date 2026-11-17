@@ -1,0 +1,108 @@
+// nf-core subworkflows test prepare_spectra
+nextflow_workflow {
+
+    name "Test Subworkflow PREPARE_SPECTRA"
+    script "../main.nf"
+    workflow "PREPARE_SPECTRA"
+
+    tag "subworkflows"
+    tag "subworkflows_"
+    tag "subworkflows/prepare_spectra"
+
+    tag "thermorawfileparser"
+    tag "tdf2mzml"
+    tag "gunzip"
+    tag "untar"
+    tag "unzip"
+
+
+    test("mini raw file test") {
+        when {
+            workflow {
+                """
+                input[0] = channel.of([
+                    [ id:'test-raw' ],  // meta map
+                    file(params.modules_testdata_base_path + 'proteomics/msspectra/OVEMB150205_12.raw', checkIfExists: true)
+                ])
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    file(workflow.out.mzmls[0][1]).name,
+                    file(workflow.out.mzmls[0][1]).readLines().count { it.stripLeading().startsWith("<spectrum ") }
+                    ).match()}
+            )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
+    }
+
+    test("mini bruker .d test") {
+        when {
+            workflow {
+                """
+                input[0] = channel.of([
+                    [ id:'test-d' ],  // meta map
+                    file(params.macproqc_testdata_base_path + 'msspectra/50fmol_BSA_S1-A2_1_32.d.tar.bz2', checkIfExists: true)
+                ])
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    file(workflow.out.mzmls[0][1]).name,
+                    file(workflow.out.mzmls[0][1]).readLines().count { it.stripLeading().startsWith("<spectrum ") }
+                    ).match()}
+            )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
+    }
+
+    test("mini raw file test - stub") {
+
+        options "-stub"
+
+        when {
+            workflow {
+                """
+                input[0] = channel.of([
+                    [ id:'test-raw' ],  // meta map
+                    file(params.modules_testdata_base_path + 'proteomics/msspectra/OVEMB150205_12.raw', checkIfExists: true)
+                ])
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    file(workflow.out.mzmls[0][1]).name,
+                    file(workflow.out.mzmls[0][1]).readLines().count { it.stripLeading().startsWith("<spectrum ") }
+                    ).match()}
+            )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
+    }
+}

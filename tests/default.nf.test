@@ -1,6 +1,6 @@
 nextflow_pipeline {
 
-    name "Test pipeline"
+    name "Test macproqc pipeline"
     script "../main.nf"
     tag "pipeline"
 
@@ -15,18 +15,115 @@ nextflow_pipeline {
         then {
             // stable_path: All files + folders in ${params.outdir}/ with a stable path (including file name)
             def stable_path = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
-            // stable_content: All files in ${params.outdir}/ with stable content
+            // stable_content: All files in ${params.outdir}/ with stable content (are hash-checked)
             def stable_content = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
-            assert workflow.success
+
             assertAll(
+                { assert workflow.success },
                 { assert snapshot(
                     // pipeline versions.yml file for multiqc from which Nextflow version is removed because we test pipelines on multiple Nextflow versions
-                    removeNextflowVersion("$outputDir/pipeline_info/nf_core_macproqc_software_mqc_versions.yml"),
+                    removeNextflowVersion("$outputDir/pipeline_info/nf_core_macproqc_software_versions.yml"),
                     // All stable path name, with a relative path
                     stable_path,
                     // All files with stable contents
                     stable_content
-                ).match() }
+                ).match() },
+                // testing the created mzML files (counting their spectra)
+                {
+                    assert snapshot(
+                        path("$outputDir/mzmls/").list()
+                        .sort { it.getFileName().toString() }
+                        .collect { mzml ->
+                            [
+                                mzml.getFileName().toString(),
+                                mzml.readLines().count { it.stripLeading().startsWith("<spectrum ") },
+                            ]
+                        }
+                    ).match("mzml-spectrum-counts")
+                },
+                // testing the search result mzid files (counting some elements)
+                {
+                    assert snapshot(
+                        path("$outputDir/comet/").list()
+                        .findAll { it.getFileName().toString().endsWith(".mzid") }
+                        .sort { it.getFileName().toString() }
+                        .collect { mzid ->
+                            [
+                                mzid.getFileName().toString(),
+                                mzid.readLines().count { it.stripLeading().startsWith("<PeptideEvidence ") },
+                                mzid.readLines().count { it.stripLeading().startsWith("<SpectrumIdentificationItem ") },
+                            ]
+                        }
+                    ).match("mzid-filename-and-elementcount")
+                },
+                // perform some count checks in the PIA results
+                {
+                    assert snapshot(
+                        path("$outputDir/pia/").list()
+                        .findAll { it.getFileName().toString().endsWith(".piaExport-PSMs.mzTab") }
+                        .sort { it.getFileName().toString() }
+                        .collect { mztab ->
+                            [
+                                mztab.getFileName().toString(),
+                                mztab.readLines().count { it.stripLeading().startsWith("PSM") },
+                            ]
+                        }
+                    ).match("pia-psms-results")
+                    assert snapshot(
+                        path("$outputDir/pia/").list()
+                        .findAll { it.getFileName().toString().endsWith(".piaExport-peptides.csv") }
+                        .sort { it.getFileName().toString() }
+                        .collect { csv ->
+                            [
+                                csv.getFileName().toString(),
+                                csv.readLines().count { it.stripLeading().startsWith("PEPTIDE") },
+                                csv.readLines().count { it.stripLeading().startsWith("PSM") },
+                            ]
+                        }
+                    ).match("pia-peptides-results")
+                    assert snapshot(
+                        path("$outputDir/pia/").list()
+                        .findAll { it.getFileName().toString().endsWith(".piaExport-proteins.mzTab") }
+                        .sort { it.getFileName().toString() }
+                        .collect { mztab ->
+                            [
+                                mztab.getFileName().toString(),
+                                mztab.readLines().count { it.stripLeading().startsWith("PRT") },
+                                mztab.readLines().count { it.stripLeading().startsWith("PSM") },
+                            ]
+                        }
+                    ).match("pia-proteins-results")
+                },
+                // perform some count checks in the mzQC files (number of runs and metrics, spectra counts and ID counts)
+                {
+                    def countAccessions = [
+                        'MS:4000059',   // number of MS1 spectra
+                        'MS:4000060',   // number of MS2 spectra
+                        'MS:1003250',   // count of identified peptidoforms
+                        'MS:1003251',   // count of identified spectra
+                        'MS:1003327',   // number of identified protein groups
+                    ]
+                    assert snapshot(
+                        path("$outputDir/metrics/mzqc/").list()
+                        .findAll { it.getFileName().toString().endsWith(".mzqc") }
+                        .sort { it.getFileName().toString() }
+                        .collect { mzqcFile ->
+                            // LAX parser, as the mzQC may contain NaN values (not valid in strict JSON)
+                            def mzqc = new groovy.json.JsonSlurper().setType(groovy.json.JsonParserType.LAX).parse(mzqcFile.toFile()).mzQC
+                            def metrics = mzqc.runQualities[0].qualityMetrics
+                            [
+                                mzqcFile.getFileName().toString(),
+                                mzqc.runQualities.size(),
+                                metrics.size(),
+                                new TreeMap(
+                                    metrics
+                                    .findAll { it.accession in countAccessions }
+                                    .collectEntries { [ it.accession, it.value ] }
+                                ),
+                            ]
+                        }
+                    ).match("mzqc-filename-and-elementcount")
+                }
             )
         }
     }

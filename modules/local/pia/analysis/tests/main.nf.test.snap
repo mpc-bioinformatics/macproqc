@@ -1,0 +1,103 @@
+{
+    "pia-analysis-psms-only-mzid": {
+        "content": [
+            "test.piaExport-PSMs.mzid",
+            150
+        ],
+        "timestamp": "2026-09-30T13:07:08.774690666",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.piaExport-PSMs.mzTab:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.piaExport-peptides.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.piaExport-proteins.mzTab:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        "PIA_ANALYSIS",
+                        "pia",
+                        "1.5.9"
+                    ]
+                ],
+                "peptides": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.piaExport-peptides.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "proteins": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.piaExport-proteins.mzTab:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "psms": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.piaExport-PSMs.mzTab:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_pia": [
+                    [
+                        "PIA_ANALYSIS",
+                        "pia",
+                        "1.5.9"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-09-08T09:43:10.892302826",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "pia-analysis-all-exports-mztab": {
+        "content": [
+            "test.piaExport-PSMs.mzTab",
+            127,
+            "test.piaExport-peptides.csv",
+            126,
+            117,
+            "test.piaExport-proteins.mzTab",
+            41,
+            127
+        ],
+        "timestamp": "2026-09-30T13:06:52.097779628",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    }
+}

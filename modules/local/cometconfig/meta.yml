@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "cometconfig"
+description: Adjusts a Comet database search parameter file template based on provided options, configuring mass tolerances, fragment ion settings, output formats, and peptide modifications. Search parameters are passed via `task.ext.args`; see `main.nf` and teh template file for the full list of supported arguments.
+keywords:
+  - proteomics
+  - mass spectrometry
+  - database search
+  - Comet
+  - configuration
+tools:
+  - "python":
+      description: "Python is a general-purpose programming language used here to parse and rewrite Comet parameter files."
+      homepage: "https://www.python.org/"
+      documentation: "https://docs.python.org/"
+      tool_dev_url: "https://github.com/python/cpython"
+      doi: ""
+      licence: ["PSF-2.0"]
+      identifier: null
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - comet_config_template:
+        type: file
+        description: Comet search engine parameter file template (.params)
+        pattern: "*.params"
+
+output:
+  params:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.comet.params":
+          type: file
+          description: Adjusted Comet search engine parameter file with updated mass tolerances, fragment ion settings, output format flags, and modifications
+          pattern: "*.comet.params"
+  versions:
+    - - "versions.yml":
+          type: file
+          description: File containing software versions
+          pattern: "versions.yml"
+
+topics:
+  versions:
+    - - "versions.yml":
+          type: file
+          description: File containing software versions
+          pattern: "versions.yml"
+
+authors:
+  - "@julianu"
+maintainers:
+  - "@julianu"
