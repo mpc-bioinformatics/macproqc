@@ -3,13 +3,16 @@ lint:
     - assets/multiqc_config.yml
     - conf/igenomes.config
     - conf/igenomes_ignored.config
+    - .github/workflows/linting_comment.yml
   files_unchanged:
     - assets/sendmail_template.txt
+    - .github/workflows/branch.yml
+    - .github/workflows/linting.yml
     - assets/nf-core-macproqc_logo_light.png
     - docs/images/nf-core-macproqc_logo_dark.png
     - docs/images/nf-core-macproqc_logo_light.png
   multiqc_config: false
-nf_core_version: 4.1.0
+nf_core_version: 4.2.2
 repository_type: pipeline
 template:
   author: Julian Uszkoreit, Dirk Winkelhardt, Karin Schork, Maike Weber, Dominik Lux
