@@ -1,0 +1,14 @@
+/* nf-core brand green */
+:root {
+  --md-primary-fg-color: #24b064;
+  --md-primary-fg-color--light: #4dcc8a;
+  --md-primary-fg-color--dark: #1a8a47;
+  --md-accent-fg-color: #24b064;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #24b064;
+  --md-primary-fg-color--light: #4dcc8a;
+  --md-primary-fg-color--dark: #1a8a47;
+  --md-accent-fg-color: #24b064;
+}

@@ -1,0 +1,1088 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="macproqc">
+      
+      
+      
+        <link rel="canonical" href="https://mpc-bioinformatics.github.io/macproqc/output/">
+      
+      
+        <link rel="prev" href="../parameters/">
+      
+      
+        <link rel="next" href="../CONTRIBUTING/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../images/nf-core-macproqc_logo_light.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Output - nf-core/macproqc</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#nf-coremacproqc-output" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="nf-core/macproqc" class="md-header__button md-logo" aria-label="nf-core/macproqc" data-md-component="logo">
+      
+  <img src="../images/nf-core-macproqc_logo_light.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            nf-core/macproqc
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Output
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mpc-bioinformatics/macproqc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mpc-bioinformatics/macproqc
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../usage/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Usage
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../parameters/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Parameters
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Output
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../CONTRIBUTING/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contributing
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="nf-core/macproqc" class="md-nav__button md-logo" aria-label="nf-core/macproqc" data-md-component="logo">
+      
+  <img src="../images/nf-core-macproqc_logo_light.png" alt="logo">
+
+    </a>
+    nf-core/macproqc
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mpc-bioinformatics/macproqc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mpc-bioinformatics/macproqc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parameters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parameters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spectra-preparation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spectra preparation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#peptide-identification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Peptide identification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Peptide identification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#decoy-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decoy database
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comet-search-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comet search configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comet-psms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comet PSMs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fdr-filtering-and-protein-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FDR filtering and protein inference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qc-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        QC metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mzqc-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mzQC output
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pipeline-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipeline information
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spectra-preparation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spectra preparation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#peptide-identification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Peptide identification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Peptide identification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#decoy-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decoy database
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comet-search-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comet search configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comet-psms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comet PSMs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fdr-filtering-and-protein-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FDR filtering and protein inference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qc-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        QC metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mzqc-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mzQC output
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pipeline-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipeline information
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/mpc-bioinformatics/macproqc/edit/main/docs/output.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="nf-coremacproqc-output">nf-core/macproqc: Output<a class="headerlink" href="#nf-coremacproqc-output" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>This document describes the output produced by the pipeline. All paths are relative to the top-level results directory set with <code>--outdir</code>.</p>
+<p>The pipeline is built using <a href="https://www.nextflow.io/">Nextflow</a> and processes mass spectrometry data through the following steps:</p>
+<ul>
+<li><a href="#spectra-preparation">Spectra preparation</a> - decompression and conversion to mzML</li>
+<li><a href="#peptide-identification">Peptide identification</a> - decoy database generation and database search with Comet</li>
+<li><a href="#fdr-filtering-and-protein-inference">FDR filtering and protein inference</a> - FDR filtering and PIA protein groups</li>
+<li><a href="#qc-metrics">QC metrics</a> - all QC metrics of an MS run, collected into one HDF5 file</li>
+<li>Feature finding - isotope feature detection and feature based QC metrics <em>(migrating, not yet part of the pipeline)</em></li>
+<li><a href="#mzqc-output">mzQC output</a> - standardised QC metric export</li>
+<li><a href="#visualization">Visualization</a> - graphical visualizations of QC metrics using interactive plotly plots</li>
+<li><a href="#pipeline-information">Pipeline information</a> - reports from Nextflow itself</li>
+</ul>
+<p>Depending on the skipped steps (see the <a href="../usage/#running-only-parts-of-the-pipeline">usage documentation</a>), some of these outputs are not created. When the metrics extraction is skipped and the HDF5 files of an earlier run are given with <code>--input_hdf5_dir</code>, only the mzQC and/or visualization outputs are written.</p>
+<hr />
+<h2 id="spectra-preparation">Spectra preparation<a class="headerlink" href="#spectra-preparation" title="Permanent link">&para;</a></h2>
+<p>Raw vendor files are decompressed (if necessary) and converted to the open mzML format. Thermo <code>.raw</code> files are converted using ThermoRawFileParser; Bruker <code>.d</code> folders are converted using tdf2mzml. Files already in mzML format are passed through after optional decompression.</p>
+<details>
+<summary>Output files</summary>
+<ul>
+<li><code>mzmls/</code></li>
+<li><code>&lt;sample&gt;.mzML</code> - mzML files converted from Thermo <code>.raw</code> and Bruker <code>.d</code> input files (input files already given as mzML are not copied here)</li>
+</ul>
+</details>
+<hr />
+<h2 id="peptide-identification">Peptide identification<a class="headerlink" href="#peptide-identification" title="Permanent link">&para;</a></h2>
+<p>Peptide spectrum matches (PSMs) are produced by searching the converted mzML files against a protein sequence database using the <a href="https://uwpr.github.io/Comet/">Comet</a> search engine.</p>
+<h3 id="decoy-database">Decoy database<a class="headerlink" href="#decoy-database" title="Permanent link">&para;</a></h3>
+<p>Before the database search, the pipeline generates a target-decoy FASTA by appending decoy sequences (reversed by default) to the input database using the OpenMS <code>DecoyDatabase</code> tool. This step can be skipped with <code>--skip_decoy_generation</code> if the supplied FASTA already contains decoys.</p>
+<p>The decoy database file is an intermediate used downstream for FDR estimation. It is only written to the output directory when <code>--save_decoy_database true</code> is set.</p>
+<details>
+<summary>Output files</summary>
+<ul>
+<li><code>decoy_database/</code></li>
+<li><code>*_decoy.fasta</code> - combined target-decoy protein sequence database. Only present when <code>--save_decoy_database true</code> is set.</li>
+</ul>
+</details>
+<h3 id="comet-search-configuration">Comet search configuration<a class="headerlink" href="#comet-search-configuration" title="Permanent link">&para;</a></h3>
+<p>Before the database search, the pipeline generates a Comet parameter file by taking a template (either the built-in default at <code>assets/default_configs/comet.params</code> or a user-supplied file via <code>--comet_config_template</code>) and overwriting the search settings (mass tolerances, fragment ion parameters, modifications, and output format flags) with the pipeline parameter values.</p>
+<p>The adjusted parameter file is written next to the search results (see below), to document the settings of each search.</p>
+<h3 id="comet-psms">Comet PSMs<a class="headerlink" href="#comet-psms" title="Permanent link">&para;</a></h3>
+<p>Each mzML file is searched against the target-decoy database using Comet and the adjusted parameter file described above. Results are written as mzIdentML (<code>.mzid</code>) files.</p>
+<p>When <code>--label_modifications</code> is set, two searches are run per spectrum file - one unlabelled and one labelled - producing a pair of mzid files per input. The filename encodes the search type:</p>
+<ul>
+<li><code>&lt;sample&gt;-unlabelled.mzid</code> - standard search using <code>--static_modifications</code></li>
+<li><code>&lt;sample&gt;-labelled.mzid</code> - search with <code>--label_modifications</code> merged into the static modifications</li>
+</ul>
+<details>
+<summary>Output files</summary>
+<ul>
+<li><code>comet/</code></li>
+<li><code>*-unlabelled.mzid</code> - PSM results from the unlabelled search</li>
+<li><code>*-unlabelled.comet.params</code> - the adjusted Comet parameter file used for the unlabelled search</li>
+<li><code>*-labelled.mzid</code> - PSM results from the labelled search (only present when <code>--label_modifications</code> is set)</li>
+<li><code>*-labelled.comet.params</code> - the adjusted Comet parameter file used for the labelled search (only present when <code>--label_modifications</code> is set)</li>
+</ul>
+</details>
+<hr />
+<h2 id="fdr-filtering-and-protein-inference">FDR filtering and protein inference<a class="headerlink" href="#fdr-filtering-and-protein-inference" title="Permanent link">&para;</a></h2>
+<p>The PSM results are compiled into a <a href="https://github.com/medbioinf/pia">PIA</a> (PIA - Protein Inference Algorithms) intermediate file, filtered at <code>--pia_fdr_threshold</code> FDR, and used for peptide and protein inference. When <code>--pia_prefilter_threshold</code> is greater than <code>0</code> (the default is <code>0.05</code>), an additional pre-filtering pass first reduces the unlabelled PSM set on this looser FDR threshold before the final analysis is run, which speeds up inference on large searches. Labelled search results (produced when <code>--label_modifications</code> is set, mainly used for labelled spike-ins) only ever receive a PSM-level export - protein and peptide inference is not meaningful for the labelled search channel, so both are skipped, and no pre-filtering is applied to labelled results either.</p>
+<details>
+<summary>Output files</summary>
+<ul>
+<li><code>pia/</code></li>
+<li><code>*-unlabelled.piaExport-PSMs.mzTab</code> - PSM-level results of the unlabelled search, filtered at <code>--pia_fdr_threshold</code></li>
+<li><code>*-unlabelled.piaExport-peptides.csv</code> - inferred peptides for the unlabelled search</li>
+<li><code>*-unlabelled.piaExport-proteins.mzTab</code> - inferred protein groups for the unlabelled search</li>
+<li><code>*-labelled.piaExport-PSMs.mzTab</code> - PSM-level results of the labelled search (only present when <code>--label_modifications</code> is set); no peptide- or protein-level export is produced for the labelled search</li>
+</ul>
+</details>
+<hr />
+<h2 id="qc-metrics">QC metrics<a class="headerlink" href="#qc-metrics" title="Permanent link">&para;</a></h2>
+<p>For each MS run, the QC metrics are extracted by several steps and then combined into one HDF5 file. The metrics are annotated with their (PSI-MS) controlled vocabulary accessions, where available.</p>
+<ul>
+<li><strong>mzML metrics</strong> (from the mzML file, using pyOpenMS): numbers of MS1 and MS2 spectra, retention time range, MS1/MS2 total ion current (TIC) over time, TIC quartiles, spectra density quantiles, base peak and TIC maxima, precursor charge fractions, acquisition frequencies and the data for the MS1 maps.</li>
+<li><strong>Instrument metrics</strong> (from the vendor file): headers and logs recorded by the instrument, e.g. pump pressure, ion injection times, temperatures and lock mass corrections for Thermo <code>.raw</code> files, or frame headers and calibrants for Bruker <code>.d</code> folders. These are not available for runs given as mzML.</li>
+<li><strong>Identification metrics</strong> (from the unlabelled PIA results): numbers of PSMs, peptides, protein groups and accessions, PSM charge fractions, missed cleavage fractions and the precursor mass error (in ppm) of the PSMs. Not available with <code>--skip_identification</code>.</li>
+<li><strong>Spike-in metrics</strong> (only with <code>--spike_ins_table</code>, for Thermo and Bruker runs): for each spike-in/reference peptide of the table, the maximum intensity and retention time of its extracted ion chromatogram (XIC) and its number of identifications (from the labelled and unlabelled search, if available).</li>
+</ul>
+<p>The per-step HDF5 files are intermediates, only the combined file is written to the output directory.</p>
+<details>
+<summary>Output files</summary>
+<ul>
+<li><code>metrics/hdf5/</code></li>
+<li><code>&lt;sample&gt;.hdf5</code> - all QC metrics of the MS run. These files can be used as <code>--input_hdf5_dir</code> in a later run, e.g. to repeat the visualization with other settings.</li>
+</ul>
+</details>
+<hr />
+<h2 id="mzqc-output">mzQC output<a class="headerlink" href="#mzqc-output" title="Permanent link">&para;</a></h2>
+<p>The QC metrics of each MS run are exported into the <a href="https://hupo-psi.github.io/mzQC/">mzQC</a> format of the HUPO-PSI, a JSON-based standard format for quality control metrics. This step can be skipped with <code>--skip_mzqc_export</code>.</p>
+<details>
+<summary>Output files</summary>
+<ul>
+<li><code>metrics/mzqc/</code></li>
+<li><code>&lt;sample&gt;.mzqc</code> - the QC metrics of the MS run in mzQC format</li>
+</ul>
+</details>
+<hr />
+<h2 id="visualization">Visualization<a class="headerlink" href="#visualization" title="Permanent link">&para;</a></h2>
+<p>The main output of the visualization are interactive plots over all MS runs (as plotly JSON and/or HTML, depending on <code>--figure_format</code>). Also, a summary table is generated (as csv, tsv or xlsx, depending on <code>--output_table_type</code>). This step can be skipped with <code>--skip_visualization</code>.</p>
+<p>Some plots are only created, if the respective metrics are available (e.g. instrument headers, Bruker calibrants or identification based metrics). The feature based metrics (number of features and identified features) are not yet migrated to this pipeline, so they are currently not available in the plots.</p>
+<details>
+<summary>Output files</summary>
+<ul>
+<li><code>qcvisualization/</code></li>
+<li><code>00_table_summary.[csv,tsv,xlsx]</code> - summary table containing the QC metrics per MS run.</li>
+<li><code>99_hdf5_feature_table.[csv,tsv,xlsx]</code> - overview of the QC metric keys and names stored in the HDF5 files.</li>
+<li><code>metric_registry.json</code> - registry of the QC metric types found in the HDF5 files, used to create the plots and tables.</li>
+<li><code>fig01_barplot_MS1_MS2.[plotly.json,html]</code> - barplot of the number of MS1 and MS2 spectra per MS run.</li>
+<li><code>fig02_barplot_PSMs_peptides_proteins.[plotly.json,html]</code> - barplot of the number of PSMs, peptides, protein groups and accessions per MS run.</li>
+<li><code>fig03_barplot_features.[plotly.json,html]</code> - barplot of the number of features and identified features per MS run (feature metrics are not yet migrated).</li>
+<li><code>fig04_MS1_TIC_overlay.[plotly.json,html]</code> - lineplot of the MS1 total ion chromatogram (TIC) over the retention time for each MS run.</li>
+<li><code>fig05_barplot_TIC_quartiles.[plotly.json,html]</code> - TIC quartiles are the percentage of retention time that is needed to obtain the first, second, third or fourth 25% of the TIC. These quartiles are visualized as stacked barplots.</li>
+<li><code>fig06_barplot_MS1_TIC_quartiles.[plotly.json,html]</code> - same as fig05, but only using MS1-level data.</li>
+<li><code>fig07_barplot_MS2_TIC_quartiles.[plotly.json,html]</code> - same as fig05, but only using MS2-level data.</li>
+<li><code>fig08_barplot_precursor_charge.[plotly.json,html]</code> - stacked barplot of the precursor charge fractions (also includes unidentified precursors).</li>
+<li><code>fig09_barplot_PSM_charge.[plotly.json,html]</code> - stacked barplot of the PSM charge fractions (only identified precursors).</li>
+<li><code>fig10_barplot_PSM_missedcleavages.[plotly.json,html]</code> - stacked barplot of the missed cleavage fractions (only identified).</li>
+<li><code>fig11a_PCA_raw.[plotly.json,html]</code> - principal component analysis plot (PCA plot). The PCA is calculated on a set of QC metrics that are all directly obtainable from the raw data without a peptide identification step: RT_range, nr_MS1, nr_MS2, accumulated_MS1_TIC, accumulated_MS2_TIC, base_peak_intensity_max, total_ion_current_max, MS2_prec_charge_fraction, RT_MS1_quantiles, RT_MS2_quantiles, RT_TIC_quantiles, MS1_freq_max, MS2_freq_max, MS1_density_quantiles, MS2_density_quantiles, MS1_TIC_change_quantiles, MS1_TIC_quantiles.</li>
+<li><code>fig11b_Loadings_raw.[plotly.json,html]</code> - loadings plot belonging to the PCA in fig11a. The loadings show which QC metrics have the highest weight in each direction and can help to interpret groups and outliers in the PCA.</li>
+<li><code>fig11c_table_loadings_raw.[csv,tsv,xlsx]</code> - table of the loadings shown in fig11b.</li>
+<li><code>fig12a_PCA_all.[plotly.json,html]</code> - PCA plot calculated on the QC metrics used for fig11a plus the metrics obtained during the peptide identification (nr_PSMs, nr_peptides, nr_protein_groups, nr_accessions, PSM_charge_fractions, PSM_missed_cleavage_counts and, once migrated, the feature metrics).</li>
+<li><code>fig12b_Loadings_all.[plotly.json,html]</code> - loadings plot belonging to the PCA in fig12a.</li>
+<li><code>fig12c_table_loadings_all.[csv,tsv,xlsx]</code> - table of the loadings shown in fig12b.</li>
+<li><code>fig13_MS1_map/</code> - folder containing an MS1 map (PNG) for each MS run.</li>
+<li><code>fig14_Pump_pressure.[plotly.json,html]</code> - lineplot of the pump pressure over the retention time for all MS runs (only if recorded by the instrument).</li>
+<li><code>fig15_PSM_error_boxplots.[plotly.json,html]</code> - boxplots of the PSM precursor mass error (in ppm) for all MS runs.</li>
+<li><code>fig16_additional_headers/</code> - folder with lineplots over the retention time for further metrics recorded by the instrument (e.g. temperatures, lock mass correction).</li>
+<li><code>fig17_BRUKER_calibrants/</code> - folder with lineplots over the retention time for the calibrants of Bruker instruments (only for Bruker runs).</li>
+</ul>
+</details>
+<hr />
+<h2 id="pipeline-information">Pipeline information<a class="headerlink" href="#pipeline-information" title="Permanent link">&para;</a></h2>
+<details>
+<summary>Output files</summary>
+<ul>
+<li><code>pipeline_info/</code></li>
+<li><code>execution_report_&lt;timestamp&gt;.html</code> - Nextflow execution report with run statistics and per-process resource usage.</li>
+<li><code>execution_timeline_&lt;timestamp&gt;.html</code> - timeline of all process executions.</li>
+<li><code>execution_trace_&lt;timestamp&gt;.txt</code> - tab-separated trace file with per-task resource metrics.</li>
+<li><code>pipeline_dag_&lt;timestamp&gt;.html</code> - directed acyclic graph (DAG) of the pipeline workflow.</li>
+<li><code>nf_core_macproqc_software_versions.yml</code> - versions of all software used in the pipeline run.</li>
+</ul>
+</details>
+<p><a href="https://docs.seqera.io/platform-cloud/reports/overview">Nextflow</a> provides excellent functionality for generating various reports relevant to the running and execution of the pipeline. This will allow you to troubleshoot errors with the running of the pipeline, and also provide you with other information such as launch commands, run times and resource usage.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/mpc-bioinformatics/macproqc" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://nfcore.slack.com/channels/macproqc" target="_blank" rel="noopener" title="nfcore.slack.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M94.1 315.1c0 25.9-21.2 47.1-47.1 47.1S0 341 0 315.1 21.2 268 47.1 268h47.1v47.1zm23.7 0c0-25.9 21.2-47.1 47.1-47.1s47.1 21.2 47.1 47.1v117.8c0 25.9-21.2 47.1-47.1 47.1s-47.1-21.2-47.1-47.1zm47.1-189c-25.9 0-47.1-21.2-47.1-47.1s21.2-47 47.1-47S212 53.2 212 79.1v47.1h-47.1zm0 23.7c25.9 0 47.1 21.2 47.1 47.1S190.8 244 164.9 244H47.1C21.2 244 0 222.8 0 196.9s21.2-47.1 47.1-47.1zm189 47.1c0-25.9 21.2-47.1 47.1-47.1s47 21.2 47 47.1-21.2 47.1-47.1 47.1h-47.1v-47.1zm-23.7 0c0 25.9-21.2 47.1-47.1 47.1S236 222.8 236 196.9V79.1c0-25.9 21.2-47.1 47.1-47.1s47.1 21.2 47.1 47.1zm-47.1 189c25.9 0 47.1 21.2 47.1 47.1s-21.2 47-47.1 47-47.1-21.2-47.1-47.1v-47.1h47.1zm0-23.7c-25.9 0-47.1-21.2-47.1-47.1s21.2-47.1 47.1-47.1h117.8c25.9 0 47.1 21.2 47.1 47.1s-21.2 47.1-47.1 47.1z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.sections", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit", "content.tabs.link"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
