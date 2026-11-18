@@ -27,8 +27,8 @@ input:
           e.g. `[ id:'sample1' ]`
     - spectra:
         type: file
-        description: One or more DIA runs (one table row per run)
-        pattern: "*.{mzML,raw,d}"
+        description: One or more DIA runs (one table row per run will be generated)
+        pattern: "*.mzML"
         ontologies:
           - edam: "http://edamontology.org/format_3244" # mzML
 
@@ -42,7 +42,7 @@ output:
       - "*.tsv":
           type: file
           description: Table with one row per run
-          pattern: "*.tsv"
+          pattern: "*_report.tsv"
           ontologies:
             - edam: "http://edamontology.org/format_3475" # TSV
   windows:
