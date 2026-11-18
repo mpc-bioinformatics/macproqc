@@ -38,12 +38,15 @@ nextflow_process {
             script "../../../nf-core/unzip/main.nf"
             process {
                 """
-                input[0] = channel.of(
-                    [
-                        [ id:'sample_small_d' ],
-                        file('https://ftp.pride.ebi.ac.uk/pride/data/archive/2024/08/PXD053464/20230626_KK_SC_IFNy_03_C7_1_14076.d.zip', checkIfExists: true)
-                    ]
-                )
+                // the zip is stored in chunks (GitHub file size limit): concatenate them in order (part_000, part_001, ...)
+                input[0] = channel.of('000', '001', '002')
+                    .map { part -> file(params.macproqc_testdata_base_path + "msspectra/small_DIA/20230626_KK_SC_IFNy_03_C7_1_14076.d.zip.part_\${part}", checkIfExists: true) }
+                    .collectFile(
+                        name: '20230626_KK_SC_IFNy_03_C7_1_14076.d.zip',
+                        sort: { chunk -> chunk.name },
+                        newLine: false
+                    )
+                    .map { zip -> [ [ id:'sample_small_d' ], zip ] }
                 """
             }
         }
