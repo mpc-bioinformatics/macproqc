@@ -93,5 +93,7 @@ topics:
           description: The expression to obtain the version of the tool
 authors:
   - "@di-hardt"
+  - "@julianu"
 maintainers:
   - "@di-hardt"
+  - "@julianu"
