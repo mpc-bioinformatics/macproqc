@@ -39,7 +39,7 @@ output:
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'sample1' ]`
-      - "*.tsv":
+      - "*_report.tsv":
           type: file
           description: Table with one row per run
           pattern: "*_report.tsv"
@@ -76,7 +76,7 @@ output:
       - "openms":
           type: string
           description: The name of the tool
-      - "FileInfo --help 2>&1 | sed -nE 's/^Version: ([0-9.]+).*/\\1/p'":
+      - "DIAuditor --help 2>&1 | sed -nE 's/^Version: ([0-9.]+).*/\\1/p'":
           type: eval
           description: The expression to obtain the version of the tool
 
@@ -88,7 +88,7 @@ topics:
       - openms:
           type: string
           description: The name of the tool
-      - "FileInfo --help 2>&1 | sed -nE 's/^Version: ([0-9.]+).*/\\1/p'":
+      - "DIAuditor --help 2>&1 | sed -nE 's/^Version: ([0-9.]+).*/\\1/p'":
           type: eval
           description: The expression to obtain the version of the tool
 authors:
