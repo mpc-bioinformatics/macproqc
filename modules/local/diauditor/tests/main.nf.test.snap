@@ -1,0 +1,128 @@
+{
+    "diauditor - stub": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "sample_small_d"
+                    },
+                    "sample_small_d_report.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                [
+                    {
+                        "id": "sample_small_raw"
+                    },
+                    "sample_small_raw_report.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            ]
+        ],
+        "timestamp": "2026-11-18T14:12:41.282966857",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.0"
+        }
+    },
+    "diauditor-report-tsv": {
+        "content": [
+            {
+                "sample_small_d": [
+                    {
+                        "SourceFile": "sample_small_d",
+                        "Instrument": "Bruker Daltonics instrument model",
+                        "SerialNumber": "1854399.00319",
+                        "StartTimeStamp": "2023-06-27T01:40:03.721+02:00",
+                        "RTDuration": "21.99829",
+                        "mzMLMS1Count": "1391",
+                        "mzMLMSnCount": "30580",
+                        "MS1Resolution": "NA",
+                        "MS1TIC25ileRT": "7.667348",
+                        "MS1TIC50ileRT": "16.335745",
+                        "MS1TIC75ileRT": "20.55891",
+                        "MS1TotalTIC": "4680480564",
+                        "MS1CycleTime": "0.94896",
+                        "MS1PkCountMin": "4278",
+                        "MS1PkCount25ile": "10969",
+                        "MS1PkCount50ile": "14032",
+                        "MS1PkCount75ile": "20041",
+                        "MS1PkCountMax": "34224",
+                        "IsolationWindowCount": "22",
+                        "CyclesMin": "1390",
+                        "CyclesMax": "1390",
+                        "MZRangeMin": "375",
+                        "MZRangeMax": "925",
+                        "IsolationWindowWidthMin": "25",
+                        "IsolationWindowWidthMax": "25",
+                        "AverageMedianCycleTime": "0.94893",
+                        "TICMedianRTMin": "12.028205",
+                        "TICMedianRTMax": "20.725871",
+                        "TotalTICMin": "5895543.462",
+                        "TotalTICMax": "42783894.03",
+                        "PkCountMedianMin": "40",
+                        "PkCountMedianMax": "146",
+                        "MS2TIC25ileRT": "11.91396",
+                        "MS2TIC50ileRT": "16.64154",
+                        "MS2TIC75ileRT": "20.850616",
+                        "MS2TotalTIC": "518006388.23",
+                        "MS2PkCountMin": "0",
+                        "MS2PkCount25ile": "41",
+                        "MS2PkCount50ile": "104",
+                        "MS2PkCount75ile": "182",
+                        "MS2PkCountMax": "4191",
+                        "MedianWindowCycleTime": "0.94896"
+                    }
+                ],
+                "sample_small_raw": [
+                    {
+                        "SourceFile": "sample_small_raw",
+                        "Instrument": "Orbitrap Eclipse",
+                        "SerialNumber": "FSN40480",
+                        "StartTimeStamp": "2024-03-27T14:40:42.9525278Z",
+                        "RTDuration": "31.0378208504",
+                        "mzMLMS1Count": "611",
+                        "mzMLMSnCount": "4888",
+                        "MS1Resolution": "NA",
+                        "MS1TIC25ileRT": "13.7779983219",
+                        "MS1TIC50ileRT": "15.0929657349",
+                        "MS1TIC75ileRT": "17.4583019733",
+                        "MS1TotalTIC": "7079056949.25",
+                        "MS1CycleTime": "3.057120784",
+                        "MS1PkCountMin": "24",
+                        "MS1PkCount25ile": "280",
+                        "MS1PkCount50ile": "636",
+                        "MS1PkCount75ile": "1018",
+                        "MS1PkCountMax": "1762",
+                        "IsolationWindowCount": "8",
+                        "CyclesMin": "611",
+                        "CyclesMax": "611",
+                        "MZRangeMin": "400",
+                        "MZRangeMax": "800",
+                        "IsolationWindowWidthMin": "50",
+                        "IsolationWindowWidthMax": "50",
+                        "AverageMedianCycleTime": "3.056493749",
+                        "TICMedianRTMin": "8.6867777544",
+                        "TICMedianRTMax": "17.9422220528",
+                        "TotalTICMin": "131026257.656",
+                        "TotalTICMax": "914358514.703",
+                        "PkCountMedianMin": "141",
+                        "PkCountMedianMax": "298",
+                        "MS2TIC25ileRT": "13.6465389259",
+                        "MS2TIC50ileRT": "15.2030460683",
+                        "MS2TIC75ileRT": "17.9877928139",
+                        "MS2TotalTIC": "3176329137.2",
+                        "MS2PkCountMin": "16",
+                        "MS2PkCount25ile": "98",
+                        "MS2PkCount50ile": "217",
+                        "MS2PkCount75ile": "375",
+                        "MS2PkCountMax": "3392",
+                        "MedianWindowCycleTime": "3.056583944"
+                    }
+                ]
+            }
+        ],
+        "timestamp": "2026-11-18T13:54:45.862899144",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.0"
+        }
+    }
+}

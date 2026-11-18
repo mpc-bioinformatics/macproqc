@@ -1,0 +1,110 @@
+// nf-core modules test diauditor
+nextflow_process {
+
+    name "Test Process DIAUDITOR"
+    script "../main.nf"
+    process "DIAUDITOR"
+
+    tag "modules"
+    tag "diauditor"
+
+    setup {
+        // the test data is compressed: untar the Thermo .raw and unzip the Bruker .d (other modules)
+        run("UNTAR") {
+            script "../../../nf-core/untar/main.nf"
+            process {
+                """
+                input[0] = channel.of(
+                    [
+                        [ id:'sample_small_raw' ],
+                        file(params.macproqc_testdata_base_path + 'msspectra/small_DIA/Evosep_WLBSC2_104_032724.raw.tar.bz2', checkIfExists: true)
+                    ]
+                )
+                """
+            }
+        }
+
+        run("THERMORAWFILEPARSER") {
+            script "../../../nf-core/thermorawfileparser/main.nf"
+            process {
+                """
+                input[0] = UNTAR.out.untar
+                    .map { meta, dir -> [ meta, dir.listFiles().find { f -> f.name.endsWith('.raw') } ] }
+                """
+            }
+        }
+
+        run("UNZIP") {
+            script "../../../nf-core/unzip/main.nf"
+            process {
+                """
+                input[0] = channel.of(
+                    [
+                        [ id:'sample_small_d' ],
+                        file('https://ftp.pride.ebi.ac.uk/pride/data/archive/2024/08/PXD053464/20230626_KK_SC_IFNy_03_C7_1_14076.d.zip', checkIfExists: true)
+                    ]
+                )
+                """
+            }
+        }
+
+        run("TDF2MZML") {
+            script "../../tdf2mzml/main.nf"
+            process {
+                """
+                input[0] = UNZIP.out.unzipped_archive
+                    // (with -stub, UNZIP only creates the empty folder: use the folder itself then)
+                    .map { meta, dir -> [ meta, dir.listFiles().find { f -> f.name.endsWith('.d') } ?: dir ] }
+                """
+            }
+        }
+    }
+
+    test("diauditor - run on small test data") {
+
+        when {
+            process {
+                """
+                input[0] = THERMORAWFILEPARSER.out.spectra
+                    .mix(TDF2MZML.out.spectra)
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                {
+                    def reports = process.out.report.collectEntries { meta, tsv ->
+                        def lines = path(tsv).readLines()
+                        def header = lines[0].split('\t').toList()
+                        [ (meta.id): lines.drop(1).collect { line -> [header, line.split('\t', -1).toList()].transpose().collectEntries() } ]
+                    }.sort()   // sorted by meta.id, so the execution order doesn't matter
+                    assert snapshot(reports).match("diauditor-report-tsv")
+                }
+            )
+        }
+    }
+
+    test("diauditor - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = THERMORAWFILEPARSER.out.spectra
+                    .mix(TDF2MZML.out.spectra)
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out.report.sort { a, b -> a[0].id <=> b[0].id }).match() }   // sorted by meta.id, so the execution order doesn't matter
+            )
+        }
+    }
+
+}
